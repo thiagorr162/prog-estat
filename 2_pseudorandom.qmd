@@ -239,16 +239,160 @@ Os parâmetros no Gerador Linear Congruente (LCG) têm um impacto significativo 
 
 Por essas razões, a escolha dos parâmetros $a$, $c$, $m$ e da semente $X_0$ é crítica para garantir que o LCG produza números pseudoaleatórios de alta qualidade e com um período longo.
 
+::: {.panel-tabset group="language"}
+# R
 
 
 ```{r}
+# Carregando o pacote ggplot2
+library(ggplot2)
 
+# Classe para o Gerador Congruente Linear
+LinearCongruentialGenerator <- setRefClass(
+  "LinearCongruentialGenerator",
+  fields = list(a = "numeric", c = "numeric", m = "numeric", semente = "numeric"),
+  methods = list(
+    initialize = function(semente, a = 1103515245, c = 12345, m = 2^32) {
+      .self$a <- a
+      .self$c <- c
+      .self$m <- m
+      .self$semente <- semente
+    },
+    gerar = function() {
+      # Atualizando a semente
+      .self$semente <- (.self$a * .self$semente + .self$c) %% .self$m
+      return(.self$semente / .self$m)  # Normalizando para [0, 1)
+    }
+  )
+)
+
+# Inicializando o gerador com uma semente
+lcg <- LinearCongruentialGenerator$new(semente = 5)
+
+# Gerando 1000 números pseudoaleatórios
+numeros_gerados <- sapply(1:100000, function(x) lcg$gerar())
+
+# Convertendo para um data.frame
+dados <- data.frame(numeros_gerados = numeros_gerados)
+
+# Plotando o histograma dos números gerados
+ggplot(dados, aes(x = numeros_gerados)) +
+  geom_histogram(bins = 20, fill = 'skyblue', color = 'black') +
+  ggtitle('Histograma dos Números Pseudoaleatórios Gerados pelo LCG') +
+  xlab('Valor') +
+  ylab('Frequência') +
+  theme_minimal() +
+  theme(panel.grid.major = element_line(color = "grey"))
 ```
 
 # Python
 
 ```{python}
+import matplotlib.pyplot as plt
 
+class LinearCongruentialGenerator:
+    def __init__(self, semente, a=1103515245, c=12345, m=2**32):
+        self.a = a
+        self.c = c
+        self.m = m
+        self.semente = semente
+
+    def gerar(self):
+        # Atualizando a semente
+        self.semente = (self.a * self.semente + self.c) % self.m
+        return self.semente / self.m  # Normalizando para [0, 1)
+
+# Inicializando o gerador com uma semente
+lcg = LinearCongruentialGenerator(semente=5)
+
+# Gerando 1000 números pseudoaleatórios
+numeros_gerados = [lcg.gerar() for _ in range(100000)]
+
+# Plotando o histograma dos números gerados
+plt.figure(figsize=(10, 6))
+plt.hist(numeros_gerados, bins=20, color='skyblue', edgecolor='black')
+plt.title('Histograma dos Números Pseudoaleatórios Gerados pelo LCG')
+plt.xlabel('Valor')
+plt.ylabel('Frequência')
+plt.grid(True)
+plt.show()
 ```
 :::
 
+
+## Gerando números uniformes com uma moeda
+
+
+::: {.panel-tabset group="language"}
+# R
+
+```{r}
+# Carregando pacotes necessários
+library(ggplot2)
+
+# Função para simular o lançamento de uma moeda justa
+lancar_moeda <- function() {
+  # Lançar moeda justa: 0 para coroa (K) e 1 para cara (C)
+  sample(c(0, 1), 1)
+}
+
+# Função para gerar um número uniformemente distribuído usando uma moeda
+gerar_numero_uniforme <- function(n_bits = 32) {
+  numero <- 0
+  for (i in 1:n_bits) {
+    bit <- lancar_moeda()
+    # Atualizando o número, multiplicando pela base 2
+    numero <- numero + bit * (2^-(i))
+  }
+  return(numero)
+}
+
+# Gerando 10000 números uniformemente distribuídos
+numeros_uniformes <- sapply(1:10000, function(x) gerar_numero_uniforme())
+ 
+# Convertendo para um data.frame
+dados <- data.frame(numeros_uniformes = numeros_uniformes)
+
+# Plotando o histograma dos números gerados
+ggplot(dados, aes(x = numeros_uniformes)) +
+  geom_histogram(bins = 20, fill = 'skyblue', color = 'black') +
+  ggtitle('Histograma de Números Uniformes Gerados Usando uma Moeda Justa') +
+  xlab('Valor') +
+  ylab('Frequência') +
+  theme_minimal() +
+  theme(panel.grid.major = element_line(color = "grey"))
+```
+
+# Python
+
+```{python}
+import random
+import matplotlib.pyplot as plt
+
+# Função para simular o lançamento de uma moeda justa
+def lancar_moeda():
+    # Lançar moeda justa: 0 para coroa (K) e 1 para cara (C)
+    return random.choice([0, 1])
+
+# Função para gerar um número uniformemente distribuído usando uma moeda
+def gerar_numero_uniforme(n_bits=32):
+    numero = 0
+    for i in range(n_bits):
+        bit = lancar_moeda()
+        # Atualizando o número, multiplicando pela base 2
+        numero += bit * (2 ** -(i + 1))  # Cada bit tem um peso de 2^-(posição)
+    return numero
+
+# Gerando 1000 números uniformemente distribuídos
+numeros_uniformes = [gerar_numero_uniforme() for _ in range(10000)]
+
+# Plotando o histograma dos números gerados
+plt.figure(figsize=(10, 6))
+plt.hist(numeros_uniformes, bins=20, color='skyblue', edgecolor='black')
+plt.title('Histograma de Números Uniformes Gerados Usando uma Moeda Justa')
+plt.xlabel('Valor')
+plt.ylabel('Frequência')
+plt.grid(True)
+plt.show()
+```
+:::
