@@ -14,7 +14,7 @@ Passos Gerais para Gerar Variáveis Aleatórias Discretas com a Técnica da Inve
 
 ## Geração de Variáveis Aleatórias Discretas Genéricas
 
-Dado um conjunto de probabilidades $ p(x_i) $, onde $ x_i $ são os valores possíveis da variável aleatória discreta, e $ p(x_i) $ são suas respectivas probabilidades, a CDF $ F(x) $ é calculada como:
+Dado um conjunto de probabilidades $p(x_i)$, onde $x_i$ são os valores possíveis da variável aleatória discreta, e $p(x_i)$ são suas respectivas probabilidades, a CDF $F(x)$ é calculada como:
 
 $$
 F(x_i) = \sum_{j=1}^{i} p(x_j)
@@ -22,11 +22,11 @@ $$
 
 O algoritmo para gerar uma variável aleatória discreta genérica é:
 
-1. Gerar um número aleatório $ u \in [0, 1) $.
+1. Gerar um número aleatório $u \in [0, 1)$.
 
-2. Encontrar o menor valor $ x_i $ tal que $ F(x_i) \geq u $.
+2. Encontrar o menor valor $x_i$ tal que $F(x_i) \geq u$.
 
-3. Retornar $ x_i $.
+3. Retornar $x_i$.
 
 
 
@@ -129,7 +129,7 @@ Em palavras:
 
 ## Geração de Variáveis Aleatórias com Distribuição Geométrica
 
-A distribuição geométrica modela o número de tentativas até o primeiro sucesso em uma sequência de experimentos de Bernoulli. Se a probabilidade de sucesso em cada tentativa é $ p $, a PMF é dada por:
+A distribuição geométrica modela o número de tentativas até o primeiro sucesso em uma sequência de experimentos de Bernoulli. Se a probabilidade de sucesso em cada tentativa é $p$, a PMF é dada por:
 
 ### Derivação da Inversa da CDF para a Distribuição Geométrica
 
@@ -320,7 +320,7 @@ plt.show()
 
 ## Geração de Variáveis Aleatórias com Distribuição Poisson
 
-A distribuição de Poisson é usada para modelar o número de eventos que ocorrem em um intervalo de tempo ou espaço fixo, onde os eventos ocorrem com uma taxa constante $ \lambda $ e de forma independente.
+A distribuição de Poisson é usada para modelar o número de eventos que ocorrem em um intervalo de tempo ou espaço fixo, onde os eventos ocorrem com uma taxa constante $\lambda$ e de forma independente.
 
 A função de probabilidade de massa (PMF) da distribuição de Poisson é dada por:
 
