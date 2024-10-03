@@ -13,6 +13,11 @@ book:
     - 3_discrete_inversion.qmd
     - 4_continuous_inversion.qmd
     - references.qmd
+  navbar:
+    right:
+      - icon: github
+        href: https://github.com/thiagorr162/prog-estat
+        aria-label: GitHub
 
 bibliography: references.bib
 
