@@ -1,0 +1,28 @@
+project:
+  type: book
+
+book:
+  title: "Curso de Programação Estatística"
+  author: "Andressa Cerqueira, Rafael Izbicki, Thiago Rodrigo Ramos"
+  date: today
+  chapters:
+    - index.qmd
+    - 1_intro.qmd
+    - 2_pseudorandom.qmd
+    - 3_discrete_inversion.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme:
+      light: flatly
+      dark: darkly
+    toc: true
+  pdf:
+    documentclass: scrreprt
+
+editor: source
+
+

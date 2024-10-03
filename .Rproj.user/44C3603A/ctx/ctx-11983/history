@@ -1,0 +1,30 @@
+import numpy as np
+import matplotlib.pyplot as plt
+# Definindo as faces do dado e as probabilidades
+faces = [1, 2, 3, 4, 5, 6]
+probabilidades = [0.05, 0.1, 0.15, 0.2, 0.25, 0.25]  # Probabilidades associadas às faces do dado
+# Verificando que a soma das probabilidades é 1
+print(f"Soma das probabilidades: {sum(probabilidades)}")
+# Simulando 10000 lançamentos de um dado viciado
+n_lancamentos = 10000
+resultados = np.random.choice(faces, size=n_lancamentos, p=probabilidades)
+# Contando as frequências de cada face
+frequencias = [np.sum(resultados == face) / n_lancamentos for face in faces]
+# Exibindo os resultados da simulação
+print(f"Frequências de cada face após {n_lancamentos} lançamentos:")
+for face, freq in zip(faces, frequencias):
+print(f"Face {face}: {freq} vezes")
+# Visualizando os resultados em um gráfico de barras
+plt.figure(figsize=(8,6))
+plt.bar(faces, frequencias, color='lightcoral', edgecolor='black')
+plt.title(f'Simulação de Lançamentos de um Dado Viciado\n{n_lancamentos} lançamentos')
+plt.xlabel('Face do Dado')
+plt.ylabel('Frequência de Ocorrência')
+plt.grid(True)
+plt.show()
+import numpy as np
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.pyplot as plt
