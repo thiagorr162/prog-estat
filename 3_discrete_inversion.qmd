@@ -501,18 +501,24 @@ plt.show()
 (c) Compare a distribuição das frequências obtidas na amostra simulada com as probabilidades reais.
 
 
+
 <span style="color:#2C92B2;">**Exercício 2**</span>. Considere $X$ uma v.a. tal que
-\[\mathbb P(X=i) =\alpha\mathbb P(X_1=i) + (1-\alpha)\mathbb P(X_2=i),\quad i=0,1,\dots\]
 
-onde $0 \leq \alpha \leq 1$ e $X_1,X_2$ são v.a. discretas\vspace{0.4cm}
-
-A distribuição de $X$ é chamada de distribuição de mistura.  Podemos escrever
 $$
-X =\begin{cases}
-X_1, \text{ com probabilidade } \alpha\\
-X_2, \text{ com probabilidade } 1-\alpha
+\mathbb{P}(X=i) = \alpha \mathbb{P}(X_1=i) + (1-\alpha) \mathbb{P}(X_2=i), \quad i=0,1,\dots
+$$
+
+onde $0 \leq \alpha \leq 1$ e $X_1, X_2$ são v.a. discretas.
+
+A distribuição de $X$ é chamada de distribuição de mistura. Podemos escrever
+
+$$
+X = \begin{cases}
+X_1, & \text{com probabilidade } \alpha \\
+X_2, & \text{com probabilidade } 1-\alpha
 \end{cases}
 $$
+
 
 Pseudo-Algoritmo:
 
