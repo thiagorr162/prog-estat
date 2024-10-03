@@ -1,2 +1,12 @@
+# folders
+
 /.quarto/
 _book/
+
+# files
+
+*.aux
+*.log
+*.pdf
+*.tex
+*.toc
