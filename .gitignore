@@ -10,3 +10,4 @@ _book/
 *.pdf
 *.tex
 *.toc
+.Rproj.user

@@ -241,8 +241,6 @@ Por essas razões, a escolha dos parâmetros $a$, $c$, $m$ e da semente $X_0$ é
 
 ::: {.panel-tabset group="language"}
 # R
-
-
 ```{r}
 # Carregando o pacote ggplot2
 library(ggplot2)
