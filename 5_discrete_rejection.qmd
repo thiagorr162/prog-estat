@@ -1,0 +1,3 @@
+# Geração de Variáveis Aleatórias Discretas Usando o Método da Rejeição
+
+Fill in 

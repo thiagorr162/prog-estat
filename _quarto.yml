@@ -12,6 +12,8 @@ book:
     - 2_pseudorandom.qmd
     - 3_discrete_inversion.qmd
     - 4_continuous_inversion.qmd
+    - 5_discrete_rejection.qmd
+    - 6_continuous_rejection.qmd
     - references.qmd
   navbar:
     right:
@@ -28,6 +30,8 @@ format:
       dark: darkly
     toc: true
     toc-depth: 2
+    code-fold: true   
+    code-summary: "Mostrar código"
   pdf:
     documentclass: scrreprt
     toc: true
@@ -38,4 +42,7 @@ editor: source
 execute:
   message: false
   warning: false
+
+
+#| warning: false
 
