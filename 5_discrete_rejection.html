@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Andressa Cerqueira, Rafael Izbicki, Thiago Rodrigo Ramos">
-<meta name="dcterms.date" content="2024-10-04">
 
-<title>Curso de Programação Estatística</title>
+<title>5&nbsp; Geração de Variáveis Aleatórias Discretas Usando o Método da Rejeição – Curso de Programação Estatística</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,27 +20,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-  margin-bottom: 0em;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -52,7 +30,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./1_intro.html" rel="next">
+<link href="./6_continuous_rejection.html" rel="next">
+<link href="./4_continuous_inversion.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -129,7 +108,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Curso de Programação Estatística</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./5_discrete_rejection.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Geração de Variáveis Aleatórias Discretas Usando o Método da Rejeição</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -143,7 +122,7 @@ div.csl-indent {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Curso de Programação Estatística</span></a>
   </div>
 </li>
@@ -173,7 +152,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./5_discrete_rejection.html" class="sidebar-item-text sidebar-link">
+  <a href="./5_discrete_rejection.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Geração de Variáveis Aleatórias Discretas Usando o Método da Rejeição</span></span></a>
   </div>
 </li>
@@ -194,43 +173,22 @@ div.csl-indent {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul class="collapse">
-  <li><a href="#curso-de-programação-estatística" id="toc-curso-de-programação-estatística" class="nav-link active" data-scroll-target="#curso-de-programação-estatística">Curso de Programação Estatística</a>
-  <ul class="collapse">
-  <li><a href="#objetivo-geral" id="toc-objetivo-geral" class="nav-link" data-scroll-target="#objetivo-geral">Objetivo Geral</a></li>
-  </ul></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Curso de Programação Estatística</h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Geração de Variáveis Aleatórias Discretas Usando o Método da Rejeição</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Andressa Cerqueira, Rafael Izbicki, Thiago Rodrigo Ramos </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">October 4, 2024</p>
-    </div>
-  </div>
   
     
   </div>
@@ -240,22 +198,9 @@ div.csl-indent {
 </header>
 
 
-
-<section id="curso-de-programação-estatística" class="level1 unnumbered">
-<h1 class="unnumbered">Curso de Programação Estatística</h1><p><img src="cover.png" title="Curso de Programação Estatística" class="quarto-cover-image img-fluid"></p>
-<section id="objetivo-geral" class="level2">
-<h2 class="anchored" data-anchor-id="objetivo-geral">Objetivo Geral</h2>
-<p>Este curso visa explorar o impacto das representações numéricas nos resultados de algoritmos de análise estatística. O foco será na programação, visualização e preparação de dados, além de discutir tópicos importantes como aleatoriedade, pseudoaleatoriedade, erros de truncamento e arredondamento, entre outros. O curso inclui ainda uma introdução à inferência por simulação estocástica, utilizando métodos como Monte Carlo e integrações numéricas. O material do curso foi amplamente baseado nas discussões apresentadas em <span class="citation" data-cites="simulation_ross">Ross (<a href="references.html#ref-simulation_ross" role="doc-biblioref">2006</a>)</span>.</p>
-<p>Autores: <a href="https://www.servidores.ufscar.br/acerqueira/">Andressa Cerqueira</a>, <a href="http://rafaelizbicki.com/">Rafael Izbicki</a>, <a href="https://thiagorr162.github.io/">Thiago Rodrigo Ramos</a></p>
+<p>Fill in</p>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
-<div id="ref-simulation_ross" class="csl-entry" role="listitem">
-Ross, Sheldon M. 2006. <em>Simulation, Fourth Edition</em>. USA: Academic Press, Inc.
-</div>
-</div>
-</section>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -824,10 +769,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./4_continuous_inversion.html" class="pagination-link" aria-label="Geração de Variáveis Aleatórias Contínuas Usando a Técnica da Inversão e Transformações">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Geração de Variáveis Aleatórias Contínuas Usando a Técnica da Inversão e Transformações</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./1_intro.html" class="pagination-link" aria-label="Geração de Números Aleatórios e Aplicação em Problemas Estatísticos">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Geração de Números Aleatórios e Aplicação em Problemas Estatísticos</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./6_continuous_rejection.html" class="pagination-link" aria-label="Geração de Variáveis Aleatórias Contínuas Usando o Método da Rejeição">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Geração de Variáveis Aleatórias Contínuas Usando o Método da Rejeição</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
