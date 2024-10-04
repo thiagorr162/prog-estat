@@ -3,7 +3,7 @@ project:
 
 book:
   title: "Curso de Programação Estatística"
-  author: "Andressa Cerqueira, Rafael Izbicki, Thiago Rodrigo Ramos"
+  author: "Andressa Cerqueira, Rafael Izbicki, Thiago Ramos"
   date: today
   cover-image: cover.png
   chapters:
