@@ -1,4 +1,4 @@
-# Curso de Progamação estatística
+# Curso de Programação estatística
 
 Repositório contendo código para o curso de Programação Estatística da UFSCar.
 
