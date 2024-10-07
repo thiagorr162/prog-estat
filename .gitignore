@@ -1,7 +1,8 @@
 # folders
 
 /.quarto/
-_book/
+/_book/
+/notebooks/.ipynb_checkpoints/
 
 # files
 
