@@ -8,6 +8,7 @@ book:
   cover-image: cover.png
   chapters:
     - index.qmd
+    - 0_py.qmd
     - 0_R.qmd
     - 1_intro.qmd
     - 2_pseudorandom.qmd
