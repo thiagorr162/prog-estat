@@ -1,4 +1,4 @@
-# Geração de Variáveis Aleatórias Discretas Usando a Técnica da Inversão
+# Técnica da Inversão para Variáveis  Discretas
 
 A **técnica da inversão** é uma maneira poderosa de gerar variáveis aleatórias (v.a.) a partir de uma distribuição arbitrária, usando números aleatórios uniformes no intervalo $[0, 1)$. A ideia básica é usar a **função de distribuição acumulada (CDF)** para mapear um número uniforme gerado entre 0 e 1 para o valor correspondente da v.a. discreta.
 

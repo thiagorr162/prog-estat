@@ -1,4 +1,4 @@
-# Geração de Variáveis Aleatórias Contínuas Usando o Método da Rejeição
+# Método da Rejeição para Variáveis Contínuas
 
 A amostragem por rejeição é uma técnica útil para gerar variáveis aleatórias a partir de uma distribuição complexa, utilizando uma distribuição proposta mais simples. A ideia básica é simular de uma distribuição fácil de amostrar e, em seguida, rejeitar ou aceitar essas amostras com base na distribuição alvo.
 

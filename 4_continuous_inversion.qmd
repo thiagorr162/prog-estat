@@ -1,4 +1,4 @@
-# Geração de Variáveis Aleatórias Contínuas Usando a Técnica da Inversão e Transformações
+# Técnica da Inversão para Variáveis Contínuas
 
 Os valores que uma variável aleatória $X$ pode assumir são chamados de **suporte** da distribuição de $X$.
 

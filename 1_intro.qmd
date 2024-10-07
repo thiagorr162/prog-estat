@@ -1,7 +1,4 @@
-
-
-
-# Geração de Números Aleatórios e Aplicação em Problemas Estatísticos
+# Geração de Números Aleatórios e Aplicação em Estatística
 
 ## Objetivo da Aula
 
