@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Geração de Variáveis Aleatórias Discretas Usando a Técnica da Inversão – Curso de Programação Estatística</title>
+<title>4&nbsp; Técnica da Inversão para Variáveis Discretas – Curso de Programação Estatística</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -171,7 +171,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./3_discrete_inversion.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Geração de Variáveis Aleatórias Discretas Usando a Técnica da Inversão</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./3_discrete_inversion.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Técnica da Inversão para Variáveis Discretas</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -191,38 +191,44 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./0_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Breve Introdução ao R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./1_intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Geração de Números Aleatórios e Aplicação em Problemas Estatísticos</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Geração de Números Aleatórios e Aplicação em Estatística</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2_pseudorandom.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Geração de Números Pseudoaleatórios</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Números Pseudoaleatórios</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./3_discrete_inversion.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Geração de Variáveis Aleatórias Discretas Usando a Técnica da Inversão</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Técnica da Inversão para Variáveis Discretas</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./4_continuous_inversion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Geração de Variáveis Aleatórias Contínuas Usando a Técnica da Inversão e Transformações</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Técnica da Inversão para Variáveis Contínuas</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./5_discrete_rejection.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Geração de Variáveis Aleatórias Discretas Usando o Método da Rejeição</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Método da Rejeição para Variáveis Discretas</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./6_continuous_rejection.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Geração de Variáveis Aleatórias Contínuas Usando o Método da Rejeição</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Método da Rejeição para Variáveis Contínuas</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -241,11 +247,11 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul class="collapse">
-  <li><a href="#geração-de-variáveis-aleatórias-discretas-genéricas" id="toc-geração-de-variáveis-aleatórias-discretas-genéricas" class="nav-link active" data-scroll-target="#geração-de-variáveis-aleatórias-discretas-genéricas"><span class="header-section-number">3.1</span> Geração de Variáveis Aleatórias Discretas Genéricas</a></li>
-  <li><a href="#inversa-da-cdf" id="toc-inversa-da-cdf" class="nav-link" data-scroll-target="#inversa-da-cdf"><span class="header-section-number">3.2</span> Inversa da CDF</a></li>
-  <li><a href="#geração-de-variáveis-aleatórias-com-distribuição-geométrica" id="toc-geração-de-variáveis-aleatórias-com-distribuição-geométrica" class="nav-link" data-scroll-target="#geração-de-variáveis-aleatórias-com-distribuição-geométrica"><span class="header-section-number">3.3</span> Geração de Variáveis Aleatórias com Distribuição Geométrica</a></li>
-  <li><a href="#geração-de-variáveis-aleatórias-com-distribuição-poisson" id="toc-geração-de-variáveis-aleatórias-com-distribuição-poisson" class="nav-link" data-scroll-target="#geração-de-variáveis-aleatórias-com-distribuição-poisson"><span class="header-section-number">3.4</span> Geração de Variáveis Aleatórias com Distribuição Poisson</a></li>
-  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">3.5</span> Exercícios</a></li>
+  <li><a href="#geração-de-variáveis-aleatórias-discretas-genéricas" id="toc-geração-de-variáveis-aleatórias-discretas-genéricas" class="nav-link active" data-scroll-target="#geração-de-variáveis-aleatórias-discretas-genéricas"><span class="header-section-number">4.1</span> Geração de Variáveis Aleatórias Discretas Genéricas</a></li>
+  <li><a href="#inversa-da-cdf" id="toc-inversa-da-cdf" class="nav-link" data-scroll-target="#inversa-da-cdf"><span class="header-section-number">4.2</span> Inversa da CDF</a></li>
+  <li><a href="#geração-de-variáveis-aleatórias-com-distribuição-geométrica" id="toc-geração-de-variáveis-aleatórias-com-distribuição-geométrica" class="nav-link" data-scroll-target="#geração-de-variáveis-aleatórias-com-distribuição-geométrica"><span class="header-section-number">4.3</span> Geração de Variáveis Aleatórias com Distribuição Geométrica</a></li>
+  <li><a href="#geração-de-variáveis-aleatórias-com-distribuição-poisson" id="toc-geração-de-variáveis-aleatórias-com-distribuição-poisson" class="nav-link" data-scroll-target="#geração-de-variáveis-aleatórias-com-distribuição-poisson"><span class="header-section-number">4.4</span> Geração de Variáveis Aleatórias com Distribuição Poisson</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">4.5</span> Exercícios</a></li>
   </ul>
 </nav>
     </div>
@@ -254,7 +260,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Geração de Variáveis Aleatórias Discretas Usando a Técnica da Inversão</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Técnica da Inversão para Variáveis Discretas</span></h1>
 </div>
 
 
@@ -279,8 +285,8 @@ window.Quarto = {
 <li><p>Encontrar o valor da variável aleatória cuja CDF seja maior ou igual a <span class="math inline">\(u\)</span>.</p></li>
 <li><p>Retornar esse valor como a variável aleatória gerada.</p></li>
 </ol>
-<section id="geração-de-variáveis-aleatórias-discretas-genéricas" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="geração-de-variáveis-aleatórias-discretas-genéricas"><span class="header-section-number">3.1</span> Geração de Variáveis Aleatórias Discretas Genéricas</h2>
+<section id="geração-de-variáveis-aleatórias-discretas-genéricas" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="geração-de-variáveis-aleatórias-discretas-genéricas"><span class="header-section-number">4.1</span> Geração de Variáveis Aleatórias Discretas Genéricas</h2>
 <p>Dado um conjunto de probabilidades <span class="math inline">\(p(x_i)\)</span>, onde <span class="math inline">\(x_i\)</span> são os valores possíveis da variável aleatória discreta, e <span class="math inline">\(p(x_i)\)</span> são suas respectivas probabilidades, a CDF <span class="math inline">\(F(x)\)</span> é calculada como:</p>
 <p><span class="math display">\[
 F(x_i) = \sum_{j=1}^{i} p(x_j)
@@ -394,8 +400,8 @@ F(x_i) = \sum_{j=1}^{i} p(x_j)
 </div>
 </div>
 </section>
-<section id="inversa-da-cdf" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="inversa-da-cdf"><span class="header-section-number">3.2</span> Inversa da CDF</h2>
+<section id="inversa-da-cdf" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="inversa-da-cdf"><span class="header-section-number">4.2</span> Inversa da CDF</h2>
 <p>A <strong>inversa da CDF</strong> (função de distribuição acumulada), também conhecida como a <strong>função quantil</strong> ou <strong>função percentil</strong>, é uma função utilizada para gerar variáveis aleatórias a partir de uma distribuição específica.</p>
 <p><strong>Definição:</strong> Seja <span class="math inline">\(F(x)\)</span> a função de distribuição acumulada (CDF) de uma variável aleatória <span class="math inline">\(X\)</span>. A inversa da CDF, denotada por <span class="math inline">\(F^{-1}(p)\)</span>, é definida como:</p>
 <p><span class="math display">\[
@@ -403,22 +409,22 @@ F^{-1}(p) = \inf \{ x \in \mathbb{R} : F(x) \geq p \}, \quad \text{para } p \in 
 \]</span></p>
 <p>Em palavras: - A inversa da CDF <span class="math inline">\(F^{-1}(p)\)</span> mapeia um número <span class="math inline">\(p\)</span>, que representa uma probabilidade acumulada, de volta ao valor <span class="math inline">\(x\)</span> correspondente da variável aleatória <span class="math inline">\(X\)</span>, tal que a probabilidade acumulada até <span class="math inline">\(x\)</span> é igual a <span class="math inline">\(p\)</span>. - Isso significa que, se <span class="math inline">\(p = F(x)\)</span>, então <span class="math inline">\(F^{-1}(p) = x\)</span>.</p>
 </section>
-<section id="geração-de-variáveis-aleatórias-com-distribuição-geométrica" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="geração-de-variáveis-aleatórias-com-distribuição-geométrica"><span class="header-section-number">3.3</span> Geração de Variáveis Aleatórias com Distribuição Geométrica</h2>
+<section id="geração-de-variáveis-aleatórias-com-distribuição-geométrica" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="geração-de-variáveis-aleatórias-com-distribuição-geométrica"><span class="header-section-number">4.3</span> Geração de Variáveis Aleatórias com Distribuição Geométrica</h2>
 <p>A distribuição geométrica modela o número de tentativas até o primeiro sucesso em uma sequência de experimentos de Bernoulli. Se a probabilidade de sucesso em cada tentativa é <span class="math inline">\(p\)</span>, a PMF é dada por:</p>
-<section id="derivação-da-inversa-da-cdf-para-a-distribuição-geométrica" class="level3" data-number="3.3.1">
-<h3 data-number="3.3.1" class="anchored" data-anchor-id="derivação-da-inversa-da-cdf-para-a-distribuição-geométrica"><span class="header-section-number">3.3.1</span> Derivação da Inversa da CDF para a Distribuição Geométrica</h3>
+<section id="derivação-da-inversa-da-cdf-para-a-distribuição-geométrica" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="derivação-da-inversa-da-cdf-para-a-distribuição-geométrica"><span class="header-section-number">4.3.1</span> Derivação da Inversa da CDF para a Distribuição Geométrica</h3>
 <p>A fórmula da <strong>inversa da CDF</strong> para a distribuição geométrica foi obtida a partir da definição da função de distribuição acumulada (CDF) da distribuição geométrica e da aplicação da técnica da inversão.</p>
-<section id="cdf-da-distribuição-geométrica" class="level4" data-number="3.3.1.1">
-<h4 data-number="3.3.1.1" class="anchored" data-anchor-id="cdf-da-distribuição-geométrica"><span class="header-section-number">3.3.1.1</span> CDF da Distribuição Geométrica</h4>
+<section id="cdf-da-distribuição-geométrica" class="level4" data-number="4.3.1.1">
+<h4 data-number="4.3.1.1" class="anchored" data-anchor-id="cdf-da-distribuição-geométrica"><span class="header-section-number">4.3.1.1</span> CDF da Distribuição Geométrica</h4>
 <p>A função de distribuição acumulada (CDF) da distribuição geométrica com parâmetro <span class="math inline">\(p\)</span> (a probabilidade de sucesso) para o número de falhas <span class="math inline">\(k-1\)</span> antes do primeiro sucesso é dada por:</p>
 <p><span class="math display">\[
 F(k) = 1 - (1 - p)^k
 \]</span></p>
 <p>Essa equação expressa a probabilidade acumulada de obter o primeiro sucesso em até <span class="math inline">\(k\)</span> tentativas.</p>
 </section>
-<section id="inversa-da-cdf-1" class="level4" data-number="3.3.1.2">
-<h4 data-number="3.3.1.2" class="anchored" data-anchor-id="inversa-da-cdf-1"><span class="header-section-number">3.3.1.2</span> Inversa da CDF</h4>
+<section id="inversa-da-cdf-1" class="level4" data-number="4.3.1.2">
+<h4 data-number="4.3.1.2" class="anchored" data-anchor-id="inversa-da-cdf-1"><span class="header-section-number">4.3.1.2</span> Inversa da CDF</h4>
 <p>Queremos encontrar a <strong>inversa da CDF</strong>, ou seja, a fórmula que, dado um valor <span class="math inline">\(u\)</span> entre 0 e 1, nos permita calcular o valor <span class="math inline">\(k\)</span> tal que <span class="math inline">\(F(k) = u\)</span>.</p>
 <p>Sabemos que:</p>
 <p><span class="math display">\[
@@ -426,8 +432,8 @@ u = F(k) = 1 - (1 - p)^k
 \]</span></p>
 <p>Nosso objetivo é resolver essa equação para <span class="math inline">\(k\)</span>. Vamos fazer isso passo a passo.</p>
 </section>
-<section id="isolando-o-termo-com-k" class="level4" data-number="3.3.1.3">
-<h4 data-number="3.3.1.3" class="anchored" data-anchor-id="isolando-o-termo-com-k"><span class="header-section-number">3.3.1.3</span> Isolando o termo com <span class="math inline">\(k\)</span></h4>
+<section id="isolando-o-termo-com-k" class="level4" data-number="4.3.1.3">
+<h4 data-number="4.3.1.3" class="anchored" data-anchor-id="isolando-o-termo-com-k"><span class="header-section-number">4.3.1.3</span> Isolando o termo com <span class="math inline">\(k\)</span></h4>
 <p>Começamos isolando o termo <span class="math inline">\((1 - p)^k\)</span>:</p>
 <p><span class="math display">\[
 u = 1 - (1 - p)^k
@@ -441,8 +447,8 @@ u - 1 = - (1 - p)^k
 1 - u = (1 - p)^k
 \]</span></p>
 </section>
-<section id="aplicando-o-logaritmo" class="level4" data-number="3.3.1.4">
-<h4 data-number="3.3.1.4" class="anchored" data-anchor-id="aplicando-o-logaritmo"><span class="header-section-number">3.3.1.4</span> Aplicando o Logaritmo</h4>
+<section id="aplicando-o-logaritmo" class="level4" data-number="4.3.1.4">
+<h4 data-number="4.3.1.4" class="anchored" data-anchor-id="aplicando-o-logaritmo"><span class="header-section-number">4.3.1.4</span> Aplicando o Logaritmo</h4>
 <p>Agora aplicamos o logaritmo natural (log base <span class="math inline">\(e\)</span>) em ambos os lados para resolver <span class="math inline">\(k\)</span>:</p>
 <p><span class="math display">\[
 \log(1 - u) = \log((1 - p)^k)
@@ -452,8 +458,8 @@ u - 1 = - (1 - p)^k
 \log(1 - u) = k \cdot \log(1 - p)
 \]</span></p>
 </section>
-<section id="isolando-k" class="level4" data-number="3.3.1.5">
-<h4 data-number="3.3.1.5" class="anchored" data-anchor-id="isolando-k"><span class="header-section-number">3.3.1.5</span> Isolando <span class="math inline">\(k\)</span></h4>
+<section id="isolando-k" class="level4" data-number="4.3.1.5">
+<h4 data-number="4.3.1.5" class="anchored" data-anchor-id="isolando-k"><span class="header-section-number">4.3.1.5</span> Isolando <span class="math inline">\(k\)</span></h4>
 <p>Agora, isolamos <span class="math inline">\(k\)</span>:</p>
 <p><span class="math display">\[
 k = \frac{\log(1 - u)}{\log(1 - p)}
@@ -464,8 +470,8 @@ k = \lceil \frac{\log(1 - u)}{\log(1 - p)} \rceil
 \]</span></p>
 </section>
 </section>
-<section id="conclusão" class="level3" data-number="3.3.2">
-<h3 data-number="3.3.2" class="anchored" data-anchor-id="conclusão"><span class="header-section-number">3.3.2</span> Conclusão</h3>
+<section id="conclusão" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="conclusão"><span class="header-section-number">4.3.2</span> Conclusão</h3>
 <p>Portanto, a fórmula da inversa da CDF da distribuição geométrica é:</p>
 <p><span class="math display">\[
 k = \lceil \frac{\log(1 - u)}{\log(1 - p)} \rceil
@@ -614,15 +620,15 @@ k = \lceil \frac{\log(1 - u)}{\log(1 - p)} \rceil
 </div>
 </section>
 </section>
-<section id="geração-de-variáveis-aleatórias-com-distribuição-poisson" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="geração-de-variáveis-aleatórias-com-distribuição-poisson"><span class="header-section-number">3.4</span> Geração de Variáveis Aleatórias com Distribuição Poisson</h2>
+<section id="geração-de-variáveis-aleatórias-com-distribuição-poisson" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="geração-de-variáveis-aleatórias-com-distribuição-poisson"><span class="header-section-number">4.4</span> Geração de Variáveis Aleatórias com Distribuição Poisson</h2>
 <p>A distribuição de Poisson é usada para modelar o número de eventos que ocorrem em um intervalo de tempo ou espaço fixo, onde os eventos ocorrem com uma taxa constante <span class="math inline">\(\lambda\)</span> e de forma independente.</p>
 <p>A função de probabilidade de massa (PMF) da distribuição de Poisson é dada por:</p>
 <p><span class="math display">\[
 P(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}, \quad k = 0, 1, 2, \ldots
 \]</span></p>
-<section id="derivação-da-inversa-da-cdf-para-a-distribuição-poisson-usando-a-fórmula-recursiva" class="level3" data-number="3.4.1">
-<h3 data-number="3.4.1" class="anchored" data-anchor-id="derivação-da-inversa-da-cdf-para-a-distribuição-poisson-usando-a-fórmula-recursiva"><span class="header-section-number">3.4.1</span> Derivação da Inversa da CDF para a Distribuição Poisson Usando a Fórmula Recursiva</h3>
+<section id="derivação-da-inversa-da-cdf-para-a-distribuição-poisson-usando-a-fórmula-recursiva" class="level3" data-number="4.4.1">
+<h3 data-number="4.4.1" class="anchored" data-anchor-id="derivação-da-inversa-da-cdf-para-a-distribuição-poisson-usando-a-fórmula-recursiva"><span class="header-section-number">4.4.1</span> Derivação da Inversa da CDF para a Distribuição Poisson Usando a Fórmula Recursiva</h3>
 <p>A <strong>distribuição de Poisson</strong> tem uma fórmula recursiva que pode ser usada para calcular as probabilidades de forma mais eficiente. Em vez de recalcular a probabilidade <span class="math inline">\(P(X = k)\)</span> a cada vez, podemos usar a seguinte relação recursiva:</p>
 <p><span class="math display">\[
 P(X = k+1) = \frac{\lambda}{k+1} \cdot P(X = k)
@@ -630,8 +636,8 @@ P(X = k+1) = \frac{\lambda}{k+1} \cdot P(X = k)
 <p>Onde <span class="math inline">\(P(X = 0) = e^{-\lambda}\)</span>.</p>
 <p>Essa relação recursiva permite gerar variáveis aleatórias de Poisson sem precisar calcular fatoriais repetidamente, o que é mais eficiente para grandes valores de <span class="math inline">\(\lambda\)</span> ou grandes números de eventos <span class="math inline">\(k\)</span>.</p>
 </section>
-<section id="técnica-da-inversão-usando-a-fórmula-recursiva" class="level3" data-number="3.4.2">
-<h3 data-number="3.4.2" class="anchored" data-anchor-id="técnica-da-inversão-usando-a-fórmula-recursiva"><span class="header-section-number">3.4.2</span> Técnica da Inversão Usando a Fórmula Recursiva</h3>
+<section id="técnica-da-inversão-usando-a-fórmula-recursiva" class="level3" data-number="4.4.2">
+<h3 data-number="4.4.2" class="anchored" data-anchor-id="técnica-da-inversão-usando-a-fórmula-recursiva"><span class="header-section-number">4.4.2</span> Técnica da Inversão Usando a Fórmula Recursiva</h3>
 <p>Para gerar uma variável aleatória de Poisson usando a técnica da inversão e a fórmula recursiva, o processo é o seguinte:</p>
 <ol type="1">
 <li>Gerar um número aleatório uniforme <span class="math inline">\(u \in [0, 1)\)</span>.</li>
@@ -639,8 +645,8 @@ P(X = k+1) = \frac{\lambda}{k+1} \cdot P(X = k)
 <li>O menor valor <span class="math inline">\(k\)</span> tal que <span class="math inline">\(F(k) \geq u\)</span> será o número de eventos gerado pela distribuição Poisson.</li>
 </ol>
 </section>
-<section id="explicação" class="level3" data-number="3.4.3">
-<h3 data-number="3.4.3" class="anchored" data-anchor-id="explicação"><span class="header-section-number">3.4.3</span> Explicação:</h3>
+<section id="explicação" class="level3" data-number="4.4.3">
+<h3 data-number="4.4.3" class="anchored" data-anchor-id="explicação"><span class="header-section-number">4.4.3</span> Explicação:</h3>
 <ol type="1">
 <li><p><strong>Fórmula Recursiva</strong>: A relação recursiva <span class="math inline">\(P(X = k+1) = \frac{\lambda}{k+1} \cdot P(X = k)\)</span> permite calcular as probabilidades de forma eficiente, atualizando a probabilidade de <span class="math inline">\(P(X = k+1)\)</span> a partir de <span class="math inline">\(P(X = k)\)</span>.</p></li>
 <li><p><strong>Eficiência</strong>: Esta técnica evita o cálculo repetido de fatoriais, tornando-a mais eficiente, especialmente quando se está gerando variáveis para grandes valores de <span class="math inline">\(\lambda\)</span> ou quando se deseja calcular probabilidades para muitos eventos <span class="math inline">\(k\)</span>.</p></li>
@@ -821,8 +827,8 @@ P(X = k+1) = \frac{\lambda}{k+1} \cdot P(X = k)
 </div>
 </section>
 </section>
-<section id="exercícios" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">3.5</span> Exercícios</h2>
+<section id="exercícios" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">4.5</span> Exercícios</h2>
 <p><span style="color:#2C92B2;"><strong>Exercício 1</strong></span>. Seja <span class="math inline">\(X\)</span> uma v.a. tal que <span class="math inline">\(\mathbb P(X=1)=0.3,\mathbb P(X=3)=0.1\)</span> e <span class="math inline">\(\mathbb P(X=4)=0.6\)</span>.</p>
 <ol type="a">
 <li><p>Escreva um pseudo-algoritmo para gerar um valor de <span class="math inline">\(X\)</span>.</p></li>
@@ -1418,13 +1424,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./2_pseudorandom.html" class="pagination-link" aria-label="Geração de Números Pseudoaleatórios">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Geração de Números Pseudoaleatórios</span></span>
+      <a href="./2_pseudorandom.html" class="pagination-link" aria-label="Números Pseudoaleatórios">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Números Pseudoaleatórios</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./4_continuous_inversion.html" class="pagination-link" aria-label="Geração de Variáveis Aleatórias Contínuas Usando a Técnica da Inversão e Transformações">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Geração de Variáveis Aleatórias Contínuas Usando a Técnica da Inversão e Transformações</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./4_continuous_inversion.html" class="pagination-link" aria-label="Técnica da Inversão para Variáveis Contínuas">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Técnica da Inversão para Variáveis Contínuas</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
