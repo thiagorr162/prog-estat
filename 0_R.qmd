@@ -982,3 +982,132 @@ ggplot(dados.long, aes(x = instante, y = pressao.arterial, group = paciente, col
        y = "Pressão Arterial") +
   theme_minimal()
 ```
+
+## Leitura de Arquivos com `readr`
+
+O `readr` é um pacote eficiente para leitura de arquivos de dados no R. Vamos explorar como utilizar o `readr` para ler e manipular arquivos CSV. Um arquivo CSV (Comma-Separated Values) é um formato comum para armazenar dados tabulares. 
+
+Para começar, carregue o pacote `readr`:
+
+```{r}
+#| code-fold: false
+library(readr)
+```
+
+### Exemplo: Leitura de um CSV com Dados Públicos
+
+Vamos usar um banco de dados público disponível na internet. Um exemplo muito comum é o conjunto de dados de passageiros do Titanic, disponível em formato CSV. Para carregar diretamente da internet:
+
+```{r}
+#| code-fold: false
+url <- "https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv"
+dados_titanic <- read_csv(url)
+```
+
+Aqui, estamos carregando os dados diretamente de um link. Após a leitura, podemos visualizar os primeiros registros:
+
+```{r}
+#| code-fold: false
+head(dados_titanic)
+```
+
+### Manipulando os Dados Lidos
+
+O `read_csv` detecta automaticamente os tipos de dados de cada coluna. No exemplo dos dados do Titanic, podemos realizar algumas análises rápidas, como visualizar a distribuição de sobreviventes:
+
+```{r}
+#| code-fold: false
+table(dados_titanic$Survived)
+```
+
+### Salvando o Conjunto de Dados
+
+Se você quiser salvar o conjunto de dados em seu computador após manipulações, basta usar o `write_csv`:
+
+```{r}
+#| code-fold: false
+write_csv(dados_titanic, "titanic_local.csv")
+```
+
+Aqui está o conjunto de exercícios no formato solicitado:
+
+---
+
+## Exercícios
+
+<span style="color:#2C92B2;">**Exercício 1**</span>.  
+Execute as seguintes operações no R e interprete os resultados:
+- $5 + 9$
+- $\frac{0}{0}$
+- $10^{5}$
+
+Utilize a função `log` para calcular o logaritmo natural de 10 e depois o logaritmo na base 10 de 1000.
+
+Descubra a função que calcula a raiz quadrada de um número utilizando o símbolo de interrogação (`?`), e aplique-a ao número 144.
+
+ 
+
+<span style="color:#2C92B2;">**Exercício 2**</span>.  
+Armazene o resultado de $15 \times 7$ em uma variável chamada `resultado`. Use `resultado` para calcular o valor de $2 \times resultado$.
+
+Liste todas as variáveis no ambiente do R usando a função `ls()`. Exclua a variável `resultado` e verifique novamente as variáveis presentes.
+
+ 
+
+<span style="color:#2C92B2;">**Exercício 3**</span>.  
+Crie um vetor `v` contendo os números 4, 8, 15, 16, 23, 42. Use subsetting para selecionar:
+- O segundo e o quarto elemento.
+- Todos os elementos exceto o terceiro.
+- Os elementos que são maiores que 10.
+
+Multiplique cada elemento do vetor `v` por 2 e armazene o resultado em um novo vetor `v2`.
+
+ 
+<span style="color:#2C92B2;">**Exercício 4**</span>.  
+Verifique se 8 é maior que 5 e se 8 é igual a 10.
+
+Crie dois vetores lógicos `a = c(TRUE, FALSE, TRUE)` e `b = c(FALSE, TRUE, FALSE)`. Aplique os operadores `&`, `|` e `xor()` nesses vetores.
+
+ 
+<span style="color:#2C92B2;">**Exercício 5**</span>.  
+Escreva uma função `soma_quadrados` que receba dois números como argumentos e retorne a soma de seus quadrados. Teste sua função com os números 3 e 4.
+
+Modifique a função `soma_quadrados` para que o segundo argumento tenha um valor padrão de 2. Teste a função chamando-a com apenas um argumento.
+ 
+
+<span style="color:#2C92B2;">**Exercício 6**</span>.  
+Escreva um laço `for` que calcule a soma dos números de 1 a 100.
+
+Crie um laço `while` que multiplique os números de 1 a 6 e retorne o resultado.
+ 
+
+<span style="color:#2C92B2;">**Exercício 7**</span>.  
+Crie duas variáveis com o seu primeiro e último nome. Use a função `paste()` para juntar as duas variáveis em uma frase que diga "Meu nome completo é [nome completo]".
+
+Altere o separador na função `paste()` para um traço `-` e junte novamente as variáveis.
+ 
+
+<span style="color:#2C92B2;">**Exercício 8**</span>.  
+Carregue o pacote `dplyr` e use o dataset `mtcars`. Selecione apenas as colunas `mpg`, `cyl`, e `hp`.
+
+Filtre as observações onde `mpg` é maior que 20 e `hp` é menor que 150.
+
+Ordene o dataset filtrado pela coluna `mpg` em ordem decrescente.
+ 
+
+<span style="color:#2C92B2;">**Exercício 9**</span>.  
+Usando o dataset `mtcars`, crie um gráfico de dispersão (`geom_point`) que mostre a relação entre `hp` (horsepower) e `mpg` (milhas por galão).
+
+No gráfico anterior, mapeie a variável `cyl` para a cor dos pontos.
+
+<span style="color:#2C92B2;">**Exercício 10**</span>. 
+Utilize a base pública de dados de voos da [nycflights13](https://cran.r-project.org/web/packages/nycflights13/index.html) para responder às perguntas abaixo.
+
+1. Carregue o pacote `nycflights13` e explore o dataset `flights`. Visualize as primeiras 6 linhas da base.
+
+2. Filtre todos os voos que decolaram no mês de junho e aterrissaram com atraso maior que 1 hora.
+
+3. Agrupe os dados por companhia aérea (`carrier`) e calcule o atraso médio de chegada (`arr_delay`) para cada companhia.
+
+4. Crie um gráfico de barras que mostre o atraso médio de chegada por companhia aérea.
+
