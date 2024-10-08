@@ -3,4 +3,6 @@
 Repositório contendo código para o curso de Programação Estatística da UFSCar.
 
 
-Autores: Andressa Cerqueira, Rafael Izbicki, Thiago Rodrigo Ramos
+Autores: [Andressa Cerqueira](https://www.servidores.ufscar.br/acerqueira/), [Rafael Izbicki](http://rafaelizbicki.com/), [Thiago Rodrigo Ramos](https://thiagorr162.github.io/).
+
+Site: https://thiagorr162.github.io/prog-estat/
