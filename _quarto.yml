@@ -15,6 +15,9 @@ book:
     - 4_continuous_inversion.qmd
     - 5_discrete_rejection.qmd
     - 6_continuous_rejection.qmd
+    - 7_transf.qmd
+    - 8_box_muller.qmd
+    - 9_monte_carlo.qmd
     - references.qmd
   navbar:
     right:

@@ -1,0 +1,17 @@
+# Método de Box-Muller
+
+
+::: {.panel-tabset group="language"}
+# R
+
+```{r}
+
+```
+
+# Python
+
+```{python}
+
+```
+
+:::
