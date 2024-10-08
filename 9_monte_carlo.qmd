@@ -461,7 +461,7 @@ IC  # Intervalo de confiança
 Neste caso, o intervalo de confiança construído em torno da estimativa $\hat{\pi}_n$ oferece uma ideia de quão próxima nossa estimativa está do valor verdadeiro de $\pi$, com uma certa confiança.
 
 
-## Exemplo 4: Problema das Figurinhas:
+## Exemplo 4: Problema das Figurinhas
 
 Um colecionador está juntando figurinhas para completar um álbum da Copa. Qual é a probabilidade de que, ao comprar $n$ pacotes, pelo menos um deles contenha duas ou mais figurinhas iguais? Durante o curso de probabilidade, você aprenderá como calcular essa probabilidade. Outra abordagem possível é o uso do método de Monte Carlo. Nesse caso, simulamos a compra de $n$ pacotes, cada um com 5 figurinhas, de um total de 640 figurinhas disponíveis no álbum. Repetimos essa simulação $B=1000$ vezes e contamos quantas vezes ocorreu pelo menos uma repetição de figurinhas em algum dos pacotes. A proporção de simulações com repetições é a estimativa de Monte Carlo da probabilidade que estamos interessados em calcular.
 
