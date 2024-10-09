@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>1&nbsp; Breve Introdução ao R – Curso de Programação Estatística</title>
+<title>2&nbsp; Breve Introdução ao R – Curso de Programação Estatística</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./1_intro.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./0_py.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -105,6 +105,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -142,7 +171,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./0_R.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Breve Introdução ao R</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./0_R.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Breve Introdução ao R</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -162,44 +191,68 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./0_py.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Breve Introdução ao Python</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./0_R.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Breve Introdução ao R</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Breve Introdução ao R</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./1_intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Geração de Números Aleatórios e Aplicação em Estatística</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Geração de Números Aleatórios e Aplicação em Estatística</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2_pseudorandom.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Números Pseudoaleatórios</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Números Pseudoaleatórios</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./3_discrete_inversion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Técnica da Inversão para Variáveis Discretas</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Técnica da Inversão para Variáveis Discretas</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./4_continuous_inversion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Técnica da Inversão para Variáveis Contínuas</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Técnica da Inversão para Variáveis Contínuas</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./5_discrete_rejection.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Método da Rejeição para Variáveis Discretas</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Método da Rejeição para Variáveis Discretas</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./6_continuous_rejection.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Método da Rejeição para Variáveis Contínuas</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Método da Rejeição para Variáveis Contínuas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./7_transf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Transformações e Misturas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./8_box_muller.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Método de Box-Muller</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./9_monte_carlo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Método de Monte Carlo</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -218,19 +271,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul class="collapse">
-  <li><a href="#variáveis-numéricas" id="toc-variáveis-numéricas" class="nav-link active" data-scroll-target="#variáveis-numéricas"><span class="header-section-number">1.1</span> Variáveis Numéricas</a></li>
-  <li><a href="#variáveis-lógicas" id="toc-variáveis-lógicas" class="nav-link" data-scroll-target="#variáveis-lógicas"><span class="header-section-number">1.2</span> Variáveis Lógicas</a></li>
-  <li><a href="#caracteresstrings" id="toc-caracteresstrings" class="nav-link" data-scroll-target="#caracteresstrings"><span class="header-section-number">1.3</span> Caracteres/Strings</a></li>
-  <li><a href="#vetores-e-sequências" id="toc-vetores-e-sequências" class="nav-link" data-scroll-target="#vetores-e-sequências"><span class="header-section-number">1.4</span> Vetores e Sequências</a></li>
-  <li><a href="#funções" id="toc-funções" class="nav-link" data-scroll-target="#funções"><span class="header-section-number">1.5</span> Funções</a></li>
-  <li><a href="#laços" id="toc-laços" class="nav-link" data-scroll-target="#laços"><span class="header-section-number">1.6</span> Laços</a></li>
-  <li><a href="#ifelse" id="toc-ifelse" class="nav-link" data-scroll-target="#ifelse"><span class="header-section-number">1.7</span> If/Else</a></li>
-  <li><a href="#listas" id="toc-listas" class="nav-link" data-scroll-target="#listas"><span class="header-section-number">1.8</span> Listas</a></li>
-  <li><a href="#estatística-descritiva" id="toc-estatística-descritiva" class="nav-link" data-scroll-target="#estatística-descritiva"><span class="header-section-number">1.9</span> Estatística Descritiva</a></li>
-  <li><a href="#o-operador-pipe" id="toc-o-operador-pipe" class="nav-link" data-scroll-target="#o-operador-pipe"><span class="header-section-number">1.10</span> O operador <code>%&gt;%</code> (pipe)</a></li>
-  <li><a href="#o-pacote-dplyr" id="toc-o-pacote-dplyr" class="nav-link" data-scroll-target="#o-pacote-dplyr"><span class="header-section-number">1.11</span> O pacote <code>dplyr</code></a></li>
-  <li><a href="#o-pacote-ggplot2" id="toc-o-pacote-ggplot2" class="nav-link" data-scroll-target="#o-pacote-ggplot2"><span class="header-section-number">1.12</span> O pacote <code>ggplot2</code></a></li>
-  <li><a href="#o-pacote-tidyr" id="toc-o-pacote-tidyr" class="nav-link" data-scroll-target="#o-pacote-tidyr"><span class="header-section-number">1.13</span> O pacote <code>tidyr</code></a></li>
+  <li><a href="#variáveis-numéricas" id="toc-variáveis-numéricas" class="nav-link active" data-scroll-target="#variáveis-numéricas"><span class="header-section-number">2.1</span> Variáveis Numéricas</a></li>
+  <li><a href="#variáveis-lógicas" id="toc-variáveis-lógicas" class="nav-link" data-scroll-target="#variáveis-lógicas"><span class="header-section-number">2.2</span> Variáveis Lógicas</a></li>
+  <li><a href="#caracteresstrings" id="toc-caracteresstrings" class="nav-link" data-scroll-target="#caracteresstrings"><span class="header-section-number">2.3</span> Caracteres/Strings</a></li>
+  <li><a href="#vetores-e-sequências" id="toc-vetores-e-sequências" class="nav-link" data-scroll-target="#vetores-e-sequências"><span class="header-section-number">2.4</span> Vetores e Sequências</a></li>
+  <li><a href="#funções" id="toc-funções" class="nav-link" data-scroll-target="#funções"><span class="header-section-number">2.5</span> Funções</a></li>
+  <li><a href="#laços" id="toc-laços" class="nav-link" data-scroll-target="#laços"><span class="header-section-number">2.6</span> Laços</a></li>
+  <li><a href="#ifelse" id="toc-ifelse" class="nav-link" data-scroll-target="#ifelse"><span class="header-section-number">2.7</span> If/Else</a></li>
+  <li><a href="#listas" id="toc-listas" class="nav-link" data-scroll-target="#listas"><span class="header-section-number">2.8</span> Listas</a></li>
+  <li><a href="#estatística-descritiva" id="toc-estatística-descritiva" class="nav-link" data-scroll-target="#estatística-descritiva"><span class="header-section-number">2.9</span> Estatística Descritiva</a></li>
+  <li><a href="#o-operador-pipe" id="toc-o-operador-pipe" class="nav-link" data-scroll-target="#o-operador-pipe"><span class="header-section-number">2.10</span> O operador <code>%&gt;%</code> (pipe)</a></li>
+  <li><a href="#o-pacote-dplyr" id="toc-o-pacote-dplyr" class="nav-link" data-scroll-target="#o-pacote-dplyr"><span class="header-section-number">2.11</span> O pacote <code>dplyr</code></a></li>
+  <li><a href="#o-pacote-ggplot2" id="toc-o-pacote-ggplot2" class="nav-link" data-scroll-target="#o-pacote-ggplot2"><span class="header-section-number">2.12</span> O pacote <code>ggplot2</code></a></li>
+  <li><a href="#o-pacote-tidyr" id="toc-o-pacote-tidyr" class="nav-link" data-scroll-target="#o-pacote-tidyr"><span class="header-section-number">2.13</span> O pacote <code>tidyr</code></a></li>
+  <li><a href="#leitura-de-arquivos-com-readr" id="toc-leitura-de-arquivos-com-readr" class="nav-link" data-scroll-target="#leitura-de-arquivos-com-readr"><span class="header-section-number">2.14</span> Leitura de Arquivos com <code>readr</code></a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">2.15</span> Exercícios</a></li>
   </ul>
 </nav>
     </div>
@@ -239,7 +294,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Breve Introdução ao R</span></h1>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Breve Introdução ao R</span></h1>
 </div>
 
 
@@ -257,8 +312,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Aqui faremos uma breve introdução ao R. Para uma introdução mais delhada, veja <a href="https://curso-r.com/material/">https://curso-r.com/material/</a> e <a href="https://r4ds.had.co.nz/">https://r4ds.had.co.nz/</a>.</p>
-<section id="variáveis-numéricas" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="variáveis-numéricas"><span class="header-section-number">1.1</span> Variáveis Numéricas</h2>
+<section id="variáveis-numéricas" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="variáveis-numéricas"><span class="header-section-number">2.1</span> Variáveis Numéricas</h2>
 <p>Aqui vão alguns exemplos para começarmos a entender como o R funciona. Inicialmente, veremos como podemos usar o R como calculadora.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">*</span> <span class="dv">7</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -299,8 +354,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>See also</strong>: Outras funções relacionadas que podem ser consultadas.</li>
 <li><strong>Examples</strong>: Exemplos do uso da função.</li>
 </ul>
-<section id="armazenando-resultados-em-variáveis" class="level3" data-number="1.1.1">
-<h3 data-number="1.1.1" class="anchored" data-anchor-id="armazenando-resultados-em-variáveis"><span class="header-section-number">1.1.1</span> Armazenando resultados em variáveis</h3>
+<section id="armazenando-resultados-em-variáveis" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="armazenando-resultados-em-variáveis"><span class="header-section-number">2.1.1</span> Armazenando resultados em variáveis</h3>
 <p>Podemos também armazenar resultados de contas em variáveis. Por exemplo:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span></span>
@@ -347,14 +402,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gc</span>()  <span class="co"># Essa função libera a memória utilizada</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          used (Mb) gc trigger (Mb) max used (Mb)
-Ncells  597557 32.0    1233144 65.9  1233144 65.9
-Vcells 1108663  8.5    8388608 64.0  1819262 13.9</code></pre>
+Ncells  624758 33.4    1280571 68.4  1280571 68.4
+Vcells 1175313  9.0    8388608 64.0  1923922 14.7</code></pre>
 </div>
 </div>
 </section>
 </section>
-<section id="variáveis-lógicas" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="variáveis-lógicas"><span class="header-section-number">1.2</span> Variáveis Lógicas</h2>
+<section id="variáveis-lógicas" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="variáveis-lógicas"><span class="header-section-number">2.2</span> Variáveis Lógicas</h2>
 <p>Alguns operadores lógicos definidos no R são mostrados na tabela abaixo:</p>
 <table class="caption-top table">
 <thead>
@@ -417,8 +472,8 @@ Vcells 1108663  8.5    8388608 64.0  1819262 13.9</code></pre>
 </tr>
 </tbody>
 </table>
-<section id="exemplos-de-uso-de-operadores-lógicos" class="level3" data-number="1.2.1">
-<h3 data-number="1.2.1" class="anchored" data-anchor-id="exemplos-de-uso-de-operadores-lógicos"><span class="header-section-number">1.2.1</span> Exemplos de uso de operadores lógicos</h3>
+<section id="exemplos-de-uso-de-operadores-lógicos" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="exemplos-de-uso-de-operadores-lógicos"><span class="header-section-number">2.2.1</span> Exemplos de uso de operadores lógicos</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">==</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -477,8 +532,8 @@ Vcells 1108663  8.5    8388608 64.0  1819262 13.9</code></pre>
 </div>
 </section>
 </section>
-<section id="caracteresstrings" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="caracteresstrings"><span class="header-section-number">1.3</span> Caracteres/Strings</h2>
+<section id="caracteresstrings" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="caracteresstrings"><span class="header-section-number">2.3</span> Caracteres/Strings</h2>
 <p>Para declarar cadeias de caracteres, usamos aspas no R:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="st">"Rafael"</span></span>
@@ -496,8 +551,8 @@ Vcells 1108663  8.5    8388608 64.0  1819262 13.9</code></pre>
 </div>
 </div>
 </section>
-<section id="vetores-e-sequências" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="vetores-e-sequências"><span class="header-section-number">1.4</span> Vetores e Sequências</h2>
+<section id="vetores-e-sequências" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="vetores-e-sequências"><span class="header-section-number">2.4</span> Vetores e Sequências</h2>
 <p>Usualmente declaramos vetores usando o operador <code>c</code> (concatenação):</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">1</span>)</span>
@@ -639,8 +694,8 @@ Vcells 1108663  8.5    8388608 64.0  1819262 13.9</code></pre>
 </div>
 </div>
 </section>
-<section id="funções" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="funções"><span class="header-section-number">1.5</span> Funções</h2>
+<section id="funções" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="funções"><span class="header-section-number">2.5</span> Funções</h2>
 <p>Para declarar funções em R, fazemos:</p>
 <div class="sourceCode" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>minhaFuncao <span class="ot">&lt;-</span> <span class="cf">function</span>(argumento1, argumento2) {</span>
 <span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># corpo da função</span></span>
@@ -670,8 +725,8 @@ Vcells 1108663  8.5    8388608 64.0  1819262 13.9</code></pre>
 <pre><code>[1] 1 2 9</code></pre>
 </div>
 </div>
-<section id="argumentos-com-valores-default" class="level3" data-number="1.5.1">
-<h3 data-number="1.5.1" class="anchored" data-anchor-id="argumentos-com-valores-default"><span class="header-section-number">1.5.1</span> Argumentos com valores default</h3>
+<section id="argumentos-com-valores-default" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="argumentos-com-valores-default"><span class="header-section-number">2.5.1</span> Argumentos com valores default</h3>
 <p>Os argumentos podem ter valores <em>default</em>. Por exemplo:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>potencia <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">y =</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">length</span>(x))) {</span>
@@ -691,8 +746,8 @@ Vcells 1108663  8.5    8388608 64.0  1819262 13.9</code></pre>
 </div>
 </section>
 </section>
-<section id="laços" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="laços"><span class="header-section-number">1.6</span> Laços</h2>
+<section id="laços" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="laços"><span class="header-section-number">2.6</span> Laços</h2>
 <p>Para calcular o fatorial de um número <code>n</code>, podemos usar um laço <code>while</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">4</span></span>
@@ -737,7 +792,7 @@ Vcells 1108663  8.5    8388608 64.0  1819262 13.9</code></pre>
 <span id="cb115-8"><a href="#cb115-8" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">aux</span>(x))[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>user.self 
-    0.018 </code></pre>
+     0.03 </code></pre>
 </div>
 </div>
 <ol start="2" type="1">
@@ -754,7 +809,7 @@ Vcells 1108663  8.5    8388608 64.0  1819262 13.9</code></pre>
 <span id="cb117-8"><a href="#cb117-8" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">aux</span>(x))[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>user.self 
-    0.008 </code></pre>
+    0.013 </code></pre>
 </div>
 </div>
 <ol start="3" type="1">
@@ -767,13 +822,13 @@ Vcells 1108663  8.5    8388608 64.0  1819262 13.9</code></pre>
 <span id="cb119-4"><a href="#cb119-4" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">aux</span>(x))[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>user.self 
-        0 </code></pre>
+    0.002 </code></pre>
 </div>
 </div>
 <p>Note que, em geral, funções nativas do R são muito mais rápidas.</p>
 </section>
-<section id="ifelse" class="level2" data-number="1.7">
-<h2 data-number="1.7" class="anchored" data-anchor-id="ifelse"><span class="header-section-number">1.7</span> If/Else</h2>
+<section id="ifelse" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="ifelse"><span class="header-section-number">2.7</span> If/Else</h2>
 <p>O R permite o uso de condicionais <code>if</code> e <code>else</code> para controlar o fluxo de execução. A sintaxe básica é:</p>
 <div class="sourceCode" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (condição1) {</span>
 <span id="cb121-2"><a href="#cb121-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># código se a condição1 for verdadeira</span></span>
@@ -809,8 +864,8 @@ Vcells 1108663  8.5    8388608 64.0  1819262 13.9</code></pre>
 </div>
 </div>
 </section>
-<section id="listas" class="level2" data-number="1.8">
-<h2 data-number="1.8" class="anchored" data-anchor-id="listas"><span class="header-section-number">1.8</span> Listas</h2>
+<section id="listas" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="listas"><span class="header-section-number">2.8</span> Listas</h2>
 <p>Listas são como vetores, mas podem conter componentes de diferentes tipos (inclusive outras listas).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a>minhaLista <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"um"</span>, <span class="cn">TRUE</span>, <span class="dv">3</span>, <span class="fu">c</span>(<span class="st">"q"</span>, <span class="st">"u"</span>, <span class="st">"a"</span>, <span class="st">"t"</span>, <span class="st">"r"</span>, <span class="st">"o"</span>), <span class="st">"cinco"</span>)</span>
@@ -852,7 +907,7 @@ Vcells 1108663  8.5    8388608 64.0  1819262 13.9</code></pre>
 <div class="sourceCode cell-code" id="cb136"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a>ajuste<span class="sc">$</span>coefficients</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)           x 
-   1.135790    1.866057 </code></pre>
+   1.165347    1.973333 </code></pre>
 </div>
 </div>
 <p>Para adicionar a reta estimada ao gráfico:</p>
@@ -872,11 +927,11 @@ Vcells 1108663  8.5    8388608 64.0  1819262 13.9</code></pre>
 <div class="sourceCode cell-code" id="cb139"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a>minhaLista <span class="ot">&lt;-</span> <span class="fu">list</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="estatística-descritiva" class="level2" data-number="1.9">
-<h2 data-number="1.9" class="anchored" data-anchor-id="estatística-descritiva"><span class="header-section-number">1.9</span> Estatística Descritiva</h2>
+<section id="estatística-descritiva" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="estatística-descritiva"><span class="header-section-number">2.9</span> Estatística Descritiva</h2>
 <p>O R é uma ferramenta poderosa para realizar análises descritivas. Vamos explorar alguns recursos para calcular estatísticas de variáveis quantitativas e qualitativas.</p>
-<section id="variáveis-quantitativas" class="level3" data-number="1.9.1">
-<h3 data-number="1.9.1" class="anchored" data-anchor-id="variáveis-quantitativas"><span class="header-section-number">1.9.1</span> Variáveis quantitativas</h3>
+<section id="variáveis-quantitativas" class="level3" data-number="2.9.1">
+<h3 data-number="2.9.1" class="anchored" data-anchor-id="variáveis-quantitativas"><span class="header-section-number">2.9.1</span> Variáveis quantitativas</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb140"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">30</span>, <span class="dv">1</span>, <span class="dv">20</span>, <span class="dv">5</span>, <span class="dv">20</span>, <span class="dv">60</span>)</span>
 <span id="cb140-2"><a href="#cb140-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">15</span>, <span class="dv">22</span>, <span class="dv">20</span>)</span>
@@ -931,8 +986,8 @@ Vcells 1108663  8.5    8388608 64.0  1819262 13.9</code></pre>
 </div>
 </div>
 </section>
-<section id="variáveis-qualitativas" class="level3" data-number="1.9.2">
-<h3 data-number="1.9.2" class="anchored" data-anchor-id="variáveis-qualitativas"><span class="header-section-number">1.9.2</span> Variáveis qualitativas</h3>
+<section id="variáveis-qualitativas" class="level3" data-number="2.9.2">
+<h3 data-number="2.9.2" class="anchored" data-anchor-id="variáveis-qualitativas"><span class="header-section-number">2.9.2</span> Variáveis qualitativas</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb164"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb164-1"><a href="#cb164-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"S"</span>, <span class="st">"R"</span>, <span class="st">"P"</span>, <span class="st">"P"</span>, <span class="st">"Q"</span>, <span class="st">"P"</span>)</span>
 <span id="cb164-2"><a href="#cb164-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"c"</span>, <span class="st">"d"</span>)</span>
@@ -958,52 +1013,52 @@ x   a b c d
 </div>
 </div>
 </section>
-<section id="subconjuntos" class="level3" data-number="1.9.3">
-<h3 data-number="1.9.3" class="anchored" data-anchor-id="subconjuntos"><span class="header-section-number">1.9.3</span> Subconjuntos</h3>
+<section id="subconjuntos" class="level3" data-number="2.9.3">
+<h3 data-number="2.9.3" class="anchored" data-anchor-id="subconjuntos"><span class="header-section-number">2.9.3</span> Subconjuntos</h3>
 <p>Podemos utilizar subsetting para trabalhar com subconjuntos de interesse. Por exemplo, suponha que <code>dados</code> é um banco de dados com informações de alunos e queremos selecionar os alunos com idade menor que 20, altura maior que 1,70 e que estejam no primeiro ou segundo ano.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb170"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb170-1"><a href="#cb170-1" aria-hidden="true" tabindex="-1"></a>dados[dados<span class="sc">$</span>idade <span class="sc">&lt;</span> <span class="dv">20</span> <span class="sc">&amp;</span> dados<span class="sc">$</span>altura <span class="sc">&gt;</span> <span class="fl">1.70</span> <span class="sc">&amp;</span> dados<span class="sc">$</span>ano <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Primeiro"</span>, <span class="st">"Segundo"</span>), ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="funções-apply" class="level3" data-number="1.9.4">
-<h3 data-number="1.9.4" class="anchored" data-anchor-id="funções-apply"><span class="header-section-number">1.9.4</span> Funções Apply</h3>
+<section id="funções-apply" class="level3" data-number="2.9.4">
+<h3 data-number="2.9.4" class="anchored" data-anchor-id="funções-apply"><span class="header-section-number">2.9.4</span> Funções Apply</h3>
 <p>As funções da família <code>apply</code> (como <code>apply</code>, <code>lapply</code>, <code>sapply</code>) são úteis para aplicar uma função a um conjunto de dados. Vamos criar um banco de dados artificial para exemplificar:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb171"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb171-1"><a href="#cb171-1" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">altura =</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="fl">1.7</span>, <span class="fl">0.2</span>), <span class="at">salario =</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">3000</span>, <span class="dv">500</span>))</span>
 <span id="cb171-2"><a href="#cb171-2" aria-hidden="true" tabindex="-1"></a>dados<span class="sc">$</span>peso <span class="ot">&lt;-</span> dados<span class="sc">$</span>altura <span class="sc">*</span> <span class="dv">35</span> <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">0</span>, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="apply" class="level4" data-number="1.9.4.1">
-<h4 data-number="1.9.4.1" class="anchored" data-anchor-id="apply"><span class="header-section-number">1.9.4.1</span> <code>apply</code></h4>
+<section id="apply" class="level4" data-number="2.9.4.1">
+<h4 data-number="2.9.4.1" class="anchored" data-anchor-id="apply"><span class="header-section-number">2.9.4.1</span> <code>apply</code></h4>
 <p>Para calcular a média de cada coluna de <code>dados</code>, usamos:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb172"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb172-1"><a href="#cb172-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(dados, <span class="dv">2</span>, mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     altura     salario        peso 
-   1.710473 2988.055389   60.992266 </code></pre>
+   1.738918 3073.921371   62.459130 </code></pre>
 </div>
 </div>
 <p>Aqui, o argumento <code>2</code> indica que a operação deve ser aplicada a cada coluna. Para calcular a soma de cada linha:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb174"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb174-1"><a href="#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(dados, <span class="dv">1</span>, sum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  [1] 2911.838 3769.416 2912.299 3347.178 2383.554 3876.320 3330.492 2514.929
-  [9] 3066.566 3730.918 2402.553 2785.478 3033.978 2822.992 3520.693 1971.550
- [17] 3933.787 2856.112 2354.025 2514.189 2797.358 2529.497 3402.361 2832.829
- [25] 3118.888 3740.606 3345.657 3409.336 3178.316 3520.608 3296.911 3194.070
- [33] 3821.713 1990.506 2007.626 3226.723 3297.293 3742.610 2142.641 3639.341
- [41] 3559.029 3200.996 2899.059 2882.812 2758.623 2812.087 3250.782 2346.604
- [49] 3098.008 3539.852 3141.936 3260.350 3414.950 3415.215 2331.877 3169.164
- [57] 2309.428 2486.674 3110.727 2694.606 2089.227 2672.903 2940.053 2439.934
- [65] 2518.311 4166.452 3230.751 2671.893 2880.491 3301.666 4241.895 2515.057
- [73] 2813.697 3019.003 3271.548 3243.474 3686.880 3402.025 2665.857 2686.478
- [81] 2391.130 2919.513 2701.225 3610.194 3321.123 3659.904 3183.225 3037.318
- [89] 3356.966 2516.306 3219.418 3789.430 3242.440 2692.558 3129.225 2233.045
- [97] 3485.102 2786.062 3564.407 3823.087</code></pre>
+<pre><code>  [1] 3246.676 3628.465 3517.538 2730.965 3281.798 3350.541 3951.776 3071.716
+  [9] 3971.812 3611.463 2634.407 3376.986 3526.900 2515.773 2807.691 2238.245
+ [17] 3181.374 2837.894 3359.573 2977.241 3684.720 3277.090 2807.646 3672.926
+ [25] 3047.492 2695.518 3484.330 2816.785 2572.859 3134.357 3037.246 3109.791
+ [33] 3335.029 2884.293 2576.703 2564.804 3455.849 2839.450 2737.404 2702.751
+ [41] 2287.652 2771.716 3101.319 3558.644 2850.695 3182.979 3590.174 3247.518
+ [49] 3467.367 2772.015 2927.957 3851.464 2411.517 3475.468 2879.081 3165.622
+ [57] 3426.778 3118.478 3647.271 3595.763 3363.636 3338.047 3460.779 3418.686
+ [65] 2924.029 3579.994 2817.831 3187.194 3215.183 2665.735 2873.924 3412.148
+ [73] 3607.878 2579.537 3492.175 3764.679 3065.132 3029.033 3677.048 3278.871
+ [81] 3432.071 2510.969 3118.784 3618.525 2775.794 3677.819 3371.820 2646.483
+ [89] 2936.040 2996.043 2462.381 2730.974 2964.618 3443.123 2821.312 2817.808
+ [97] 3546.819 3633.386 2771.521 3198.760</code></pre>
 </div>
 </div>
 </section>
-<section id="funções-anônimas" class="level4" data-number="1.9.4.2">
-<h4 data-number="1.9.4.2" class="anchored" data-anchor-id="funções-anônimas"><span class="header-section-number">1.9.4.2</span> Funções anônimas</h4>
+<section id="funções-anônimas" class="level4" data-number="2.9.4.2">
+<h4 data-number="2.9.4.2" class="anchored" data-anchor-id="funções-anônimas"><span class="header-section-number">2.9.4.2</span> Funções anônimas</h4>
 <p>Usando funções anônimas, podemos calcular várias estatísticas descritivas ao mesmo tempo:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb176"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb176-1"><a href="#cb176-1" aria-hidden="true" tabindex="-1"></a>estatisticas <span class="ot">&lt;-</span> <span class="fu">apply</span>(dados, <span class="dv">2</span>, <span class="cf">function</span>(x) {</span>
@@ -1018,23 +1073,23 @@ x   a b c d
 <span id="cb176-10"><a href="#cb176-10" aria-hidden="true" tabindex="-1"></a>estatisticas<span class="sc">$</span>altura</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$media
-[1] 1.710473
+[1] 1.738918
 
 $mediaAparada
-[1] 1.708842
+[1] 1.740517
 
 $mediana
-[1] 1.695873
+[1] 1.730565
 
 $maximo
-[1] 2.154841</code></pre>
+[1] 2.152833</code></pre>
 </div>
 </div>
 </section>
 </section>
 </section>
-<section id="o-operador-pipe" class="level2" data-number="1.10">
-<h2 data-number="1.10" class="anchored" data-anchor-id="o-operador-pipe"><span class="header-section-number">1.10</span> O operador <code>%&gt;%</code> (pipe)</h2>
+<section id="o-operador-pipe" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="o-operador-pipe"><span class="header-section-number">2.10</span> O operador <code>%&gt;%</code> (pipe)</h2>
 <p></p>
 <p>O operador pipe foi uma das grandes revoluções recentes do R, tornando o código mais legível. Esse operador está definido no pacote <code>magrittr</code>, e vários outros pacotes, como o <code>dplyr</code>, fazem uso dele (veja a próxima seção).</p>
 <p>A ideia é simples: o operador <code>%&gt;%</code> usa o resultado do lado esquerdo como o primeiro argumento da função do lado direito. Um exemplo:</p>
@@ -1067,8 +1122,8 @@ $maximo
 </div>
 </div>
 </section>
-<section id="o-pacote-dplyr" class="level2" data-number="1.11">
-<h2 data-number="1.11" class="anchored" data-anchor-id="o-pacote-dplyr"><span class="header-section-number">1.11</span> O pacote <code>dplyr</code></h2>
+<section id="o-pacote-dplyr" class="level2" data-number="2.11">
+<h2 data-number="2.11" class="anchored" data-anchor-id="o-pacote-dplyr"><span class="header-section-number">2.11</span> O pacote <code>dplyr</code></h2>
 <p>O pacote <code>dplyr</code> é muito útil para manipulação eficiente de data frames. Vamos demonstrar alguns exemplos usando o conjunto de dados <code>hflights</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb183"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb183-1"><a href="#cb183-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
@@ -1079,8 +1134,8 @@ $maximo
 <div class="cell">
 <div class="sourceCode cell-code" id="cb184"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb184-1"><a href="#cb184-1" aria-hidden="true" tabindex="-1"></a>flights <span class="ot">&lt;-</span> <span class="fu">tbl_df</span>(hflights)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="filter" class="level3" data-number="1.11.1">
-<h3 data-number="1.11.1" class="anchored" data-anchor-id="filter"><span class="header-section-number">1.11.1</span> Filter</h3>
+<section id="filter" class="level3" data-number="2.11.1">
+<h3 data-number="2.11.1" class="anchored" data-anchor-id="filter"><span class="header-section-number">2.11.1</span> Filter</h3>
 <p>A função <code>filter</code> retorna todas as linhas que satisfazem uma condição. Por exemplo, para mostrar todos os voos do dia 1º de janeiro:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb185"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb185-1"><a href="#cb185-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Month <span class="sc">==</span> <span class="dv">1</span>, DayofMonth <span class="sc">==</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1130,8 +1185,8 @@ $maximo
 </div>
 </div>
 </section>
-<section id="select" class="level3" data-number="1.11.2">
-<h3 data-number="1.11.2" class="anchored" data-anchor-id="select"><span class="header-section-number">1.11.2</span> Select</h3>
+<section id="select" class="level3" data-number="2.11.2">
+<h3 data-number="2.11.2" class="anchored" data-anchor-id="select"><span class="header-section-number">2.11.2</span> Select</h3>
 <p>A função <code>select</code> seleciona colunas específicas de um data frame. Para selecionar as colunas <code>DepTime</code>, <code>ArrTime</code>, e <code>FlightNum</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb189"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb189-1"><a href="#cb189-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> <span class="fu">select</span>(DepTime, ArrTime, FlightNum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1173,8 +1228,8 @@ $maximo
 </div>
 </div>
 </section>
-<section id="arrange" class="level3" data-number="1.11.3">
-<h3 data-number="1.11.3" class="anchored" data-anchor-id="arrange"><span class="header-section-number">1.11.3</span> Arrange</h3>
+<section id="arrange" class="level3" data-number="2.11.3">
+<h3 data-number="2.11.3" class="anchored" data-anchor-id="arrange"><span class="header-section-number">2.11.3</span> Arrange</h3>
 <p>A função <code>arrange</code> ordena o data frame de acordo com algum critério. Para ordenar pelo atraso de partida (<code>DepDelay</code>):</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb193"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb193-1"><a href="#cb193-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(DepDelay)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1224,15 +1279,15 @@ $maximo
 </div>
 </div>
 </section>
-<section id="mutate" class="level3" data-number="1.11.4">
-<h3 data-number="1.11.4" class="anchored" data-anchor-id="mutate"><span class="header-section-number">1.11.4</span> Mutate</h3>
+<section id="mutate" class="level3" data-number="2.11.4">
+<h3 data-number="2.11.4" class="anchored" data-anchor-id="mutate"><span class="header-section-number">2.11.4</span> Mutate</h3>
 <p>A função <code>mutate</code> cria novas variáveis. Para criar a variável <code>Speed</code> (velocidade) e adicioná-la ao banco:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb197"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb197-1"><a href="#cb197-1" aria-hidden="true" tabindex="-1"></a>flights <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Speed =</span> Distance <span class="sc">/</span> AirTime <span class="sc">*</span> <span class="dv">60</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="summarise-e-group_by" class="level3" data-number="1.11.5">
-<h3 data-number="1.11.5" class="anchored" data-anchor-id="summarise-e-group_by"><span class="header-section-number">1.11.5</span> Summarise e Group_by</h3>
+<section id="summarise-e-group_by" class="level3" data-number="2.11.5">
+<h3 data-number="2.11.5" class="anchored" data-anchor-id="summarise-e-group_by"><span class="header-section-number">2.11.5</span> Summarise e Group_by</h3>
 <p>A função <code>summarise</code> calcula estatísticas resumo. Para calcular o atraso médio de chegada por destino:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb198"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb198-1"><a href="#cb198-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Dest) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">avg_delay =</span> <span class="fu">mean</span>(ArrDelay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1349,15 +1404,15 @@ $maximo
 <p>Aqui está a seção sobre o <strong>pacote <code>ggplot2</code></strong> e <strong><code>tidyr</code></strong> atualizada, mantendo a clareza e estrutura para fins didáticos:</p>
 </section>
 </section>
-<section id="o-pacote-ggplot2" class="level2" data-number="1.12">
-<h2 data-number="1.12" class="anchored" data-anchor-id="o-pacote-ggplot2"><span class="header-section-number">1.12</span> O pacote <code>ggplot2</code></h2>
+<section id="o-pacote-ggplot2" class="level2" data-number="2.12">
+<h2 data-number="2.12" class="anchored" data-anchor-id="o-pacote-ggplot2"><span class="header-section-number">2.12</span> O pacote <code>ggplot2</code></h2>
 <p><strong>Nota:</strong> Esta seção foi adaptada de <a href="https://curso-r.com/material/">curso-r.com</a>.</p>
 <p>O <code>ggplot2</code> é um pacote do R voltado para a criação de gráficos estatísticos. Ele é baseado na Gramática dos Gráficos (Grammar of Graphics) de Leland Wilkinson. Segundo essa gramática, um gráfico estatístico é um mapeamento dos dados por meio de atributos estéticos (cores, formas, tamanho) de formas geométricas (pontos, linhas, barras).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb208"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb208-1"><a href="#cb208-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="construindo-gráficos" class="level3" data-number="1.12.1">
-<h3 data-number="1.12.1" class="anchored" data-anchor-id="construindo-gráficos"><span class="header-section-number">1.12.1</span> Construindo gráficos</h3>
+<section id="construindo-gráficos" class="level3" data-number="2.12.1">
+<h3 data-number="2.12.1" class="anchored" data-anchor-id="construindo-gráficos"><span class="header-section-number">2.12.1</span> Construindo gráficos</h3>
 <p>Vamos discutir os aspectos básicos para a construção de gráficos com o <code>ggplot2</code>, utilizando o conjunto de dados <code>mtcars</code>. Para visualizar as primeiras linhas:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb209"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb209-1"><a href="#cb209-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mtcars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1372,8 +1427,8 @@ Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre
 </div>
 </div>
 </section>
-<section id="as-camadas-de-um-gráfico" class="level3" data-number="1.12.2">
-<h3 data-number="1.12.2" class="anchored" data-anchor-id="as-camadas-de-um-gráfico"><span class="header-section-number">1.12.2</span> As camadas de um gráfico</h3>
+<section id="as-camadas-de-um-gráfico" class="level3" data-number="2.12.2">
+<h3 data-number="2.12.2" class="anchored" data-anchor-id="as-camadas-de-um-gráfico"><span class="header-section-number">2.12.2</span> As camadas de um gráfico</h3>
 <p>Os gráficos no <code>ggplot2</code> são construídos camada por camada. A primeira camada é criada com a função <code>ggplot</code>. Um exemplo de gráfico simples:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb211"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb211-1"><a href="#cb211-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> mtcars) <span class="sc">+</span></span>
@@ -1388,8 +1443,8 @@ Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre
 </div>
 <p>A função <code>aes</code> define o mapeamento entre as variáveis e os aspectos visuais. Neste caso, estamos criando um gráfico de dispersão (com <code>geom_point</code>) entre <code>disp</code> (cilindradas) e <code>mpg</code> (milhas por galão).</p>
 </section>
-<section id="aesthetics" class="level3" data-number="1.12.3">
-<h3 data-number="1.12.3" class="anchored" data-anchor-id="aesthetics"><span class="header-section-number">1.12.3</span> Aesthetics</h3>
+<section id="aesthetics" class="level3" data-number="2.12.3">
+<h3 data-number="2.12.3" class="anchored" data-anchor-id="aesthetics"><span class="header-section-number">2.12.3</span> Aesthetics</h3>
 <p>Podemos mapear variáveis a diferentes aspectos estéticos, como cor e tamanho. Por exemplo, para mapear a variável <code>am</code> (transmissão) para a cor dos pontos:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb212"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb212-1"><a href="#cb212-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> mtcars) <span class="sc">+</span></span>
@@ -1403,8 +1458,8 @@ Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre
 </div>
 </div>
 </section>
-<section id="geoms" class="level3" data-number="1.12.4">
-<h3 data-number="1.12.4" class="anchored" data-anchor-id="geoms"><span class="header-section-number">1.12.4</span> Geoms</h3>
+<section id="geoms" class="level3" data-number="2.12.4">
+<h3 data-number="2.12.4" class="anchored" data-anchor-id="geoms"><span class="header-section-number">2.12.4</span> Geoms</h3>
 <p>Os <code>geoms</code> definem as formas geométricas usadas para a visualização dos dados. Além de <code>geom_point</code>, podemos usar:</p>
 <ul>
 <li><code>geom_line</code> para linhas</li>
@@ -1424,10 +1479,10 @@ Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre
 </div>
 </div>
 </section>
-<section id="personalizando-os-gráficos" class="level3" data-number="1.12.5">
-<h3 data-number="1.12.5" class="anchored" data-anchor-id="personalizando-os-gráficos"><span class="header-section-number">1.12.5</span> Personalizando os gráficos</h3>
-<section id="cores" class="level4" data-number="1.12.5.1">
-<h4 data-number="1.12.5.1" class="anchored" data-anchor-id="cores"><span class="header-section-number">1.12.5.1</span> Cores</h4>
+<section id="personalizando-os-gráficos" class="level3" data-number="2.12.5">
+<h3 data-number="2.12.5" class="anchored" data-anchor-id="personalizando-os-gráficos"><span class="header-section-number">2.12.5</span> Personalizando os gráficos</h3>
+<section id="cores" class="level4" data-number="2.12.5.1">
+<h4 data-number="2.12.5.1" class="anchored" data-anchor-id="cores"><span class="header-section-number">2.12.5.1</span> Cores</h4>
 <p>Para mudar as cores do gráfico, podemos usar o argumento <code>colour</code> ou <code>fill</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb214"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb214-1"><a href="#cb214-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars) <span class="sc">+</span></span>
@@ -1441,8 +1496,8 @@ Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre
 </div>
 </div>
 </section>
-<section id="eixos" class="level4" data-number="1.12.5.2">
-<h4 data-number="1.12.5.2" class="anchored" data-anchor-id="eixos"><span class="header-section-number">1.12.5.2</span> Eixos</h4>
+<section id="eixos" class="level4" data-number="2.12.5.2">
+<h4 data-number="2.12.5.2" class="anchored" data-anchor-id="eixos"><span class="header-section-number">2.12.5.2</span> Eixos</h4>
 <p>Para alterar os rótulos dos eixos:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb215"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb215-1"><a href="#cb215-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars) <span class="sc">+</span></span>
@@ -1458,8 +1513,8 @@ Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre
 </div>
 </div>
 </section>
-<section id="legendas" class="level4" data-number="1.12.5.3">
-<h4 data-number="1.12.5.3" class="anchored" data-anchor-id="legendas"><span class="header-section-number">1.12.5.3</span> Legendas</h4>
+<section id="legendas" class="level4" data-number="2.12.5.3">
+<h4 data-number="2.12.5.3" class="anchored" data-anchor-id="legendas"><span class="header-section-number">2.12.5.3</span> Legendas</h4>
 <p>Podemos personalizar ou remover legendas facilmente:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb216"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb216-1"><a href="#cb216-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars) <span class="sc">+</span></span>
@@ -1476,8 +1531,8 @@ Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre
 </div>
 </section>
 </section>
-<section id="facets" class="level3" data-number="1.12.6">
-<h3 data-number="1.12.6" class="anchored" data-anchor-id="facets"><span class="header-section-number">1.12.6</span> Facets</h3>
+<section id="facets" class="level3" data-number="2.12.6">
+<h3 data-number="2.12.6" class="anchored" data-anchor-id="facets"><span class="header-section-number">2.12.6</span> Facets</h3>
 <p>O <code>facet_grid</code> permite dividir o gráfico em subgráficos com base em uma variável:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb217"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb217-1"><a href="#cb217-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars) <span class="sc">+</span></span>
@@ -1492,8 +1547,8 @@ Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre
 </div>
 </div>
 </section>
-<section id="temas" class="level3" data-number="1.12.7">
-<h3 data-number="1.12.7" class="anchored" data-anchor-id="temas"><span class="header-section-number">1.12.7</span> Temas</h3>
+<section id="temas" class="level3" data-number="2.12.7">
+<h3 data-number="2.12.7" class="anchored" data-anchor-id="temas"><span class="header-section-number">2.12.7</span> Temas</h3>
 <p>Podemos mudar o tema de um gráfico com a função <code>theme_set</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb218"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb218-1"><a href="#cb218-1" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_light</span>(<span class="at">base_size =</span> <span class="dv">10</span>))</span>
@@ -1510,8 +1565,8 @@ Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre
 </div>
 </section>
 </section>
-<section id="o-pacote-tidyr" class="level2" data-number="1.13">
-<h2 data-number="1.13" class="anchored" data-anchor-id="o-pacote-tidyr"><span class="header-section-number">1.13</span> O pacote <code>tidyr</code></h2>
+<section id="o-pacote-tidyr" class="level2" data-number="2.13">
+<h2 data-number="2.13" class="anchored" data-anchor-id="o-pacote-tidyr"><span class="header-section-number">2.13</span> O pacote <code>tidyr</code></h2>
 <p>O pacote <code>tidyr</code> facilita a transformação e organização de dados no R. Para converter os dados de formato “wide” (largo) para “long” (longo), podemos utilizar a função <code>pivot_longer</code>, que substitui a antiga função <code>gather</code>. Considere os dados a seguir:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb219"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb219-1"><a href="#cb219-1" aria-hidden="true" tabindex="-1"></a>dados.originais <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
@@ -1589,8 +1644,8 @@ Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre
 </div>
 <p>Temos os seguintes argumentos: - <code>names_from</code> especifica a coluna cujos valores serão usados para criar novos nomes de colunas (neste caso, a variável <code>instante</code>). - <code>values_from</code> especifica a coluna cujos valores serão preenchidos nas novas colunas criadas (neste caso, a variável <code>pressao.arterial</code>).</p>
 <p>Aqui está um exemplo de como o pacote <code>tidyr</code> pode ser usado para manipular os dados antes de visualizá-los com gráficos no <code>ggplot2</code>.</p>
-<section id="exemplo-manipulação-e-visualização-com-pivot_longer-e-ggplot2" class="level3" data-number="1.13.1">
-<h3 data-number="1.13.1" class="anchored" data-anchor-id="exemplo-manipulação-e-visualização-com-pivot_longer-e-ggplot2"><span class="header-section-number">1.13.1</span> Exemplo: Manipulação e Visualização com <code>pivot_longer</code> e <code>ggplot2</code></h3>
+<section id="exemplo-manipulação-e-visualização-com-pivot_longer-e-ggplot2" class="level3" data-number="2.13.1">
+<h3 data-number="2.13.1" class="anchored" data-anchor-id="exemplo-manipulação-e-visualização-com-pivot_longer-e-ggplot2"><span class="header-section-number">2.13.1</span> Exemplo: Manipulação e Visualização com <code>pivot_longer</code> e <code>ggplot2</code></h3>
 <p>O pacote tidyr é particularmente últil dentro do ggplot2. Vamos continuar com o exemplo dos dados de pressão arterial. Suponha que você queira visualizar as variações da pressão arterial dos pacientes em diferentes instantes.</p>
 <p>Primeiro, vamos reorganizar os dados usando <code>pivot_longer</code> para colocar os dados no formato “long”, que é mais adequado para gráficos com o <code>ggplot2</code>:</p>
 <div class="cell">
@@ -1651,9 +1706,101 @@ Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre
 </div>
 </div>
 </div>
-
-
 </section>
+</section>
+<section id="leitura-de-arquivos-com-readr" class="level2" data-number="2.14">
+<h2 data-number="2.14" class="anchored" data-anchor-id="leitura-de-arquivos-com-readr"><span class="header-section-number">2.14</span> Leitura de Arquivos com <code>readr</code></h2>
+<p>O <code>readr</code> é um pacote eficiente para leitura de arquivos de dados no R. Vamos explorar como utilizar o <code>readr</code> para ler e manipular arquivos CSV. Um arquivo CSV (Comma-Separated Values) é um formato comum para armazenar dados tabulares.</p>
+<p>Para começar, carregue o pacote <code>readr</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb232"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb232-1"><a href="#cb232-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="exemplo-leitura-de-um-csv-com-dados-públicos" class="level3" data-number="2.14.1">
+<h3 data-number="2.14.1" class="anchored" data-anchor-id="exemplo-leitura-de-um-csv-com-dados-públicos"><span class="header-section-number">2.14.1</span> Exemplo: Leitura de um CSV com Dados Públicos</h3>
+<p>Vamos usar um banco de dados público disponível na internet. Um exemplo muito comum é o conjunto de dados de passageiros do Titanic, disponível em formato CSV. Para carregar diretamente da internet:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb233"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb233-1"><a href="#cb233-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv"</span></span>
+<span id="cb233-2"><a href="#cb233-2" aria-hidden="true" tabindex="-1"></a>dados_titanic <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(url)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Aqui, estamos carregando os dados diretamente de um link. Após a leitura, podemos visualizar os primeiros registros:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb234"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb234-1"><a href="#cb234-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dados_titanic)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 12
+  PassengerId Survived Pclass Name    Sex     Age SibSp Parch Ticket  Fare Cabin
+        &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;
+1           1        0      3 Braund… male     22     1     0 A/5 2…  7.25 &lt;NA&gt; 
+2           2        1      1 Cuming… fema…    38     1     0 PC 17… 71.3  C85  
+3           3        1      3 Heikki… fema…    26     0     0 STON/…  7.92 &lt;NA&gt; 
+4           4        1      1 Futrel… fema…    35     1     0 113803 53.1  C123 
+5           5        0      3 Allen,… male     35     0     0 373450  8.05 &lt;NA&gt; 
+6           6        0      3 Moran,… male     NA     0     0 330877  8.46 &lt;NA&gt; 
+# ℹ 1 more variable: Embarked &lt;chr&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="manipulando-os-dados-lidos" class="level3" data-number="2.14.2">
+<h3 data-number="2.14.2" class="anchored" data-anchor-id="manipulando-os-dados-lidos"><span class="header-section-number">2.14.2</span> Manipulando os Dados Lidos</h3>
+<p>O <code>read_csv</code> detecta automaticamente os tipos de dados de cada coluna. No exemplo dos dados do Titanic, podemos realizar algumas análises rápidas, como visualizar a distribuição de sobreviventes:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb236"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb236-1"><a href="#cb236-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dados_titanic<span class="sc">$</span>Survived)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  0   1 
+549 342 </code></pre>
+</div>
+</div>
+</section>
+<section id="salvando-o-conjunto-de-dados" class="level3" data-number="2.14.3">
+<h3 data-number="2.14.3" class="anchored" data-anchor-id="salvando-o-conjunto-de-dados"><span class="header-section-number">2.14.3</span> Salvando o Conjunto de Dados</h3>
+<p>Se você quiser salvar o conjunto de dados em seu computador após manipulações, basta usar o <code>write_csv</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb238"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb238-1"><a href="#cb238-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(dados_titanic, <span class="st">"titanic_local.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Aqui está o conjunto de exercícios no formato solicitado:</p>
+<hr>
+</section>
+</section>
+<section id="exercícios" class="level2" data-number="2.15">
+<h2 data-number="2.15" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">2.15</span> Exercícios</h2>
+<p><span style="color:#2C92B2;"><strong>Exercício 1</strong></span>.<br>
+Execute as seguintes operações no R e interprete os resultados: - <span class="math inline">\(5 + 9\)</span> - <span class="math inline">\(\frac{0}{0}\)</span> - <span class="math inline">\(10^{5}\)</span></p>
+<p>Utilize a função <code>log</code> para calcular o logaritmo natural de 10 e depois o logaritmo na base 10 de 1000.</p>
+<p>Descubra a função que calcula a raiz quadrada de um número utilizando o símbolo de interrogação (<code>?</code>), e aplique-a ao número 144.</p>
+<p><span style="color:#2C92B2;"><strong>Exercício 2</strong></span>.<br>
+Armazene o resultado de <span class="math inline">\(15 \times 7\)</span> em uma variável chamada <code>resultado</code>. Use <code>resultado</code> para calcular o valor de <span class="math inline">\(2 \times resultado\)</span>.</p>
+<p>Liste todas as variáveis no ambiente do R usando a função <code>ls()</code>. Exclua a variável <code>resultado</code> e verifique novamente as variáveis presentes.</p>
+<p><span style="color:#2C92B2;"><strong>Exercício 3</strong></span>.<br>
+Crie um vetor <code>v</code> contendo os números 4, 8, 15, 16, 23, 42. Use subsetting para selecionar: - O segundo e o quarto elemento. - Todos os elementos exceto o terceiro. - Os elementos que são maiores que 10.</p>
+<p>Multiplique cada elemento do vetor <code>v</code> por 2 e armazene o resultado em um novo vetor <code>v2</code>.</p>
+<p><span style="color:#2C92B2;"><strong>Exercício 4</strong></span>.<br>
+Verifique se 8 é maior que 5 e se 8 é igual a 10.</p>
+<p>Crie dois vetores lógicos <code>a = c(TRUE, FALSE, TRUE)</code> e <code>b = c(FALSE, TRUE, FALSE)</code>. Aplique os operadores <code>&amp;</code>, <code>|</code> e <code>xor()</code> nesses vetores.</p>
+<p><span style="color:#2C92B2;"><strong>Exercício 5</strong></span>.<br>
+Escreva uma função <code>soma_quadrados</code> que receba dois números como argumentos e retorne a soma de seus quadrados. Teste sua função com os números 3 e 4.</p>
+<p>Modifique a função <code>soma_quadrados</code> para que o segundo argumento tenha um valor padrão de 2. Teste a função chamando-a com apenas um argumento.</p>
+<p><span style="color:#2C92B2;"><strong>Exercício 6</strong></span>.<br>
+Escreva um laço <code>for</code> que calcule a soma dos números de 1 a 100.</p>
+<p>Crie um laço <code>while</code> que multiplique os números de 1 a 6 e retorne o resultado.</p>
+<p><span style="color:#2C92B2;"><strong>Exercício 7</strong></span>.<br>
+Crie duas variáveis com o seu primeiro e último nome. Use a função <code>paste()</code> para juntar as duas variáveis em uma frase que diga “Meu nome completo é [nome completo]”.</p>
+<p>Altere o separador na função <code>paste()</code> para um traço <code>-</code> e junte novamente as variáveis.</p>
+<p><span style="color:#2C92B2;"><strong>Exercício 8</strong></span>.<br>
+Carregue o pacote <code>dplyr</code> e use o dataset <code>mtcars</code>. Selecione apenas as colunas <code>mpg</code>, <code>cyl</code>, e <code>hp</code>.</p>
+<p>Filtre as observações onde <code>mpg</code> é maior que 20 e <code>hp</code> é menor que 150.</p>
+<p>Ordene o dataset filtrado pela coluna <code>mpg</code> em ordem decrescente.</p>
+<p><span style="color:#2C92B2;"><strong>Exercício 9</strong></span>.<br>
+Usando o dataset <code>mtcars</code>, crie um gráfico de dispersão (<code>geom_point</code>) que mostre a relação entre <code>hp</code> (horsepower) e <code>mpg</code> (milhas por galão).</p>
+<p>No gráfico anterior, mapeie a variável <code>cyl</code> para a cor dos pontos.</p>
+<p><span style="color:#2C92B2;"><strong>Exercício 10</strong></span>. Utilize a base pública de dados de voos da <a href="https://cran.r-project.org/web/packages/nycflights13/index.html">nycflights13</a> para responder às perguntas abaixo.</p>
+<ol type="1">
+<li><p>Carregue o pacote <code>nycflights13</code> e explore o dataset <code>flights</code>. Visualize as primeiras 6 linhas da base.</p></li>
+<li><p>Filtre todos os voos que decolaram no mês de junho e aterrissaram com atraso maior que 1 hora.</p></li>
+<li><p>Agrupe os dados por companhia aérea (<code>carrier</code>) e calcule o atraso médio de chegada (<code>arr_delay</code>) para cada companhia.</p></li>
+<li><p>Crie um gráfico de barras que mostre o atraso médio de chegada por companhia aérea.</p></li>
+</ol>
+
+
 </section>
 
 </main> <!-- /main -->
@@ -2223,13 +2370,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Curso de Programação Estatística">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Curso de Programação Estatística</span>
+      <a href="./0_py.html" class="pagination-link" aria-label="Breve Introdução ao Python">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Breve Introdução ao Python</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./1_intro.html" class="pagination-link" aria-label="Geração de Números Aleatórios e Aplicação em Estatística">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Geração de Números Aleatórios e Aplicação em Estatística</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Geração de Números Aleatórios e Aplicação em Estatística</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

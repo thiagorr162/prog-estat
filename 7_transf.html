@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>7&nbsp; Método da Rejeição para Variáveis Discretas – Curso de Programação Estatística</title>
+<title>9&nbsp; Transformações e Misturas – Curso de Programação Estatística</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./6_continuous_rejection.html" rel="next">
-<link href="./4_continuous_inversion.html" rel="prev">
+<link href="./8_box_muller.html" rel="next">
+<link href="./6_continuous_rejection.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -108,7 +108,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./5_discrete_rejection.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Método da Rejeição para Variáveis Discretas</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./7_transf.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Transformações e Misturas</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -164,7 +164,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./5_discrete_rejection.html" class="sidebar-item-text sidebar-link active">
+  <a href="./5_discrete_rejection.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Método da Rejeição para Variáveis Discretas</span></span></a>
   </div>
 </li>
@@ -176,7 +176,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./7_transf.html" class="sidebar-item-text sidebar-link">
+  <a href="./7_transf.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Transformações e Misturas</span></span></a>
   </div>
 </li>
@@ -203,15 +203,21 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link active" data-scroll-target="#exercícios"><span class="header-section-number">9.1</span> Exercícios</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Método da Rejeição para Variáveis Discretas</span></h1>
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Transformações e Misturas</span></h1>
 </div>
 
 
@@ -228,9 +234,23 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Fill in</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Python</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+
+</div>
+</div>
+</div>
+<section id="exercícios" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">9.1</span> Exercícios</h2>
+<p><span style="color:#2C92B2;"><strong>Exercício 1</strong></span>.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -799,13 +819,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./4_continuous_inversion.html" class="pagination-link" aria-label="Técnica da Inversão para Variáveis Contínuas">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Técnica da Inversão para Variáveis Contínuas</span></span>
+      <a href="./6_continuous_rejection.html" class="pagination-link" aria-label="Método da Rejeição para Variáveis Contínuas">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Método da Rejeição para Variáveis Contínuas</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./6_continuous_rejection.html" class="pagination-link" aria-label="Método da Rejeição para Variáveis Contínuas">
-        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Método da Rejeição para Variáveis Contínuas</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./8_box_muller.html" class="pagination-link" aria-label="Método de Box-Muller">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Método de Box-Muller</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
