@@ -68,23 +68,34 @@ Assim, o estimador desta integral via MMC pode ser obtido da seguinte forma:
 ```{r}
 n <- 100
 u <- runif(n, min = 0, max = 1)
-theta_hat <- mean(exp(-u))
 
+# Estimativa de theta usando Monte Carlo
+theta_hat <- mean(exp(-u))
+cat("Estimativa de theta_hat:", theta_hat, "\n")
+
+# Valor real da integral
 valor_real <- 1 - exp(-1)
-theta_hat
-valor_real
+cat("Valor real:", valor_real, "\n")
 ```
 
 # Python
 
 ```{python}
 import numpy as np
-n = 100
-u = np.random.uniform(0, 1, n)
-theta_hat = np.mean(np.exp(-u))
 
+# Número de amostras
+n = 100
+
+# Geração de amostras uniformes
+u = np.random.uniform(0, 1, n)
+
+# Estimativa de theta usando Monte Carlo
+theta_hat = np.mean(np.exp(-u))
+print("Estimativa de theta_hat:", theta_hat)
+
+# Valor real da integral
 valor_real = 1 - np.exp(-1)
-theta_hat, valor_real
+print("Valor real:", valor_real)
 ```
 
 ::: 
@@ -167,15 +178,22 @@ Neste caso, o algoritmo corresponde a gerar $X_i \sim Gama(2,3)$, defir e defini
 set.seed(58)
 library(ggplot2)
 
+# Número de amostras
 N <- 50000
+
+# Geração de amostras da distribuição Gamma
 x <- rgamma(N, shape = 2, rate = 3)  # Usando rate = 1/scale
+
+# Cálculo de P(X >= 0.4)
 y <- as.integer(x >= 0.4)
 
+# Estimativa via Monte Carlo
 valor_aproximado <- mean(y)
-valor_real <- 1 - pgamma(0.4, shape = 2, rate = 3)
+cat("Valor aproximado via Monte Carlo:", valor_aproximado, "\n")
 
-valor_aproximado
-valor_real
+# Valor real usando a função de distribuição acumulada (CDF)
+valor_real <- 1 - pgamma(0.4, shape = 2, rate = 3)
+cat("Valor real (CDF):", valor_real, "\n")
 ```
 
 # Python
@@ -184,15 +202,22 @@ valor_real
 import numpy as np
 from scipy.stats import gamma
 
-
+# Número de amostras
 N = 50000
+
+# Geração de amostras da distribuição Gamma
 x = gamma.rvs(2, scale=1/3, size=N)
+
+# Cálculo de P(X >= 0.4)
 y = (x >= 0.4).astype(int)
 
+# Estimativa via Monte Carlo
 valor_aproximado = np.mean(y)
-valor_real = 1 - gamma.cdf(0.4, 2, scale=1/3)
+print("Valor aproximado via Monte Carlo:", valor_aproximado)
 
-valor_aproximado, valor_real
+# Valor real usando a função de distribuição acumulada (CDF)
+valor_real = 1 - gamma.cdf(0.4, 2, scale=1/3)
+print("Valor real (CDF):", valor_real)
 ```
 
 :::
@@ -415,16 +440,19 @@ for (i in 1:N) {
   z[i] <- (x^2 + y^2 <= 1)
 }
 
+# Estimativa de pi
 theta_hat <- mean(z)
+pi_hat <- theta_hat * 4
+cat("Estimativa de pi:", pi_hat, "\n")
+
+# Cálculo da variância e intervalo de confiança
 sigma_hat <- sqrt(var(z) / N)
 alpha <- 0.05  # Nível de significância
 z_alpha2 <- qnorm(1 - alpha / 2)
 
 # Intervalo de confiança
 IC <- c(theta_hat - z_alpha2 * sigma_hat, theta_hat + z_alpha2 * sigma_hat) * 4
-
-theta_hat * 4  # Estimativa de pi
-IC  # Intervalo de confiança
+cat("Intervalo de confiança para pi:", IC, "\n")
 ```
 
 # Python
@@ -433,6 +461,7 @@ IC  # Intervalo de confiança
 import numpy as np
 from scipy.stats import norm
 
+# Semente para reprodução
 np.random.seed(0)
 N = 10000  # número de amostras
 z = np.zeros(N)
@@ -443,7 +472,12 @@ for i in range(N):
     y = 2 * np.random.uniform(0, 1) - 1
     z[i] = (x**2 + y**2 <= 1)
 
+# Estimativa de pi
 theta_hat = np.mean(z)
+pi_hat = theta_hat * 4
+print("Estimativa de pi:", pi_hat)
+
+# Cálculo da variância e intervalo de confiança
 sigma_hat = np.sqrt(np.var(z) / N)
 alpha = 0.05  # Nível de significância
 z_alpha2 = norm.ppf(1 - alpha / 2)
@@ -452,8 +486,7 @@ z_alpha2 = norm.ppf(1 - alpha / 2)
 IC = (theta_hat - z_alpha2 * sigma_hat, theta_hat + z_alpha2 * sigma_hat)
 IC = [i * 4 for i in IC]
 
-theta_hat * 4  # Estimativa de pi
-IC  # Intervalo de confiança
+print("Intervalo de confiança para pi:", IC)
 ```
 
 :::
