@@ -19,6 +19,8 @@ book:
     - 7_transf.qmd
     - 8_box_muller.qmd
     - 9_monte_carlo.qmd
+    - 10_var_red.qmd
+    - 11_import.qmd
     - references.qmd
   navbar:
     right:

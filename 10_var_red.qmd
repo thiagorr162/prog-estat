@@ -1,0 +1,23 @@
+# Técnicas de Redução de Variância
+
+
+::: {.panel-tabset group="language"}
+# R
+
+```{r}
+
+```
+
+# Python
+
+```{python}
+
+```
+
+:::
+
+
+## Exercícios
+
+
+<span style="color:#2C92B2;">**Exercício 1**</span>. 
