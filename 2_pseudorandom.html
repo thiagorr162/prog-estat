@@ -192,7 +192,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./0_py.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Breve Introdução ao Python</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Breve introdução ao Python</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -253,6 +253,18 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="./9_monte_carlo.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Método de Monte Carlo</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_var_red.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Técnicas de Redução de Variância</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11_import.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Amostragem por Importância</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -665,7 +677,7 @@ X_{n+1} = (a \cdot X_n + c) \mod m
 </section>
 <section id="gerando-números-uniformes-com-uma-moeda" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="gerando-números-uniformes-com-uma-moeda"><span class="header-section-number">4.4</span> Gerando números uniformes com uma moeda</h2>
-<p>Este código mostra como é possível gerar números uniformemente distribuídos no intervalo [0, 1] utilizando o lançamento de uma moeda justa. A ideia central baseia-se na expansão binária, onde cada lançamento da moeda representa um bit da representação binária do número. Ao somar 2−(i+1)2−(i+1) para cada bit, construímos o número em base 2, garantindo uma distribuição uniforme. Isso ocorre porque cada bit tem uma probabilidade igual de ser 0 ou 1, criando uma sequência que cobre uniformemente o intervalo desejado.</p>
+<p>Este código mostra como é possível gerar números uniformemente distribuídos no intervalo [0, 1] utilizando o lançamento de uma moeda justa. A ideia central baseia-se na expansão binária, onde cada lançamento da moeda representa um bit da representação binária do número. Ao somar <span class="math inline">\(2^{-(i+1))}\)</span> para cada bit, construímos o número em base 2, garantindo uma distribuição uniforme. Isso ocorre porque cada bit tem uma probabilidade igual de ser 0 ou 1, criando uma sequência que cobre uniformemente o intervalo desejado.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">Python</a></li></ul>
 <div class="tab-content" data-group="language">
