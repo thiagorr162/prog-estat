@@ -3,6 +3,8 @@
 /.quarto/
 /_book/
 /notebooks/.ipynb_checkpoints/
+/notebooks/*_files/
+/notebooks/*.html
 
 # files
 
