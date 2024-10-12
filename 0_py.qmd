@@ -8,19 +8,19 @@ Aqui faremos uma breve introdução ao Python. Para uma introdução mais detalh
 - [Real Python](https://realpython.com/)
 
 
-# Variáveis e Tipos de Dados 
+## Variáveis e Tipos de Dados 
 
 Em Python, variáveis são usadas para armazenar informações que podem ser manipuladas ao longo do código. Existem diferentes tipos de dados que podem ser atribuídos a uma variável. Vamos explorar os principais tipos básicos em Python: `int`, `float`, `str`, `bool`, e `None`.
 
 ```{python}
-# Exemplo de variáveis e tipos de dados
-nome = "Thiago"              # String
-idade = 35                   # Inteiro (int)
-saldo_bancario = 1023.75      # Float
-estudante = True              # Booleano (bool)
-endereco = None               # None, indicando ausência de valor
+## Exemplo de variáveis e tipos de dados
+nome = "Thiago"              ## String
+idade = 35                   ## Inteiro (int)
+saldo_bancario = 1023.75      ## Float
+estudante = True              ## Booleano (bool)
+endereco = None               ## None, indicando ausência de valor
 
-# Usando o método .format() para formatar a string
+## Usando o método .format() para formatar a string
 print("Nome: {} (Tipo: {})".format(nome, type(nome)))
 print("Idade: {} (Tipo: {})".format(idade, type(idade)))
 print("Saldo Bancário: {} (Tipo: {})".format(saldo_bancario, type(saldo_bancario)))
@@ -28,14 +28,14 @@ print("Estudante: {} (Tipo: {})".format(estudante, type(estudante)))
 print("Endereço: {} (Tipo: {})".format(endereco, type(endereco)))
 ```
 
-## f-strings: Formatação de Strings em Python (*)
+### f-strings: Formatação de Strings em Python (*)
 
 Introduzidas na versão Python 3.6, as f-strings (ou "formatted string literals") são uma forma eficiente e legível de formatar strings, permitindo a inclusão de expressões e variáveis diretamente dentro de uma string.
 
 A sintaxe das f-strings utiliza a letra f antes da string e permite a inclusão de expressões dentro de chaves {}. Essas expressões são avaliadas em tempo de execução, e seus resultados são inseridos na string.
 
 ```{python}
-# Usando f-strings para formatar a string
+## Usando f-strings para formatar a string
 print(f"Nome: {nome} (Tipo: {type(nome)})")
 print(f"Idade: {idade} (Tipo: {type(idade)})")
 print(f"Saldo Bancário: {saldo_bancario} (Tipo: {type(saldo_bancario)})")
@@ -43,7 +43,7 @@ print(f"Estudante: {estudante} (Tipo: {type(estudante)})")
 print(f"Endereço: {endereco} (Tipo: {type(endereco)})")
 ```
 
-# O Comando help() em Python
+## O Comando help() em Python
 
 Python possui uma função embutida chamada help(), que é muito útil para obter informações sobre funções, módulos, objetos, e classes. Ele fornece uma explicação detalhada de como determinado elemento funciona, quais parâmetros aceita e o que retorna, entre outros detalhes. Essa função é especialmente útil quando você está começando ou precisa de uma rápida referência sem ter que sair do ambiente de desenvolvimento.
 
@@ -59,15 +59,15 @@ def exemplo():
 help(exemplo)
 ```
 
-# Armazenando Resultados em Variáveis
+## Armazenando Resultados em Variáveis
 
 Em Python, as variáveis são usadas para armazenar resultados de cálculos ou operações para uso posterior no código. Ao armazenar um valor em uma variável, você pode acessá-lo facilmente quando precisar, sem ter que repetir o cálculo ou operação.
 
 Quando você atribui um valor ou resultado de uma operação a uma variável, o Python guarda esse valor na memória e o associa ao nome que você escolheu para a variável. Isso permite que você reutilize o valor sempre que necessário.
 
 ```{python}
-resultado = 5 + 3  # Armazenando a soma de 5 e 3 em uma variável
-print(resultado)    # Resultado: 8
+resultado = 5 + 3  ## Armazenando a soma de 5 e 3 em uma variável
+print(resultado)    ## Resultado: 8
 ```
 
 ```{python}
@@ -80,11 +80,11 @@ y = 2 * x
 y
 ```
 
-# Variáveis Lógicas
+## Variáveis Lógicas
 
 Python, assim como R, possui operadores lógicos para comparar valores e trabalhar com variáveis booleanas. Abaixo estão alguns dos principais operadores lógicos usados em Python:
 
-| #  | Operador      | Descrição                                   |
+| ##  | Operador      | Descrição                                   |
 |----|---------------|---------------------------------------------|
 | 1  | `x < y`       | x é menor que y?                            |
 | 2  | `x <= y`      | x é menor ou igual a y?                     |
@@ -100,64 +100,64 @@ Python, assim como R, possui operadores lógicos para comparar valores e trabalh
 ```{python}
 a = 5
 b = 10
-print(a < b)  # True
-print(a == b)  # False
+print(a < b)  ## True
+print(a == b)  ## False
 ```
 
 ```{python}
 x = True
-print(not x)  # False
+print(not x)  ## False
 ```
 
 ```{python}
 x = False
 y = True
-print(x or y)  # True
+print(x or y)  ## True
 ```
 
 ```{python}
 x = True
 y = False
-print(x and y)  # False
+print(x and y)  ## False
 ```
 
 ```{python}
 x = True
 y = False
-print(x ^ y)  # True (apenas um dos dois é verdadeiro)
+print(x ^ y)  ## True (apenas um dos dois é verdadeiro)
 ```
 
-## Cuidado!
+### Cuidado!
 Em Python, o operador ^ não é usado para exponenciação. Em vez disso, ele é o operador bitwise XOR (ou exclusivo) para manipulação de bits.
 
 O operador XOR (ou exclusivo) compara os bits de dois números. Ele retorna 1 quando os bits são diferentes e 0 quando os bits são iguais.
 
 ```{python}
-a = 5   # Em binário: 101
-b = 3   # Em binário: 011
+a = 5   ## Em binário: 101
+b = 3   ## Em binário: 011
 
-resultado = a ** b  # Faz XOR bit a bit
+resultado = a ** b  ## Faz XOR bit a bit
 
-print(resultado)  # Saída: 6 (Em binário: 110)
+print(resultado)  ## Saída: 6 (Em binário: 110)
 ```
 
 ```{python}
-a = 5   # Em binário: 101
-b = 3   # Em binário: 011
+a = 5   ## Em binário: 101
+b = 3   ## Em binário: 011
 
-resultado = a ^ b  # Faz XOR bit a bit
+resultado = a ^ b  ## Faz XOR bit a bit
 
-print(resultado)  # Saída: 6 (Em binário: 110)
+print(resultado)  ## Saída: 6 (Em binário: 110)
 ```
 
-# Caracteres/Strings em Python
+## Caracteres/Strings em Python
 
 Em Python, uma string é uma sequência de caracteres que pode ser usada para armazenar e manipular textos. Strings são um dos tipos de dados mais comuns e úteis, e Python oferece uma grande variedade de métodos e operações para trabalhar com elas.
 
 As strings em Python podem ser definidas de diferentes maneiras, usando aspas simples (') ou aspas duplas (").
 
 ```{python}
-# Definindo strings
+## Definindo strings
 nome = 'Thiago'
 cidade = "São Carlos"
 ```
@@ -165,55 +165,55 @@ cidade = "São Carlos"
 - Concatenar Strings: Você pode unir duas ou mais strings usando o operador +.
 
 ```{python}
-# Concatenação
+## Concatenação
 nome_completo = "Thiago" + " " + "Rodrigo"
-print(nome_completo)  # Resultado: Thiago Rodrigo
+print(nome_completo)  ## Resultado: Thiago Rodrigo
 ```
 
 - Repetir Strings: Você pode repetir uma string múltiplas vezes usando o operador *.
 
 ```{python}
 repeticao = "Oi! " * 3
-print(repeticao)  # Resultado: Oi! Oi! Oi! 
+print(repeticao)  ## Resultado: Oi! Oi! Oi! 
 ```
 
 - Acessar Caracteres por Índice: As strings em Python são indexadas, e você pode acessar um caractere específico usando o índice (começando em 0).
 
 ```{python}
 nome = "Thiago"
-print(nome[0])  # Resultado: T
-print(nome[-1])  # Resultado: o (último caractere)
+print(nome[0])  ## Resultado: T
+print(nome[-1])  ## Resultado: o (último caractere)
 ```
 
 - Fatiar Strings (Slicing): Você pode pegar uma parte da string usando fatias (substrings).
 
 ```{python}
 nome = "Thiago"
-print(nome[0:3])  # Resultado: Thi (caracteres do índice 0 ao 2)
+print(nome[0:3])  ## Resultado: Thi (caracteres do índice 0 ao 2)
 ```
 
 - Comprimento de Strings: Para saber quantos caracteres uma string tem, use a função len().
 
 ```{python}
 nome = "Thiago"
-print(len(nome))  # Resultado: 6
+print(len(nome))  ## Resultado: 6
 ```
 
-## Métodos Úteis para Strings
+### Métodos Úteis para Strings
 
 - lower() e upper(): Convertem todas as letras para minúsculas ou maiúsculas, respectivamente.
 
 ```{python}
 nome = "Thiago"
-print(nome.lower())  # Resultado: thiago
-print(nome.upper())  # Resultado: THIAGO
+print(nome.lower())  ## Resultado: thiago
+print(nome.upper())  ## Resultado: THIAGO
 ```
 
 - strip(): Remove espaços em branco no início e no final da string.
 
 ```{python}
 frase = "   Olá!   "
-print(frase.strip())  # Resultado: Olá!
+print(frase.strip())  ## Resultado: Olá!
 ```
 
 - replace(): Substitui parte de uma string por outra.
@@ -221,7 +221,7 @@ print(frase.strip())  # Resultado: Olá!
 ```{python}
 frase = "Eu gosto de R"
 nova_frase = frase.replace("R", "Python")
-print(nova_frase)  # Resultado: Eu gosto de programação
+print(nova_frase)  ## Resultado: Eu gosto de programação
 ```
 
 - split(): Divide uma string em uma lista, utilizando um delimitador (por padrão, espaço).
@@ -229,7 +229,7 @@ print(nova_frase)  # Resultado: Eu gosto de programação
 ```{python}
 frase = "Eu gosto de Python"
 palavras = frase.split()
-print(palavras)  # Resultado: ['Eu', 'gosto', 'de', 'Python']
+print(palavras)  ## Resultado: ['Eu', 'gosto', 'de', 'Python']
 ```
 
 - join(): Une uma lista de strings em uma única string, usando um delimitador.
@@ -237,10 +237,10 @@ print(palavras)  # Resultado: ['Eu', 'gosto', 'de', 'Python']
 ```{python}
 lista = ['Thiago', 'Rodrigo', 'Ramos']
 nome_completo = " ".join(lista)
-print(nome_completo)  # Resultado: Thiago Rodrigo Ramos
+print(nome_completo)  ## Resultado: Thiago Rodrigo Ramos
 ```
 
-# Listas
+## Listas
 
 Em Python, listas são coleções ordenadas e mutáveis, o que significa que você pode modificar os elementos após sua criação. Elas são definidas usando colchetes [] e podem armazenar múltiplos tipos de dados, como inteiros, strings ou até mesmo outras listas.
 
@@ -251,23 +251,23 @@ Características principais:
 - Acesso por índice: os elementos podem ser acessados pelo índice, começando por 0.
 
 ```{python}
-# Criando uma lista
+## Criando uma lista
 frutas = ['maçã', 'banana', 'laranja']
 
-# Acessando elementos
-print(frutas[1])  # banana
+## Acessando elementos
+print(frutas[1])  ## banana
 
-# Modificando a lista
-frutas.append('uva')  # Adiciona 'uva' ao final
-frutas[0] = 'kiwi'    # Substitui 'maçã' por 'kiwi'
+## Modificando a lista
+frutas.append('uva')  ## Adiciona 'uva' ao final
+frutas[0] = 'kiwi'    ## Substitui 'maçã' por 'kiwi'
 
-# Removendo um elemento
+## Removendo um elemento
 frutas.remove('banana')
 
-print(frutas)  # ['kiwi', 'laranja', 'uva']
+print(frutas)  ## ['kiwi', 'laranja', 'uva']
 ```
 
-# Tuplas 
+## Tuplas 
 
 As tuplas em Python são semelhantes às listas, porém, diferentemente das listas, são imutáveis, ou seja, seus elementos não podem ser modificados após a criação. Elas são úteis quando você deseja garantir que uma sequência de valores permaneça inalterada. As tuplas são definidas usando parênteses ().
 Características principais:
@@ -277,25 +277,25 @@ Características principais:
 - Acesso por índice: assim como nas listas, os elementos podem ser acessados por índices, começando do 0.
 
 ```{python}
-# Criando uma tupla
+## Criando uma tupla
 coordenadas = (10, 20)
 
-# Acessando elementos
-print(coordenadas[0])  # 10
+## Acessando elementos
+print(coordenadas[0])  ## 10
 
 
-# Tuplas podem armazenar diferentes tipos de dados
+## Tuplas podem armazenar diferentes tipos de dados
 dados = ('Thiago', 30, True)
 
-print(dados)  # ('Thiago', 30, True)
+print(dados)  ## ('Thiago', 30, True)
 ```
 
 ```{python}
-## Tentando modificar a tupla (resultará em erro)
-# coordenadas[0] = 15  # TypeError: 'tuple' object does not support item assignment
+### Tentando modificar a tupla (resultará em erro)
+## coordenadas[0] = 15  # TypeError: 'tuple' object does not support item assignment
 ```
 
-# Dicionários
+## Dicionários
 
 Os dicionários em Python são coleções não ordenadas de pares chave-valor. Eles permitem associar valores a uma chave específica, sendo muito úteis quando você precisa acessar elementos por meio de uma chave, em vez de um índice. Eles são definidos com chaves {}.
 
@@ -306,29 +306,29 @@ Características principais:
 - Acesso por chave: os valores são acessados por suas chaves, que podem ser de tipos imutáveis (como strings ou números).
 
 ```{python}
-# Criando um dicionário
+## Criando um dicionário
 estudante = {
     'nome': 'Ana',
     'idade': 22,
     'curso': 'Estatística'
 }
 
-# Acessando valores
-print(estudante['nome'])  # Ana
+## Acessando valores
+print(estudante['nome'])  ## Ana
 
-# Modificando o dicionário
-estudante['idade'] = 23  # Atualiza o valor da chave 'idade'
+## Modificando o dicionário
+estudante['idade'] = 23  ## Atualiza o valor da chave 'idade'
 
-# Adicionando um novo par chave-valor
+## Adicionando um novo par chave-valor
 estudante['matricula'] = 12345
 
-# Removendo um elemento
+## Removendo um elemento
 del estudante['curso']
 
-print(estudante)  # {'nome': 'Ana', 'idade': 23, 'matricula': 12345}
+print(estudante)  ## {'nome': 'Ana', 'idade': 23, 'matricula': 12345}
 ```
 
-# Funções em Python
+## Funções em Python
 
 As funções em Python são blocos de código reutilizáveis que realizam uma tarefa específica. Elas ajudam a organizar o código, tornando-o mais modular e legível. Você pode definir suas próprias funções usando a palavra-chave def, e elas podem receber parâmetros, retornar valores ou simplesmente executar uma ação.
 Características principais:
@@ -342,11 +342,11 @@ def saudacao(nome):
     """Exibe uma saudação personalizada."""
     print(f"Olá, {nome}!")
 
-# Chamando a função
-saudacao("Thiago")  # Olá, Thiago!
+## Chamando a função
+saudacao("Thiago")  ## Olá, Thiago!
 ```
 
-## Return
+### Return
 Funções podem retornar valores usando a palavra-chave return. Isso permite que o resultado da função seja usado em outras partes do código.
 
 ```{python}
@@ -355,10 +355,10 @@ def soma(a, b):
     return a + b
 
 resultado = soma(3, 5)
-print(resultado)  # 8
+print(resultado)  ## 8
 ```
 
-## Parâmetros Opcionais e Valores Padrão
+### Parâmetros Opcionais e Valores Padrão
 
 Você pode definir parâmetros opcionais em uma função, atribuindo valores padrão a eles.
 
@@ -367,37 +367,37 @@ def saudacao(nome="amigo"):
     """Exibe uma saudação personalizada, com um nome padrão."""
     print(f"Olá, {nome}!")
 
-saudacao()         # Olá, amigo!
-saudacao("Rafael")  # Olá, Rafael!
+saudacao()         ## Olá, amigo!
+saudacao("Rafael")  ## Olá, Rafael!
 ```
 
-## Lambda
+### Lambda
 
 Python também oferece funções anônimas (ou funções lambda), que são funções curtas e sem nome. Elas são úteis quando você precisa de uma função simples e temporária.
 
 ```{python}
-# Função lambda para multiplicar dois números
+## Função lambda para multiplicar dois números
 multiplicar = lambda x, y: x * y
-print(multiplicar(3, 4))  # 12
+print(multiplicar(3, 4))  ## 12
 ```
 
-# Loops
+## Loops
 
 Os loops são estruturas fundamentais de programação que permitem executar um bloco de código repetidamente enquanto uma condição for verdadeira ou para cada item de uma sequência. Python oferece dois tipos principais de loops: for e while.
 
-## for
+### for
 
 O loop for é usado para iterar sobre uma sequência (como uma lista, tupla, string ou range) e executar um bloco de código para cada item dessa sequência. É especialmente útil quando o número de iterações é conhecido ou quando você deseja percorrer uma estrutura de dados.
 
 ```{python}
-# Iterando sobre uma lista
+## Iterando sobre uma lista
 frutas = ['maçã', 'banana', 'laranja']
 for fruta in frutas:
     print(fruta)
 ```
 
 ```{python}
-# Iterando de 0 a 4
+## Iterando de 0 a 4
 for i in range(5):
     print(i)
 ```
@@ -408,19 +408,19 @@ for i, fruta in enumerate(frutas):
     print(i, fruta)
 ```
 
-## while
+### while
 
 O loop while executa um bloco de código repetidamente enquanto uma condição for verdadeira. Ele é útil quando o número de iterações não é conhecido antecipadamente e depende de uma condição dinâmica.
 
 ```{python}
-# Loop enquanto o valor de x for menor que 5
+## Loop enquanto o valor de x for menor que 5
 x = 0
 while x < 5:
     print(x)
     x += 1
 ```
 
-## Controle de Loops: break e continue
+### Controle de Loops: break e continue
 
 **break**: interrompe o loop imediatamente, mesmo que a condição ainda seja verdadeira (no caso do while) ou ainda restem itens na sequência (no caso do for).
 
@@ -429,22 +429,22 @@ while x < 5:
 ```{python}
 for i in range(10):
     if i == 5:
-        break  # Interrompe o loop quando i é igual a 5
+        break  ## Interrompe o loop quando i é igual a 5
     print(i)
 ```
 
 ```{python}
 for i in range(5):
     if i == 3:
-        continue  # Pula a iteração quando i é igual a 3
+        continue  ## Pula a iteração quando i é igual a 3
     print(i)
 ```
 
-# Estruturas Condicionais: if, else e elif em Python
+## Estruturas Condicionais: if, else e elif em Python
 
 As estruturas condicionais em Python permitem que o programa tome decisões e execute blocos de código diferentes com base em condições específicas. As principais instruções condicionais são if, else e elif.
 
-## if
+### if
 
 A instrução if é usada para executar um bloco de código se uma condição for verdadeira. Se a condição avaliada for True, o bloco de código indentado após o if será executado.
 
@@ -454,7 +454,7 @@ if idade >= 18:
     print("Você é maior de idade")
 ```
 
-## else
+### else
 
 A instrução else é usada para executar um bloco de código se a condição do if for falsa. É como uma segunda opção, caso a primeira condição não seja atendida.
 
@@ -466,7 +466,7 @@ else:
     print("Você é menor de idade")
 ```
 
-## elif
+### elif
 
 A instrução elif (abreviação de else if) permite testar múltiplas condições. Se a condição if for falsa, o Python verificará a condição do elif. Você pode ter vários blocos elif em uma estrutura condicional.
 
@@ -480,7 +480,7 @@ else:
     print("Reprovado")
 ```
 
-## Operadores lógicos
+### Operadores lógicos
 
 As condições podem usar operadores lógicos para combinar mais de uma verificação:
 
@@ -498,11 +498,11 @@ else:
     print("Você não pode dirigir")
 ```
 
-# Bibliotecas Essenciais para Estatística: NumPy, Pandas e Matplotlib
+## Bibliotecas Essenciais para Estatística: NumPy, Pandas e Matplotlib
 
 Em Python, as bibliotecas NumPy, Pandas, e Matplotlib são amplamente utilizadas para análise de dados e computação científica. Elas fornecem ferramentas poderosas para lidar com grandes volumes de dados, realizar cálculos matemáticos eficientes e criar visualizações de alta qualidade. Vamos detalhar cada uma delas:
 
-## NumPy
+### NumPy
 
 NumPy (Numerical Python) é uma biblioteca fundamental para cálculos matemáticos em Python. Ela fornece suporte para arrays e matrizes multidimensionais, além de uma coleção de funções para operações com esses arrays.
 Principais características:
@@ -514,76 +514,76 @@ Principais características:
 ```{python}
 import numpy as np
 
-# Criando um array NumPy
+## Criando um array NumPy
 array = np.array([1, 2, 3, 4, 5])
 
-# Operações elementares
-print(array * 2)  # Multiplicação por escalar: [2 4 6 8 10]
+## Operações elementares
+print(array * 2)  ## Multiplicação por escalar: [2 4 6 8 10]
 
-# Matrizes e operações matriciais
+## Matrizes e operações matriciais
 matriz = np.array([[1, 2], [3, 4]])
-print(np.dot(matriz, matriz))  # Multiplicação de matrizes
+print(np.dot(matriz, matriz))  ## Multiplicação de matrizes
 ```
 
 ```{python}
 dados = np.array([1, 2, 3, 4, 5])
 media = np.mean(dados)
-print(media)  # Saída: 3.0
+print(media)  ## Saída: 3.0
 ```
 
 ```{python}
 mediana = np.median(dados)
-print(mediana)  # Saída: 3.0
+print(mediana)  ## Saída: 3.0
 ```
 
 ```{python}
 variancia = np.var(dados)
-print(variancia)  # Saída: 2.0
+print(variancia)  ## Saída: 2.0
 ```
 
 ```{python}
 desvio_padrao = np.std(dados)
-print(desvio_padrao)  # Saída: 1.4142135623730951
+print(desvio_padrao)  ## Saída: 1.4142135623730951
 ```
 
 ```{python}
 minimo = np.min(dados)
 maximo = np.max(dados)
-print(minimo, maximo)  # Saída: 1 5
+print(minimo, maximo)  ## Saída: 1 5
 ```
 
 ```{python}
 p25 = np.percentile(dados, 25)
 p50 = np.percentile(dados, 50)
 p75 = np.percentile(dados, 75)
-print(p25, p50, p75)  # Saída: 2.0 3.0 4.0
+print(p25, p50, p75)  ## Saída: 2.0 3.0 4.0
 ```
 
-## Pandas
+### Pandas
 
 Pandas é uma biblioteca poderosa para manipulação de dados em Python, frequentemente usada em projetos de ciência de dados, análise estatística e processamento de dados tabulares. Ela oferece estruturas de dados como DataFrames e Series que facilitam a organização, limpeza e análise de dados, tornando-a uma das ferramentas mais populares para lidar com grandes volumes de dados.
 
-### Séries
+#### Séries
 
 Uma Series é uma coluna de dados unidimensional, semelhante a um array de NumPy, mas com rótulos (índices) associados a cada valor. A Series pode armazenar qualquer tipo de dado, como inteiros, floats, strings, ou objetos.
 
 ```{python}
 import pandas as pd
 
-# Criando uma Series
+## Criando uma Series
 s = pd.Series([1, 2, 3, 4, 5], index=['a', 'b', 'c', 'd', 'e'])
 print(s)
 
-# Acessando elementos por índice
-print(s['b'])  # Saída: 2
+## Acessando elementos por índice
+print(s['b'])  ## Saída: 2
 ```
 
-### DataFrame
+#### DataFrame
 
 O DataFrame é a estrutura de dados mais importante do Pandas. Ele é uma tabela bidimensional (semelhante a uma planilha ou tabela SQL) com rótulos para as linhas e colunas. Cada coluna de um DataFrame é uma Series, e as colunas podem ter diferentes tipos de dados.
 
 ```{python}
-# Criando um DataFrame a partir de um dicionário
+## Criando um DataFrame a partir de um dicionário
 dados = {
     'Nome': ['Ana', 'Pedro', 'João'],
     'Idade': [23, 34, 19],
@@ -594,7 +594,7 @@ df = pd.DataFrame(dados)
 print(df)
 ```
 
-### Operações Essenciais com DataFrames
+#### Operações Essenciais com DataFrames
 1. Selecionar Colunas
 2. Filtragem de Dados
 3. Alteração de Dados
@@ -602,62 +602,62 @@ print(df)
 5. Tratamento de Dados Faltantes
 
 ```{python}
-# Selecionando uma única coluna
+## Selecionando uma única coluna
 print(df['Nome'])
 ```
 
 ```{python}
-# Selecionando múltiplas colunas
+## Selecionando múltiplas colunas
 print(df[['Nome', 'Cidade']])
 ```
 
 ```{python}
-# Filtrando o DataFrame para mostrar apenas pessoas com mais de 20 anos
+## Filtrando o DataFrame para mostrar apenas pessoas com mais de 20 anos
 filtro = df[df['Idade'] > 20]
 print(filtro)
 ```
 
 ```{python}
-# Alterando o valor de uma célula
+## Alterando o valor de uma célula
 df.loc[0, 'Idade'] = 24
-# Alterando uma coluna inteira
+## Alterando uma coluna inteira
 df['Idade'] = df['Idade'] + 1
 ```
 
 ```{python}
-# Agrupando por 'Cidade' e calculando a média de 'Idade'
+## Agrupando por 'Cidade' e calculando a média de 'Idade'
 agrupado = df.groupby('Cidade')['Idade'].mean()
 print(agrupado)
 ```
 
 ```{python}
-# Verificando valores faltantes
+## Verificando valores faltantes
 print(df.isnull().sum())
 
-# Removendo linhas com dados faltantes
+## Removendo linhas com dados faltantes
 df_limpo = df.dropna()
 
-# Preenchendo valores faltantes
+## Preenchendo valores faltantes
 df['Idade'].fillna(df['Idade'].mean())
 ```
 
-### Estatísticas e Operações com Dados
+#### Estatísticas e Operações com Dados
 
 Pandas facilita o cálculo de estatísticas descritivas, como média, desvio padrão, contagem, entre outras.
 
 ```{python}
-# Estatísticas descritivas
+## Estatísticas descritivas
 print(df.describe())
 ```
 
 ```{python}
-# Soma, contagem e média de colunas específicas
+## Soma, contagem e média de colunas específicas
 print(df['Idade'].sum())
 print(df['Idade'].count())
 print(df['Idade'].mean())
 ```
 
-## Matplotlib: Biblioteca de Visualização de Dados em Python
+### Matplotlib: Biblioteca de Visualização de Dados em Python
 
 Matplotlib é uma biblioteca poderosa e flexível para visualização de dados em Python. Ela permite criar uma ampla gama de gráficos, desde simples gráficos de linha até visualizações complexas e altamente customizadas. Embora outras bibliotecas como Seaborn ou Plotly sejam populares para visualizações avançadas, Matplotlib continua sendo o núcleo para muitas dessas bibliotecas e é amplamente utilizado por sua versatilidade e integração com NumPy e Pandas.
 
@@ -666,25 +666,25 @@ A maneira mais comum de usar Matplotlib é através do submódulo pyplot, que fo
 ```{python}
 import matplotlib.pyplot as plt
 
-# Dados
+## Dados
 x = [0, 1, 2, 3, 4]
 y = [0, 1, 4, 9, 16]
 
-# Criando um gráfico de linha
+## Criando um gráfico de linha
 plt.plot(x, y)
 
-# Adicionando título e rótulos aos eixos
+## Adicionando título e rótulos aos eixos
 plt.title('Gráfico de Quadrados')
 plt.xlabel('Eixo X')
 plt.ylabel('Eixo Y')
 
-# Exibindo o gráfico
+## Exibindo o gráfico
 plt.show()
 ```
 
-### Tipos de Gráficos Comuns
+#### Tipos de Gráficos Comuns
 
-#### Linha
+##### Linha
 
 ```{python}
 x = [0, 1, 2, 3, 4]
@@ -694,7 +694,7 @@ plt.title('Gráfico de Linha')
 plt.show()
 ```
 
-#### Dispersão
+##### Dispersão
 
 ```{python}
 plt.scatter(x, y)
@@ -702,7 +702,7 @@ plt.title('Gráfico de Dispersão')
 plt.show()
 ```
 
-#### Barras
+##### Barras
 
 ```{python}
 #| scrolled: true
@@ -713,7 +713,7 @@ plt.title('Gráfico de Barras')
 plt.show()
 ```
 
-#### Histograma
+##### Histograma
 
 ```{python}
 import numpy as np
@@ -724,7 +724,7 @@ plt.title('Histograma de Dados Aleatórios')
 plt.show()
 ```
 
-#### Pizza
+##### Pizza
 
 ```{python}
 tamanhos = [15, 30, 45, 10]
@@ -734,17 +734,17 @@ plt.title('Gráfico de Pizza')
 plt.show()
 ```
 
-### Customização
+#### Customização
 
-#### Alterando Cores e Estilos de Linha
+##### Alterando Cores e Estilos de Linha
 
 ```{python}
-plt.plot(x, y, color='red', linestyle='--', marker='o')  # Linha vermelha com marcador
+plt.plot(x, y, color='red', linestyle='--', marker='o')  ## Linha vermelha com marcador
 plt.title('Gráfico Customizado')
 plt.show()
 ```
 
-#### Adicionando Títulos e Rótulos aos Eixos
+##### Adicionando Títulos e Rótulos aos Eixos
 
 ```{python}
 plt.plot(x, y)
@@ -754,17 +754,17 @@ plt.ylabel('Eixo Y')
 plt.show()
 ```
 
-#### Legendas
+##### Legendas
 
 ```{python}
 plt.plot(x, y, label='Quadrados')
 plt.plot(x, [i**3 for i in x], label='Cubos')
 plt.title('Gráfico com Legenda')
-plt.legend()  # Adiciona legenda
+plt.legend()  ## Adiciona legenda
 plt.show()
 ```
 
-#### Ajustando os Eixos
+##### Ajustando os Eixos
 
 ```{python}
 plt.plot(x, y)
@@ -774,17 +774,17 @@ plt.title('Ajuste de Eixos')
 plt.show()
 ```
 
-#### Subplot
+##### Subplot
 
 ```{python}
-# Criando uma figura com dois gráficos lado a lado
+## Criando uma figura com dois gráficos lado a lado
 plt.figure(figsize=(10, 4))
 
-plt.subplot(1, 2, 1)  # 1 linha, 2 colunas, 1º gráfico
+plt.subplot(1, 2, 1)  ## 1 linha, 2 colunas, 1º gráfico
 plt.plot(x, y)
 plt.title('Gráfico de Linha')
 
-plt.subplot(1, 2, 2)  # 1 linha, 2 colunas, 2º gráfico
+plt.subplot(1, 2, 2)  ## 1 linha, 2 colunas, 2º gráfico
 plt.bar(categorias, valores)
 plt.title('Gráfico de Barras')
 
@@ -797,20 +797,20 @@ plt.show()
 ```{python}
 import pandas as pd
 
-# Criando um DataFrame
+## Criando um DataFrame
 dados = {
     'Dia': [1, 2, 3, 4, 5],
     'Vendas': [200, 300, 250, 400, 350]
 }
 df = pd.DataFrame(dados)
 
-# Plotando os dados
+## Plotando os dados
 df.plot(x='Dia', y='Vendas', kind='line')
 plt.title('Vendas ao Longo dos Dias')
 plt.show()
 ```
 
-## 2.15 Exercícios
+## Exercícios
 
 ### Exercício 1.
 Execute as seguintes operações no Python e interprete os resultados:
@@ -883,6 +883,7 @@ Crie um DataFrame com os dados de temperatura de uma semana:
 | Dom   | 20               |
 
 Agora, responda às perguntas abaixo:
+
 1. Filtre todos os dias em que a temperatura foi maior que 21°C.
 2. Calcule a média das temperaturas da semana.
 3. Crie um gráfico de linha (`plt.plot`) que mostre a variação da temperatura ao longo da semana.
