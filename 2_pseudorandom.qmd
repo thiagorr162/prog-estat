@@ -319,7 +319,7 @@ plt.show()
 
 
 ## Gerando números uniformes com uma moeda
-
+Este código mostra como é possível gerar números uniformemente distribuídos no intervalo [0, 1] utilizando o lançamento de uma moeda justa. A ideia central baseia-se na expansão binária, onde cada lançamento da moeda representa um bit da representação binária do número. Ao somar $2^{-(i+1))}$ para cada bit, construímos o número em base 2, garantindo uma distribuição uniforme. Isso ocorre porque cada bit tem uma probabilidade igual de ser 0 ou 1, criando uma sequência que cobre uniformemente o intervalo desejado.
 
 ::: {.panel-tabset group="language"}
 # R
