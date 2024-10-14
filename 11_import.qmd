@@ -73,7 +73,7 @@ $$
 \mathbb{E}[h(X)] = \int h(x) f(x) dx = \int h(x) \frac{f(x)}{g(x)} g(x) dx = \mathbb{E}\left[ h(Y) \frac{f(Y)}{g(Y)} \right],
 $$
 em que $Y$ tem densidade $g$. Isso vale desde que $g$ possua suporte tão ou mais amplo que $f(x)$.
-Assim, podemos estimar $\E[h(X)]$ usando $n$ valores simulados de $Y$ independentemente pela fórmula:
+Assim, podemos estimar $\mathbb{E}[h(X)]$ usando $n$ valores simulados de $Y$ independentemente pela fórmula:
 
 $$
 \hat\theta_n = \frac{1}{n}\sum_{i=1}^n \frac{f(y_i)}{g(y_i)} h(y_i)
