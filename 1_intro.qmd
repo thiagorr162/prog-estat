@@ -166,7 +166,10 @@ plt.show()
 ```
 :::
 
-## Pergunta: precisamos da função np.random.choice/set.seed?
+## Conseguimos repetir o experimento anterior utilizando apenas uma uniforme?
+
+Podemos utilizar uma única distribuição uniforme para simular o lançamento de um dado viciado. Ao dividir o intervalo [0, 1] em partes proporcionais às probabilidades das faces do dado, podemos mapear cada número aleatório gerado a uma das faces, de acordo com o intervalo no qual o número cai. Abaixo está um exemplo de como realizar essa simulação.
+
 
 ::: {.panel-tabset group="language"}
 # R
@@ -285,3 +288,65 @@ plt.show()
 :::
 
 **Ou seja, se conseguimos simular uma distribuição uniforme, conseguimos simular uma distribuição discreta. Isso vale de forma mais geral?**
+
+## Importância da Geração de Números Aleatórios em Algoritmos de Machine Learning
+
+A geração de números aleatórios também desempenha um papel crucial em vários algoritmos de Machine Learning. Muitos algoritmos utilizam aleatoriedade em diferentes etapas do processo de modelagem, como na inicialização de pesos, na amostragem de dados e na divisão de conjuntos de treino e teste. Esses elementos aleatórios influenciam diretamente o desempenho e os resultados dos modelos.
+
+### Exemplo: Algoritmo de Random Forest
+
+O Random Forest é um algoritmo de aprendizado supervisionado que utiliza números aleatórios em várias etapas do processo. Ele consiste em construir múltiplas árvores de decisão de forma aleatória, e cada árvore é gerada a partir de um subconjunto aleatório de dados de treino e de variáveis (features). A aleatoriedade ajuda a reduzir o overfitting e a melhorar a robustez do modelo.
+
+Abaixo está um exemplo de como o Random Forest utiliza aleatoriedade na escolha dos subconjuntos de dados:
+
+::: {.panel-tabset group="language"}
+# R
+
+```{r}
+# Carregando o dataset Iris e definindo as variáveis preditoras e resposta
+data(iris)
+X <- iris[, 1:4]
+y <- iris[, 5]
+
+# Dividindo os dados de forma aleatória em treino e teste
+set.seed(42)
+index <- sample(1:nrow(iris), 0.7 * nrow(iris))
+X_train <- X[index, ]
+X_test <- X[-index, ]
+y_train <- y[index]
+y_test <- y[-index]
+
+# Treinando o modelo Random Forest
+library(randomForest)
+modelo <- randomForest(X_train, as.factor(y_train), ntree=100, seed=42)
+
+# Avaliando o modelo no conjunto de teste
+predicoes <- predict(modelo, X_test)
+accuracy <- sum(predicoes == y_test) / length(y_test)
+cat("Acurácia do modelo:", accuracy, "\n")
+```
+
+# Python
+
+```{python}
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+
+# Carregando o dataset Iris
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Dividindo os dados de forma aleatória em treino e teste
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Treinando o modelo Random Forest
+clf = RandomForestClassifier(n_estimators=100, random_state=42)
+clf.fit(X_train, y_train)
+
+# Avaliando o modelo no conjunto de teste
+accuracy = clf.score(X_test, y_test)
+print(f"Acurácia do modelo: {accuracy:.2f}")
+```
+:::
