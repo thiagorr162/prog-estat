@@ -970,11 +970,13 @@ dados.long <- dados.originais %>%
 dados.long
 ```
 
-Agora, vamos criar um gráfico de linhas que mostra as mudanças na pressão arterial ao longo do tempo para cada paciente:
+Agora, vamos criar um gráfico de linhas que mostra as mudanças na pressão arterial ao longo do tempo para cada paciente. Note que estamos reordenando o eixo x para levar em conta o carater
+temporal do problema.
 
 ```{r}
 #| code-fold: false
-ggplot(dados.long, aes(x = instante, y = pressao.arterial, group = paciente, color = paciente)) +
+ggplot(dados.long, aes(x = factor(instante, levels = c("pressao.antes", "pressao.durante", "pressao.depois")),
+                       y = pressao.arterial, group = paciente, color = paciente)) +
   geom_line(size = 1) +
   geom_point(size = 3) +
   labs(title = "Variação da Pressão Arterial dos Pacientes",
