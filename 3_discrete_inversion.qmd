@@ -210,10 +210,10 @@ $$
 k = \frac{\log(1 - u)}{\log(1 - p)}
 $$
 
-Como $k$ precisa ser um número inteiro (já que a distribuição geométrica conta o número de tentativas), usamos a função de arredondamento "para cima" ($\lceil \cdot \rceil$), conhecida como a **função teto**:
+Como $k$ precisa ser um número inteiro (já que a distribuição geométrica conta o número de tentativas), usamos a função de arredondamento "para cima" ($\lfloor \cdot \rfloor$), conhecida como a **função piso**:
 
 $$
-k = \lceil \frac{\log(1 - u)}{\log(1 - p)} \rceil
+k = \lfloor \frac{\log(1 - u)}{\log(1 - p)} \rfloor
 $$
 
 
@@ -221,7 +221,7 @@ $$
 Portanto, a fórmula da inversa da CDF da distribuição geométrica é:
 
 $$
-k = \lceil \frac{\log(1 - u)}{\log(1 - p)} \rceil
+k = \lfloor \frac{\log(1 - u)}{\log(1 - p)} \rfloor
 $$
 
 Podemos agora gerar variáveis aleatórias com distribuição geométrica a partir de um número aleatório uniforme $u \in [0, 1)$.
@@ -233,8 +233,8 @@ Podemos agora gerar variáveis aleatórias com distribuição geométrica a part
 ```{r}
 # Função para gerar a inversa da CDF para a distribuição geométrica
 inversa_cdf_geometrica <- function(p, u) {
-  # Usando a fórmula inversa da CDF geométrica: F⁻¹(u) = ceil(log(1 - u) / log(1 - p))
-  k <- ceiling(log(1 - u) / log(1 - p))
+  # Usando a fórmula inversa da CDF geométrica: F⁻¹(u) = floor(log(1 - u) / log(1 - p))
+  k <- floor(log(1 - u) / log(1 - p))
   return(as.integer(k))
 }
 
@@ -369,13 +369,13 @@ A seguir implementamos esse método:
 inversa_cdf_poisson_recursiva <- function(lam, u) {
   k <- 0
   p <- exp(-lam)  # P(X=0)
-  F <- p  # Iniciamos com a probabilidade P(X=0)
+  F_acm <- p  # Iniciamos com a probabilidade P(X=0)
   
   # Continuamos somando até que F >= u
-  while (u > F) {
+  while (u > F_acm) {
     k <- k + 1
     p <- p * lam / k  # Atualiza a probabilidade recursivamente para o próximo valor
-    F <- F + p
+    F_acm <- F_acm + p
   }
   
   return(k)
