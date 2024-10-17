@@ -414,8 +414,8 @@ window.Quarto = {
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gc</span>()  <span class="co"># Essa função libera a memória utilizada</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          used (Mb) gc trigger (Mb) max used (Mb)
-Ncells  624763 33.4    1280605 68.4  1280605 68.4
-Vcells 1175409  9.0    8388608 64.0  1923922 14.7</code></pre>
+Ncells  624765 33.4    1280622 68.4  1280622 68.4
+Vcells 1175499  9.0    8388608 64.0  1923922 14.7</code></pre>
 </div>
 </div>
 </section>
@@ -804,7 +804,7 @@ Vcells 1175409  9.0    8388608 64.0  1923922 14.7</code></pre>
 <span id="cb115-8"><a href="#cb115-8" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">aux</span>(x))[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>user.self 
-    0.019 </code></pre>
+    0.031 </code></pre>
 </div>
 </div>
 <ol start="2" type="1">
@@ -821,7 +821,7 @@ Vcells 1175409  9.0    8388608 64.0  1923922 14.7</code></pre>
 <span id="cb117-8"><a href="#cb117-8" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">aux</span>(x))[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>user.self 
-    0.008 </code></pre>
+    0.014 </code></pre>
 </div>
 </div>
 <ol start="3" type="1">
@@ -834,7 +834,7 @@ Vcells 1175409  9.0    8388608 64.0  1923922 14.7</code></pre>
 <span id="cb119-4"><a href="#cb119-4" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">aux</span>(x))[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>user.self 
-        0 </code></pre>
+    0.001 </code></pre>
 </div>
 </div>
 <p>Note que, em geral, funções nativas do R são muito mais rápidas.</p>
@@ -919,7 +919,7 @@ Vcells 1175409  9.0    8388608 64.0  1923922 14.7</code></pre>
 <div class="sourceCode cell-code" id="cb136"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a>ajuste<span class="sc">$</span>coefficients</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)           x 
-   1.138769    1.996776 </code></pre>
+   1.154312    1.980248 </code></pre>
 </div>
 </div>
 <p>Para adicionar a reta estimada ao gráfico:</p>
@@ -1046,26 +1046,26 @@ x   a b c d
 <div class="sourceCode cell-code" id="cb172"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb172-1"><a href="#cb172-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(dados, <span class="dv">2</span>, mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     altura     salario        peso 
-   1.717038 3024.262162   60.359356 </code></pre>
+   1.712802 3056.478035   60.028780 </code></pre>
 </div>
 </div>
 <p>Aqui, o argumento <code>2</code> indica que a operação deve ser aplicada a cada coluna. Para calcular a soma de cada linha:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb174"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb174-1"><a href="#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(dados, <span class="dv">1</span>, sum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  [1] 3310.919 3344.379 1552.345 2846.691 3010.883 3117.258 3002.187 3105.004
-  [9] 3324.054 3170.233 3634.006 2568.657 3238.486 1972.870 2059.641 3107.107
- [17] 2953.638 3593.198 3351.747 2810.130 3112.946 3014.574 3560.783 3165.261
- [25] 3567.262 3579.435 2813.775 2935.549 2921.415 3450.546 3160.069 2327.616
- [33] 3134.634 3508.648 3284.959 2657.808 3420.866 3208.985 2421.887 2999.553
- [41] 2537.536 2287.369 4359.103 3503.003 3557.106 2093.955 3459.698 2775.285
- [49] 3248.967 2560.571 4006.080 3607.506 3248.713 2753.230 2413.614 2750.312
- [57] 3532.219 3405.615 2090.370 3245.156 3836.755 3412.607 2568.631 2808.604
- [65] 3265.965 3614.300 2479.819 2256.282 3588.693 2708.560 3526.927 2472.195
- [73] 3990.813 3558.582 2684.740 2789.782 3413.969 3361.476 4070.815 2424.963
- [81] 3809.271 3390.555 2402.190 3450.869 3414.847 3315.266 3235.993 3408.711
- [89] 3259.849 2298.559 3092.682 3868.862 2899.131 3747.044 2698.021 3257.144
- [97] 2827.594 2998.961 2916.728 2751.689</code></pre>
+<pre><code>  [1] 3191.155 2837.206 2589.193 3260.949 2620.260 2753.014 2753.101 3792.237
+  [9] 3565.506 2138.712 2722.039 3456.875 2924.733 2672.234 2840.823 3631.485
+ [17] 2939.590 2540.353 3515.462 2392.436 2516.160 2767.762 3621.697 2419.962
+ [25] 2848.872 3593.403 2404.317 2774.568 3907.745 3002.632 2953.561 3467.141
+ [33] 3084.359 2819.575 2946.525 2021.748 3101.013 3301.291 3593.746 2950.169
+ [41] 3151.746 3334.000 2193.897 3110.508 3910.017 3886.762 3823.242 2507.482
+ [49] 2889.777 2988.565 2898.044 3079.363 3156.593 3062.345 4270.090 3546.569
+ [57] 2973.382 3301.528 3176.595 3197.746 2962.276 3637.322 3044.147 2669.265
+ [65] 2720.580 3304.817 3065.612 2502.346 3055.276 2133.150 3302.078 3117.183
+ [73] 2968.845 3887.897 3322.393 3022.484 3143.672 2480.734 3700.124 3242.543
+ [81] 3926.060 2127.239 3289.614 3972.058 3473.735 3187.014 3016.336 3924.722
+ [89] 2857.974 3642.010 3625.604 2732.716 3584.430 3380.146 3455.281 3338.922
+ [97] 3512.393 3425.544 2354.836 4020.727</code></pre>
 </div>
 </div>
 </section>
@@ -1085,16 +1085,16 @@ x   a b c d
 <span id="cb176-10"><a href="#cb176-10" aria-hidden="true" tabindex="-1"></a>estatisticas<span class="sc">$</span>altura</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$media
-[1] 1.717038
+[1] 1.712802
 
 $mediaAparada
-[1] 1.719395
+[1] 1.718216
 
 $mediana
-[1] 1.74454
+[1] 1.69759
 
 $maximo
-[1] 2.166774</code></pre>
+[1] 2.131774</code></pre>
 </div>
 </div>
 </section>
@@ -1701,15 +1701,16 @@ Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre
 9 Antonio  pressao.depois                50</code></pre>
 </div>
 </div>
-<p>Agora, vamos criar um gráfico de linhas que mostra as mudanças na pressão arterial ao longo do tempo para cada paciente:</p>
+<p>Agora, vamos criar um gráfico de linhas que mostra as mudanças na pressão arterial ao longo do tempo para cada paciente. Note que estamos reordenando o eixo x para levar em conta o carater temporal do problema.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb231"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb231-1"><a href="#cb231-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dados.long, <span class="fu">aes</span>(<span class="at">x =</span> instante, <span class="at">y =</span> pressao.arterial, <span class="at">group =</span> paciente, <span class="at">color =</span> paciente)) <span class="sc">+</span></span>
-<span id="cb231-2"><a href="#cb231-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb231-3"><a href="#cb231-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb231-4"><a href="#cb231-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Variação da Pressão Arterial dos Pacientes"</span>,</span>
-<span id="cb231-5"><a href="#cb231-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Instante"</span>,</span>
-<span id="cb231-6"><a href="#cb231-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Pressão Arterial"</span>) <span class="sc">+</span></span>
-<span id="cb231-7"><a href="#cb231-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb231"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb231-1"><a href="#cb231-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dados.long, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(instante, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"pressao.antes"</span>, <span class="st">"pressao.durante"</span>, <span class="st">"pressao.depois"</span>)),</span>
+<span id="cb231-2"><a href="#cb231-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> pressao.arterial, <span class="at">group =</span> paciente, <span class="at">color =</span> paciente)) <span class="sc">+</span></span>
+<span id="cb231-3"><a href="#cb231-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb231-4"><a href="#cb231-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb231-5"><a href="#cb231-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Variação da Pressão Arterial dos Pacientes"</span>,</span>
+<span id="cb231-6"><a href="#cb231-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Instante"</span>,</span>
+<span id="cb231-7"><a href="#cb231-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Pressão Arterial"</span>) <span class="sc">+</span></span>
+<span id="cb231-8"><a href="#cb231-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
