@@ -12,15 +12,20 @@ Passos Gerais para Gerar Variáveis Aleatórias Discretas com a Técnica da Inve
 
 4. Retornar esse valor como a variável aleatória gerada.
 
+A seguir, veremos esse procedimento em detalhes.
+
+
+
 ## Geração de Variáveis Aleatórias Discretas Genéricas
 
-Dado um conjunto de probabilidades $p(x_i)$, onde $x_i$ são os valores possíveis da variável aleatória discreta, e $p(x_i)$ são suas respectivas probabilidades, a CDF $F(x)$ é calculada como:
+Considere uma v.a. discreta $X$ que assume valores em em $x_1,x_2,\ldots$.
+Dadas as probabilidades de cada um desses valores $p(x_i)$, a CDF $F(x)$ é definida como:
 
 $$
 F(x_i) = \sum_{j=1}^{i} p(x_j)
 $$
 
-O algoritmo para gerar uma variável aleatória discreta genérica é:
+O algoritmo da inversão para gerar uma variável aleatória discreta genérica é:
 
 1. Gerar um número aleatório $u \in [0, 1)$.
 
@@ -29,6 +34,12 @@ O algoritmo para gerar uma variável aleatória discreta genérica é:
 3. Retornar $x_i$.
 
 
+Este método funciona pois $x_i$ é o  menor valor $x_i$ tal que $F(x_i) \geq u$
+se, e só se, $F(x_i) \geq u \geq F(x_{i=1})$.
+Assim, a probabilidade do valor gerado por esse algoritmo ser $x_i$ 
+é
+
+$$P(F(x_i) \geq U \geq F(x_{i=1}))=F(x_i) - F(x_{i-1})= \sum_{j=1}^{i} p(x_j) - \sum_{j=1}^{i-1} p(x_j)=p(x_i).$$
 
 
 ::: {.panel-tabset group="language"}
@@ -114,7 +125,8 @@ plt.show()
 
 ## Inversa da CDF
 
-A **inversa da CDF** (função de distribuição acumulada), também conhecida como a **função quantil** ou **função percentil**, é uma função utilizada para gerar variáveis aleatórias a partir de uma distribuição específica.
+O método da inversão recebe esse nome pois seu algoritmo também pode ser caracterizado pela função inversa da CDF.
+A **inversa da CDF** (função de distribuição acumulada), também conhecida como a **função quantil** ou **função percentil**, é  definida da seguinte forma:
 
 **Definição:** Seja $F(x)$ a função de distribuição acumulada (CDF) de uma variável aleatória $X$. A inversa da CDF, denotada por $F^{-1}(p)$, é definida como:
 
@@ -126,27 +138,28 @@ Em palavras:
 - A inversa da CDF $F^{-1}(p)$ mapeia um número $p$, que representa uma probabilidade acumulada, de volta ao valor $x$ correspondente da variável aleatória $X$, tal que a probabilidade acumulada até $x$ é igual a $p$.
 - Isso significa que, se $p = F(x)$, então $F^{-1}(p) = x$.
 
+Assim, o menor valor $x_i$ tal que $F(x_i) \geq u$
+é justamente $F^{-1}(u)$, de modo que o  algoritmo pode ser escrito como
 
-## Geração de Variáveis Aleatórias com Distribuição Geométrica
+1. Gerar um número aleatório $u \in [0, 1)$.
+
+2. Retornar $F^{-1}(u)$.
+
+
+## Exemplo 1: Geração de Variáveis Aleatórias com Distribuição Geométrica
 
 A distribuição geométrica modela o número de tentativas até o primeiro sucesso em uma sequência de experimentos de Bernoulli. Se a probabilidade de sucesso em cada tentativa é $p$, a PMF é dada por:
+$$
+P(X = k) = (1 - p)^{k} p \quad \text{para} \quad k = 0, 1, 2, \dots
+$$
+onde  $k$ representa o número  de falhas antes do primeiro sucesso.
 
-### Derivação da Inversa da CDF para a Distribuição Geométrica
 
-A fórmula da **inversa da CDF** para a distribuição geométrica foi obtida a partir da definição da função de distribuição acumulada (CDF) da distribuição geométrica e da aplicação da técnica da inversão.
-
-#### CDF da Distribuição Geométrica
-
-A função de distribuição acumulada (CDF) da distribuição geométrica com parâmetro $p$ (a probabilidade de sucesso) para o número de falhas $k-1$ antes do primeiro sucesso é dada por:
+Vamos agora obter a fórmula da **inversa da CDF** para a distribuição geométrica foi obtida a partir da   função de distribuição acumulada (CDF) da distribuição geométrica:
 
 $$
 F(k) = 1 - (1 - p)^k
 $$
-
-Essa equação expressa a probabilidade acumulada de obter o primeiro sucesso em até $k$ tentativas.
-
-#### Inversa da CDF
-
 Queremos encontrar a **inversa da CDF**, ou seja, a fórmula que, dado um valor $u$ entre 0 e 1, nos permita calcular o valor $k$ tal que $F(k) = u$.
 
 Sabemos que:
@@ -157,7 +170,6 @@ $$
 
 Nosso objetivo é resolver essa equação para $k$. Vamos fazer isso passo a passo.
 
-#### Isolando o termo com $k$
 
 Começamos isolando o termo $(1 - p)^k$:
 
@@ -177,7 +189,6 @@ $$
 1 - u = (1 - p)^k
 $$
 
-#### Aplicando o Logaritmo
 
 Agora aplicamos o logaritmo natural (log base $e$) em ambos os lados para resolver $k$:
 
@@ -191,7 +202,7 @@ $$
 \log(1 - u) = k \cdot \log(1 - p)
 $$
 
-#### Isolando $k$
+
 
 Agora, isolamos $k$:
 
@@ -205,7 +216,7 @@ $$
 k = \lceil \frac{\log(1 - u)}{\log(1 - p)} \rceil
 $$
 
-### Conclusão
+
 
 Portanto, a fórmula da inversa da CDF da distribuição geométrica é:
 
@@ -213,7 +224,7 @@ $$
 k = \lceil \frac{\log(1 - u)}{\log(1 - p)} \rceil
 $$
 
-Esta fórmula nos permite gerar variáveis aleatórias com distribuição geométrica a partir de um número aleatório uniforme $u \in [0, 1)$.
+Podemos agora gerar variáveis aleatórias com distribuição geométrica a partir de um número aleatório uniforme $u \in [0, 1)$.
 
 
 
@@ -318,7 +329,7 @@ plt.show()
 ```
 :::
 
-## Geração de Variáveis Aleatórias com Distribuição Poisson
+## Exemplo 2: Geração de Variáveis Aleatórias com Distribuição Poisson
 
 A distribuição de Poisson é usada para modelar o número de eventos que ocorrem em um intervalo de tempo ou espaço fixo, onde os eventos ocorrem com uma taxa constante $\lambda$ e de forma independente.
 
@@ -328,9 +339,9 @@ $$
 P(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}, \quad k = 0, 1, 2, \ldots
 $$
 
-### Derivação da Inversa da CDF para a Distribuição Poisson Usando a Fórmula Recursiva
 
-A **distribuição de Poisson** tem uma fórmula recursiva que pode ser usada para calcular as probabilidades de forma mais eficiente. Em vez de recalcular a probabilidade $P(X = k)$ a cada vez, podemos usar a seguinte relação recursiva:
+
+A distribuição de Poisson tem uma fórmula recursiva que pode ser usada para calcular as probabilidades de forma mais eficiente. Em vez de recalcular a probabilidade $P(X = k)$ a cada vez, podemos usar a seguinte relação recursiva:
 
 $$
 P(X = k+1) = \frac{\lambda}{k+1} \cdot P(X = k)
@@ -348,14 +359,8 @@ Para gerar uma variável aleatória de Poisson usando a técnica da inversão e 
 2. Calcular a CDF acumulada para valores de $k$, somando as probabilidades da PMF (usando a relação recursiva) até que a CDF acumulada seja maior ou igual a $u$.
 3. O menor valor $k$ tal que $F(k) \geq u$ será o número de eventos gerado pela distribuição Poisson.
 
-### Explicação:
 
-1. **Fórmula Recursiva**: A relação recursiva $P(X = k+1) = \frac{\lambda}{k+1} \cdot P(X = k)$ permite calcular as probabilidades de forma eficiente, atualizando a probabilidade de $P(X = k+1)$ a partir de $P(X = k)$.
-   
-2. **Eficiência**: Esta técnica evita o cálculo repetido de fatoriais, tornando-a mais eficiente, especialmente quando se está gerando variáveis para grandes valores de $\lambda$ ou quando se deseja calcular probabilidades para muitos eventos $k$.
-
-Este método é amplamente utilizado por ser mais rápido e computacionalmente eficiente para a geração de variáveis aleatórias de Poisson.
-
+A seguir implementamos esse método:
 
 ::: {.panel-tabset group="language"}
 # R
