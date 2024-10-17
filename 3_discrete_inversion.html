@@ -491,13 +491,13 @@ u - 1 = - (1 - p)^k
 <p><span class="math display">\[
 k = \frac{\log(1 - u)}{\log(1 - p)}
 \]</span></p>
-<p>Como <span class="math inline">\(k\)</span> precisa ser um número inteiro (já que a distribuição geométrica conta o número de tentativas), usamos a função de arredondamento “para cima” (<span class="math inline">\(\lceil \cdot \rceil\)</span>), conhecida como a <strong>função teto</strong>:</p>
+<p>Como <span class="math inline">\(k\)</span> precisa ser um número inteiro (já que a distribuição geométrica conta o número de tentativas), usamos a função de arredondamento “para cima” (<span class="math inline">\(\lfloor \cdot \rfloor\)</span>), conhecida como a <strong>função piso</strong>:</p>
 <p><span class="math display">\[
-k = \lceil \frac{\log(1 - u)}{\log(1 - p)} \rceil
+k = \lfloor \frac{\log(1 - u)}{\log(1 - p)} \rfloor
 \]</span></p>
 <p>Portanto, a fórmula da inversa da CDF da distribuição geométrica é:</p>
 <p><span class="math display">\[
-k = \lceil \frac{\log(1 - u)}{\log(1 - p)} \rceil
+k = \lfloor \frac{\log(1 - u)}{\log(1 - p)} \rfloor
 \]</span></p>
 <p>Podemos agora gerar variáveis aleatórias com distribuição geométrica a partir de um número aleatório uniforme <span class="math inline">\(u \in [0, 1)\)</span>.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
@@ -509,8 +509,8 @@ k = \lceil \frac{\log(1 - u)}{\log(1 - p)} \rceil
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Função para gerar a inversa da CDF para a distribuição geométrica</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>inversa_cdf_geometrica <span class="ot">&lt;-</span> <span class="cf">function</span>(p, u) {</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Usando a fórmula inversa da CDF geométrica: F⁻¹(u) = ceil(log(1 - u) / log(1 - p))</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(<span class="fu">log</span>(<span class="dv">1</span> <span class="sc">-</span> u) <span class="sc">/</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">-</span> p))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Usando a fórmula inversa da CDF geométrica: F⁻¹(u) = floor(log(1 - u) / log(1 - p))</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="fu">floor</span>(<span class="fu">log</span>(<span class="dv">1</span> <span class="sc">-</span> u) <span class="sc">/</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">-</span> p))</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">as.integer</span>(k))</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
@@ -675,13 +675,13 @@ P(X = k+1) = \frac{\lambda}{k+1} \cdot P(X = k)
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>inversa_cdf_poisson_recursiva <span class="ot">&lt;-</span> <span class="cf">function</span>(lam, u) {</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="dv">0</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span>lam)  <span class="co"># P(X=0)</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  F <span class="ot">&lt;-</span> p  <span class="co"># Iniciamos com a probabilidade P(X=0)</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  F_acm <span class="ot">&lt;-</span> p  <span class="co"># Iniciamos com a probabilidade P(X=0)</span></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Continuamos somando até que F &gt;= u</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (u <span class="sc">&gt;</span> F) {</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (u <span class="sc">&gt;</span> F_acm) {</span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    k <span class="ot">&lt;-</span> k <span class="sc">+</span> <span class="dv">1</span></span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    p <span class="ot">&lt;-</span> p <span class="sc">*</span> lam <span class="sc">/</span> k  <span class="co"># Atualiza a probabilidade recursivamente para o próximo valor</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    F <span class="ot">&lt;-</span> F <span class="sc">+</span> p</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    F_acm <span class="ot">&lt;-</span> F_acm <span class="sc">+</span> p</span>
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(k)</span>
