@@ -283,8 +283,8 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul class="collapse">
-  <li><a href="#geração-de-variáveis-aleatórias-discretas-genéricas" id="toc-geração-de-variáveis-aleatórias-discretas-genéricas" class="nav-link active" data-scroll-target="#geração-de-variáveis-aleatórias-discretas-genéricas"><span class="header-section-number">5.1</span> Geração de Variáveis Aleatórias Discretas Genéricas</a></li>
-  <li><a href="#inversa-da-cdf" id="toc-inversa-da-cdf" class="nav-link" data-scroll-target="#inversa-da-cdf"><span class="header-section-number">5.2</span> Inversa da CDF</a></li>
+  <li><a href="#inversa-da-cdf" id="toc-inversa-da-cdf" class="nav-link active" data-scroll-target="#inversa-da-cdf"><span class="header-section-number">5.1</span> Inversa da CDF</a></li>
+  <li><a href="#geração-de-variáveis-aleatórias-discretas-genéricas" id="toc-geração-de-variáveis-aleatórias-discretas-genéricas" class="nav-link" data-scroll-target="#geração-de-variáveis-aleatórias-discretas-genéricas"><span class="header-section-number">5.2</span> Geração de Variáveis Aleatórias Discretas Genéricas</a></li>
   <li><a href="#exemplo-1-geração-de-variáveis-aleatórias-com-distribuição-geométrica" id="toc-exemplo-1-geração-de-variáveis-aleatórias-com-distribuição-geométrica" class="nav-link" data-scroll-target="#exemplo-1-geração-de-variáveis-aleatórias-com-distribuição-geométrica"><span class="header-section-number">5.3</span> Exemplo 1: Geração de Variáveis Aleatórias com Distribuição Geométrica</a></li>
   <li><a href="#exemplo-2-geração-de-variáveis-aleatórias-com-distribuição-poisson" id="toc-exemplo-2-geração-de-variáveis-aleatórias-com-distribuição-poisson" class="nav-link" data-scroll-target="#exemplo-2-geração-de-variáveis-aleatórias-com-distribuição-poisson"><span class="header-section-number">5.4</span> Exemplo 2: Geração de Variáveis Aleatórias com Distribuição Poisson</a></li>
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">5.5</span> Exercícios</a></li>
@@ -322,8 +322,22 @@ window.Quarto = {
 <li><p>Retornar esse valor como a variável aleatória gerada.</p></li>
 </ol>
 <p>A seguir, veremos esse procedimento em detalhes.</p>
-<section id="geração-de-variáveis-aleatórias-discretas-genéricas" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="geração-de-variáveis-aleatórias-discretas-genéricas"><span class="header-section-number">5.1</span> Geração de Variáveis Aleatórias Discretas Genéricas</h2>
+<section id="inversa-da-cdf" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="inversa-da-cdf"><span class="header-section-number">5.1</span> Inversa da CDF</h2>
+<p>O método da inversão recebe esse nome pois seu algoritmo também pode ser caracterizado pela função inversa da CDF. A <strong>inversa da CDF</strong> (função de distribuição acumulada), também conhecida como a <strong>função quantil</strong> ou <strong>função percentil</strong>, é definida da seguinte forma:</p>
+<p><strong>Definição:</strong> Seja <span class="math inline">\(F(x)\)</span> a função de distribuição acumulada (CDF) de uma variável aleatória <span class="math inline">\(X\)</span>. A inversa da CDF, denotada por <span class="math inline">\(F^{-1}(p)\)</span>, é definida como:</p>
+<p><span class="math display">\[
+F^{-1}(p) = \inf \{ x \in \mathbb{R} : F(x) \geq p \}, \quad \text{para } p \in [0, 1]
+\]</span></p>
+<p>Em palavras: - A inversa da CDF <span class="math inline">\(F^{-1}(p)\)</span> mapeia um número <span class="math inline">\(p\)</span>, que representa uma probabilidade acumulada, de volta ao valor <span class="math inline">\(x\)</span> correspondente da variável aleatória <span class="math inline">\(X\)</span>, tal que a probabilidade acumulada até <span class="math inline">\(x\)</span> é igual a <span class="math inline">\(p\)</span>. - Isso significa que, se <span class="math inline">\(p = F(x)\)</span>, então <span class="math inline">\(F^{-1}(p) = x\)</span>.</p>
+<p>Assim, o menor valor <span class="math inline">\(x_i\)</span> tal que <span class="math inline">\(F(x_i) \geq u\)</span> é justamente <span class="math inline">\(F^{-1}(u)\)</span>, de modo que o algoritmo pode ser escrito como</p>
+<ol type="1">
+<li><p>Gerar um número aleatório <span class="math inline">\(u \in [0, 1)\)</span>.</p></li>
+<li><p>Retornar <span class="math inline">\(F^{-1}(u)\)</span>.</p></li>
+</ol>
+</section>
+<section id="geração-de-variáveis-aleatórias-discretas-genéricas" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="geração-de-variáveis-aleatórias-discretas-genéricas"><span class="header-section-number">5.2</span> Geração de Variáveis Aleatórias Discretas Genéricas</h2>
 <p>Considere uma v.a. discreta <span class="math inline">\(X\)</span> que assume valores em em <span class="math inline">\(x_1,x_2,\ldots\)</span>. Dadas as probabilidades de cada um desses valores <span class="math inline">\(p(x_i)\)</span>, a CDF <span class="math inline">\(F(x)\)</span> é definida como:</p>
 <p><span class="math display">\[
 F(x_i) = \sum_{j=1}^{i} p(x_j)
@@ -334,8 +348,6 @@ F(x_i) = \sum_{j=1}^{i} p(x_j)
 <li><p>Encontrar o menor valor <span class="math inline">\(x_i\)</span> tal que <span class="math inline">\(F(x_i) \geq u\)</span>.</p></li>
 <li><p>Retornar <span class="math inline">\(x_i\)</span>.</p></li>
 </ol>
-<p>Este método funciona pois <span class="math inline">\(x_i\)</span> é o menor valor <span class="math inline">\(x_i\)</span> tal que <span class="math inline">\(F(x_i) \geq u\)</span> se, e só se, <span class="math inline">\(F(x_i) \geq u \geq F(x_{i=1})\)</span>. Assim, a probabilidade do valor gerado por esse algoritmo ser <span class="math inline">\(x_i\)</span> é</p>
-<p><span class="math display">\[P(F(x_i) \geq U \geq F(x_{i=1}))=F(x_i) - F(x_{i-1})= \sum_{j=1}^{i} p(x_j) - \sum_{j=1}^{i-1} p(x_j)=p(x_i).\]</span></p>
 <div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Python</a></li></ul>
 <div class="tab-content" data-group="language">
@@ -439,28 +451,19 @@ F(x_i) = \sum_{j=1}^{i} p(x_j)
 </div>
 </div>
 </section>
-<section id="inversa-da-cdf" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="inversa-da-cdf"><span class="header-section-number">5.2</span> Inversa da CDF</h2>
-<p>O método da inversão recebe esse nome pois seu algoritmo também pode ser caracterizado pela função inversa da CDF. A <strong>inversa da CDF</strong> (função de distribuição acumulada), também conhecida como a <strong>função quantil</strong> ou <strong>função percentil</strong>, é definida da seguinte forma:</p>
-<p><strong>Definição:</strong> Seja <span class="math inline">\(F(x)\)</span> a função de distribuição acumulada (CDF) de uma variável aleatória <span class="math inline">\(X\)</span>. A inversa da CDF, denotada por <span class="math inline">\(F^{-1}(p)\)</span>, é definida como:</p>
-<p><span class="math display">\[
-F^{-1}(p) = \inf \{ x \in \mathbb{R} : F(x) \geq p \}, \quad \text{para } p \in [0, 1]
-\]</span></p>
-<p>Em palavras: - A inversa da CDF <span class="math inline">\(F^{-1}(p)\)</span> mapeia um número <span class="math inline">\(p\)</span>, que representa uma probabilidade acumulada, de volta ao valor <span class="math inline">\(x\)</span> correspondente da variável aleatória <span class="math inline">\(X\)</span>, tal que a probabilidade acumulada até <span class="math inline">\(x\)</span> é igual a <span class="math inline">\(p\)</span>. - Isso significa que, se <span class="math inline">\(p = F(x)\)</span>, então <span class="math inline">\(F^{-1}(p) = x\)</span>.</p>
-<p>Assim, o menor valor <span class="math inline">\(x_i\)</span> tal que <span class="math inline">\(F(x_i) \geq u\)</span> é justamente <span class="math inline">\(F^{-1}(u)\)</span>, de modo que o algoritmo pode ser escrito como</p>
-<ol type="1">
-<li><p>Gerar um número aleatório <span class="math inline">\(u \in [0, 1)\)</span>.</p></li>
-<li><p>Retornar <span class="math inline">\(F^{-1}(u)\)</span>.</p></li>
-</ol>
-</section>
 <section id="exemplo-1-geração-de-variáveis-aleatórias-com-distribuição-geométrica" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="exemplo-1-geração-de-variáveis-aleatórias-com-distribuição-geométrica"><span class="header-section-number">5.3</span> Exemplo 1: Geração de Variáveis Aleatórias com Distribuição Geométrica</h2>
 <p>A distribuição geométrica modela o número de tentativas até o primeiro sucesso em uma sequência de experimentos de Bernoulli. Se a probabilidade de sucesso em cada tentativa é <span class="math inline">\(p\)</span>, a PMF é dada por: <span class="math display">\[
-P(X = k) = (1 - p)^{k} p \quad \text{para} \quad k = 0, 1, 2, \dots
+P(X = k) = (1 - p)^{k-1} p \quad \text{para} \quad k = 1, 2, 3 \dots
 \]</span> onde <span class="math inline">\(k\)</span> representa o número de falhas antes do primeiro sucesso.</p>
 <p>Vamos agora obter a fórmula da <strong>inversa da CDF</strong> para a distribuição geométrica foi obtida a partir da função de distribuição acumulada (CDF) da distribuição geométrica:</p>
 <p><span class="math display">\[
-F(k) = 1 - (1 - p)^k
+\begin{aligned}
+F(k) &amp; = \mathbb{P}(X \leq k) = \sum_{x=1}^{k}(1 - p)^{x-1}p \\
+&amp;= \frac{p}{1 - p} \sum_{x=1}^{k} (1 - p)^x\\
+&amp; = \frac{p}{1 - p} \cdot \frac{(1 - p)(1 - (1 - p)^k)}{p}\\
+&amp;= 1 - (1 - p)^k.
+\end{aligned}
 \]</span> Queremos encontrar a <strong>inversa da CDF</strong>, ou seja, a fórmula que, dado um valor <span class="math inline">\(u\)</span> entre 0 e 1, nos permita calcular o valor <span class="math inline">\(k\)</span> tal que <span class="math inline">\(F(k) = u\)</span>.</p>
 <p>Sabemos que:</p>
 <p><span class="math display">\[
@@ -491,7 +494,7 @@ u - 1 = - (1 - p)^k
 <p><span class="math display">\[
 k = \frac{\log(1 - u)}{\log(1 - p)}
 \]</span></p>
-<p>Como <span class="math inline">\(k\)</span> precisa ser um número inteiro (já que a distribuição geométrica conta o número de tentativas), usamos a função de arredondamento “para cima” (<span class="math inline">\(\lfloor \cdot \rfloor\)</span>), conhecida como a <strong>função piso</strong>:</p>
+<p>Como <span class="math inline">\(k\)</span> precisa ser um número inteiro (já que a distribuição geométrica conta o número de tentativas), usamos a função de arredondamento “para baixo” (<span class="math inline">\(\lfloor \cdot \rfloor\)</span>), conhecida como a <strong>função piso</strong>:</p>
 <p><span class="math display">\[
 k = \lfloor \frac{\log(1 - u)}{\log(1 - p)} \rfloor
 \]</span></p>
@@ -659,9 +662,11 @@ P(X = k+1) = \frac{\lambda}{k+1} \cdot P(X = k)
 <h3 data-number="5.4.1" class="anchored" data-anchor-id="técnica-da-inversão-usando-a-fórmula-recursiva"><span class="header-section-number">5.4.1</span> Técnica da Inversão Usando a Fórmula Recursiva</h3>
 <p>Para gerar uma variável aleatória de Poisson usando a técnica da inversão e a fórmula recursiva, o processo é o seguinte:</p>
 <ol type="1">
-<li>Gerar um número aleatório uniforme <span class="math inline">\(u \in [0, 1)\)</span>.</li>
-<li>Calcular a CDF acumulada para valores de <span class="math inline">\(k\)</span>, somando as probabilidades da PMF (usando a relação recursiva) até que a CDF acumulada seja maior ou igual a <span class="math inline">\(u\)</span>.</li>
-<li>O menor valor <span class="math inline">\(k\)</span> tal que <span class="math inline">\(F(k) \geq u\)</span> será o número de eventos gerado pela distribuição Poisson.</li>
+<li>Seja <span class="math inline">\(U \sim \text{Unif}(0,1)\)</span></li>
+<li>Faça <span class="math inline">\(i = 0\)</span>, <span class="math inline">\(p = e^{-\lambda}\)</span> e <span class="math inline">\(F = p\)</span></li>
+<li>Se <span class="math inline">\(U &lt; F\)</span>, faça <span class="math inline">\(X = i\)</span> e pare.</li>
+<li>Senão, atualize <span class="math inline">\(p = \frac{\lambda p}{i + 1}\)</span>, <span class="math inline">\(F = F + p\)</span> e <span class="math inline">\(i = i + 1\)</span></li>
+<li>Volte para o passo (3)</li>
 </ol>
 <p>A seguir implementamos esse método:</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
@@ -859,12 +864,7 @@ X_1, &amp; \text{com probabilidade } \alpha \\
 X_2, &amp; \text{com probabilidade } 1-\alpha
 \end{cases}
 \]</span></p>
-<p>Pseudo-Algoritmo:</p>
-<ol type="1">
-<li>Seja <span class="math inline">\(U\sim Unif(0,1)\)</span></li>
-<li>Se <span class="math inline">\(U \leq \alpha\)</span>, gere um valor da distribuição de <span class="math inline">\(X_1\)</span>. Senão, gere um valor da distribuição de <span class="math inline">\(X_2\)</span></li>
-</ol>
-<p>Com base no pseudo-algorimo implemente um algoritmo para gerar uma amostra de tamanho <span class="math inline">\(n\)</span> da distribuição mistura de uma Poisson e de uma Geométrica com base nas funções implementadas nos Exercícios (2) e (3).</p>
+<p>Implemente um algoritmo para gerar uma amostra de tamanho <span class="math inline">\(n\)</span> da distribuição mistura de uma Poisson e de uma Geométrica com base nas funções implementadas nos exemplos (2) e (3).</p>
 
 
 </section>
