@@ -152,12 +152,12 @@ onde  $k$ representa o número  de falhas antes do primeiro sucesso.
 Vamos agora obter a fórmula da **inversa da CDF** para a distribuição geométrica foi obtida a partir da   função de distribuição acumulada (CDF) da distribuição geométrica:
 
 $$
-\begin{align}
+\begin{aligned}
 F(k) & = \mathbb{P}(X \leq k) = \sum_{x=1}^{k}(1 - p)^{x-1}p \\
 &= \frac{p}{1 - p} \sum_{x=1}^{k} (1 - p)^x\\
 & = \frac{p}{1 - p} \cdot \frac{(1 - p)(1 - (1 - p)^k)}{p}\\
-&= 1 - (1 - p)^k
-\end{align}
+&= 1 - (1 - p)^k.
+\end{aligned}
 $$
 Queremos encontrar a **inversa da CDF**, ou seja, a fórmula que, dado um valor $u$ entre 0 e 1, nos permita calcular o valor $k$ tal que $F(k) = u$.
 
