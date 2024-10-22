@@ -585,7 +585,7 @@ k = \lfloor \frac{\log(1 - u)}{\log(1 - p)} \rfloor
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Função para gerar a inversa da CDF para a distribuição geométrica</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> inversa_cdf_geometrica(p, u):</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Usando a fórmula inversa da CDF geométrica: F⁻¹(u) = ceil(log(1 - u) / log(1 - p))</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> np.ceil(np.log(<span class="dv">1</span> <span class="op">-</span> u) <span class="op">/</span> np.log(<span class="dv">1</span> <span class="op">-</span> p))</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> np.floor(np.log(<span class="dv">1</span> <span class="op">-</span> u) <span class="op">/</span> np.log(<span class="dv">1</span> <span class="op">-</span> p))</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">int</span>(k)</span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Parâmetro p da distribuição geométrica</span></span>
