@@ -5,5 +5,5 @@ Este curso visa explorar o impacto das representações numéricas nos resultado
 
 Este livro apresenta códigos tanto em [R](https://www.r-project.org/) quanto em [Python](https://www.python.org/)
 
-Autores: [Andressa Cerqueira](https://www.servidores.ufscar.br/acerqueira/), [Rafael Izbicki](http://rafaelizbicki.com/), [Thiago Rodrigo Ramos](https://thiagorr162.github.io/)
+Autores: [Andressa Cerqueira](https://www.servidores.ufscar.br/acerqueira/), [Danilo Lourenço Lopes](http://lattes.cnpq.br/8061034473607951), [Rafael Izbicki](http://rafaelizbicki.com/), [Thiago Rodrigo Ramos](https://thiagorr162.github.io/)
 
