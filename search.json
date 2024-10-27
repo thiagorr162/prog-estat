@@ -632,11 +632,41 @@
   {
     "objectID": "7_transf.html",
     "href": "7_transf.html",
-    "title": "9  Transformações e Misturas",
+    "title": "9  Transformação e Misturas",
     "section": "",
-    "text": "9.1 Exercícios\nExercício 1.",
+    "text": "9.1 Transformação de V.A.",
     "crumbs": [
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Transformações e Misturas</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Transformação e Misturas</span>"
+    ]
+  },
+  {
+    "objectID": "7_transf.html#transformação-de-v.a.",
+    "href": "7_transf.html#transformação-de-v.a.",
+    "title": "9  Transformação e Misturas",
+    "section": "",
+    "text": "Queremos simular valores da variável aleatória \\(X\\)\nSabemos simular valores da variável aleatória \\(Y\\)\nIdeia: Se existe uma função \\(g : \\mathbb{R} \\to \\mathbb{R}\\) tal que \\(X = g(Y)\\), então para simular um valor de \\(X\\) basta fazer:\n\nSimular \\(Y\\)\nFazer \\(X = g(Y)\\)\n\n\n\n\n9.1.1 Exemplo 1: Transformação para Distribuição de Weibull\nSeja \\(X\\) uma variável aleatória com distribuição de Weibull com parâmetro de forma \\(k &gt; 0\\) e parâmetro de escala \\(\\lambda &gt; 0\\) dada por\n\\[\nf_X(x) = \\frac{k}{\\lambda^k} x^{k-1} e^{-(x/\\lambda)^k}, \\quad x &gt; 0.\n\\]\nQueremos simular valores dessa distribuição. Para isso, utilizaremos o seguinte resultado: se \\(Y \\sim \\text{Exp}(1/\\lambda^k)\\), então \\(X = Y^{1/k} \\sim \\text{Weibull}(\\lambda, k)\\).\nDe fato, temos que\n\\[\nf_Y(y) = \\frac{1}{\\lambda^k} e^{-y/\\lambda^k}, \\quad y &gt; 0.\n\\]\nPara \\(x &gt; 0\\),\n\\[\nP(X \\leq x) = P(Y^{1/k} \\leq x) = P(Y \\leq x^k) = F_Y(x^k)\n\\]\ne\n\\[\nf_X(x) = \\frac{dF_Y(x^k)}{dx} = kx^{k-1} f_Y(x^k)\n\\]\n\\[\n= kx^{k-1} \\frac{1}{\\lambda^k} e^{-x^k/\\lambda^k}\n\\]\n\\[\n= \\frac{k}{\\lambda^k} x^{k-1} e^{-(x/\\lambda)^k}.\n\\]\nPseudo-Algoritmo para Transformação de Weibull\n\nGere \\(U_1 \\sim \\text{Unif}(0, 1)\\)\nFaça \\(Y = -\\lambda^k \\log U_1\\)\nFaça \\(X = Y^{1/k}\\)",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Transformação e Misturas</span>"
+    ]
+  },
+  {
+    "objectID": "7_transf.html#misturas",
+    "href": "7_transf.html#misturas",
+    "title": "9  Transformação e Misturas",
+    "section": "9.2 Misturas",
+    "text": "9.2 Misturas\n\nQueremos simular valores da variável aleatória \\(X\\)\nSuponha que sabemos simular valores da variável aleatória \\(Y\\) e de \\(X | Y\\) e suponha que:\n\n\\[\nf_X(x) = \\int_{-\\infty}^{\\infty} f_{X|Y}(x|y) f_Y(y) dy \\quad \\text{(caso contínuo)}\n\\] \\[\nf_X(x) = \\sum_y p_{X|Y}(x|y) p_Y(y) \\quad \\text{(caso discreto)}\n\\]\n\nDizemos que \\(f_X\\) é uma distribuição de mistura\n\nIdeia: Para simular um valor de \\(X\\), fazemos: 1. Simular \\(y\\) de \\(f_Y\\) 2. Simular \\(X\\) de \\(f_{X|Y=y}\\)\n\n\n9.2.1 Exemplo 2: de Misturas para t-student\nSeja \\(X \\sim t_k\\). Queremos simular um valor de \\(X\\).\nPodemos escrever a densidade de \\(X\\) fazendo \\(X | Y = y \\sim N(0, k/y)\\) e \\(Y \\sim \\chi^2_k\\). Vamos verificar essa afirmação. Temos que\n\\[\nf_{X|Y=y}(x|y) = \\frac{1}{\\sqrt{k/y} \\sqrt{2\\pi}} e^{-\\frac{y}{2k} x^2}\n\\]\ne\n\\[\nf_Y(y) = \\frac{1}{2^{k/2} \\Gamma(k/2)} y^{k/2 - 1} e^{-y/2}.\n\\]\nLogo,\n\\[\nf_X(x) = \\int_{-\\infty}^{\\infty} f_{X|Y}(x|y) f_Y(y) dy\n\\]\n\\[\n= \\int_{-\\infty}^{\\infty} \\frac{1}{\\sqrt{k/y} \\sqrt{2\\pi}} e^{-\\frac{y}{2k} x^2} \\frac{1}{2^{k/2} \\Gamma(k/2)} y^{k/2 - 1} e^{-y/2} dy\n\\]\n\\[\n= \\frac{1}{\\sqrt{k} \\sqrt{2\\pi}} \\frac{1}{2^{k/2} \\Gamma(k/2)} \\int_{-\\infty}^{\\infty} y^{k/2 + 1/2 - 1} e^{-y(x^2/2k + 1/2)} dy\n\\]\n\\[\n= \\frac{1}{\\sqrt{k} \\sqrt{2\\pi}} \\frac{1}{2^{k/2} \\Gamma(k/2)} \\frac{\\Gamma(k/2 + 1/2)}{(x^2/2k + 1/2)^{(k+1)/2}}\n\\]\n\\[\n= \\frac{\\Gamma(k/2 + 1/2)}{\\Gamma(k/2)} \\frac{1}{\\sqrt{k \\pi}} \\frac{1}{(x^2/k + 1)^{(k+1)/2}}.\n\\]\nEntão, \\(X \\sim t_k\\).\nPseudo-Algoritmo para Misturas:\n\nGere \\(y\\) de \\(\\chi^2_k\\)\nGere \\(X\\) da \\(N(0, k/y)\\)",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Transformação e Misturas</span>"
+    ]
+  },
+  {
+    "objectID": "7_transf.html#exercícios",
+    "href": "7_transf.html#exercícios",
+    "title": "9  Transformação e Misturas",
+    "section": "9.3 Exercícios",
+    "text": "9.3 Exercícios\n\nSimular uma amostra de tamanho 1000 de Weibull usando o pseudo-algoritmo do Exemplo 1.\n\nCompare os valores simulados com a densidade da Weibull usando uma amostra gerada pelo Python ou R.\n\nSimular uma amostra de tamanho 1000 de um t-student usando o pseudo-algoritmo do Exemplo 2.\n\nCompare os valores simulados com a densidade da t-Student usando uma amostra gerada pelo Python ou R.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Transformação e Misturas</span>"
     ]
   },
   {
