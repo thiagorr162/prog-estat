@@ -23,7 +23,7 @@ e sua inversa.
 library(ggplot2)
 
 # Definindo a função de distribuição acumulada F(x) - função logística
-F <- function(x) {
+F_ac <- function(x) {
   return(1 / (1 + exp(-x)))
 }
 
@@ -41,7 +41,7 @@ u_value <- 0.7
 x_value <- F_inv(u_value)
 
 # Criando o gráfico
-ggplot(data = data.frame(x = x, F_x = F(x))) +
+ggplot(data = data.frame(x = x, F_x = F_ac(x))) +
   geom_line(aes(x = x, y = F_x), color = "black") +
   geom_hline(yintercept = u_value, linetype = "dotted", color = "red") +
   geom_vline(xintercept = x_value, linetype = "dotted", color = "red") +
