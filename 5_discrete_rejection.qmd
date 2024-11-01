@@ -122,7 +122,7 @@ A cada passo a probabilidade de aceitar um valor é $\frac{1}{c}$, então o núm
 Além disso, temos
 
 $$
-P(X = j) = \sum_{n=1}^{\infty} P(Y = j \text{ e aceitar no passo n}) = \sum_{n=1}^{\infty} \left(1 - \frac{1}{c}\right)^{n-1} \frac{p_j}{c} = p_j
+P(X = j) = \sum_{n=1}^{\infty} P(Y = j \text{ e aceitar pela 1a vez no passo n}) = \sum_{n=1}^{\infty} \left(1 - \frac{1}{c}\right)^{n-1} \frac{p_j}{c} = p_j
 $$
 
 ## Exercício
