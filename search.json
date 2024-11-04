@@ -14,37 +14,7 @@
     "href": "index.html#objetivo-geral",
     "title": "Curso de Programação Estatística",
     "section": "Objetivo Geral",
-    "text": "Objetivo Geral\nEste curso visa explorar o impacto das representações numéricas nos resultados de algoritmos de análise estatística. O foco será na programação, visualização e preparação de dados, além de discutir tópicos importantes como aleatoriedade, pseudoaleatoriedade, erros de truncamento e arredondamento, entre outros. O curso inclui ainda uma introdução à inferência por simulação estocástica, utilizando métodos como Monte Carlo e integrações numéricas. O material do curso foi amplamente baseado nas discussões apresentadas em Ross (2006).\nEste livro apresenta códigos tanto em R quanto em Python\nAutores: Andressa Cerqueira, Danilo Lourenço Lopes, Rafael Izbicki, Thiago Rodrigo Ramos",
-    "crumbs": [
-      "Curso de Programação Estatística"
-    ]
-  },
-  {
-    "objectID": "index.html#algoritmo",
-    "href": "index.html#algoritmo",
-    "title": "Curso de Programação Estatística",
-    "section": "Algoritmo",
-    "text": "Algoritmo\nO método assume que conhecemos uma distribuição \\(q_j\\), fácil de simular, que cubra o suporte da distribuição alvo \\(p_j\\). Essa distribuição é chamada de distribuição proposta. Além disso, ele assume que existe uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\) tal que \\(p_j &gt; 0\\), e que conseguimos calcular \\(c\\).\nO método de aceitação e rejeição segue os seguintes passos:\n\nGere um valor \\(Y\\) da distribuição proposta \\(q_j\\).\nGere um valor \\(U \\sim \\text{Uniform}(0, 1)\\).\nAceite \\(Y\\) como uma amostra de \\(p_j\\) se \\(U \\leq \\frac{p(Y)}{c \\cdot q(Y)}\\), caso contrário, rejeite \\(Y\\) e repita o processo.",
-    "crumbs": [
-      "Curso de Programação Estatística"
-    ]
-  },
-  {
-    "objectID": "index.html#exemplo",
-    "href": "index.html#exemplo",
-    "title": "Curso de Programação Estatística",
-    "section": "Exemplo",
-    "text": "Exemplo\nVamos demonstrar a amostragem por rejeição gerando amostras de uma distribuição alvo discreta \\(p_j\\), utilizando uma distribuição uniforme discreta como distribuição proposta.\nSuponha que \\(Y\\) siga uma distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\), ou seja, \\(q_j = 1/10\\) para todos os valores \\(j\\). A distribuição alvo \\(p_j\\) tem os seguintes valores:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nPara aplicar o método de aceitação e rejeição, precisamos de uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\). Neste caso, temos \\(c = 1.2\\).\n\nRPython\n\n\nlibrary(ggplot2)\n\n# Valores de j e probabilidades p_j e q_j\nj_values &lt;- 1:10\np_j &lt;- c(0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10)\nq_j &lt;- rep(1 / 10, length(p_j))  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc &lt;- max(p_j / q_j)\ncq_j &lt;- c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Criação do data frame para o ggplot2\ndf &lt;- data.frame(j = j_values, p_j = p_j, cq_j = cq_j)\n\n# Plot com ggplot2\nggplot(df, aes(x = j)) +\n  geom_segment(aes(x = j, xend = j, y = 0, yend = cq_j), color = \"black\") +\n  geom_point(aes(y = cq_j), color = \"green\", size = 3) +\n  geom_point(aes(y = p_j), color = \"red\", size = 3) +\n  labs(x = \"\", y = \"\") +\n  ylim(0, 0.2) +\n  theme_minimal() +\n  theme(legend.position = \"top\") +\n  scale_color_manual(values = c(\"p(x)\" = \"red\", \"cq(x)\" = \"green\"), name = \"\") +\n  guides(color = guide_legend(override.aes = list(shape = 16))) +\n  geom_point(aes(y = p_j, color = \"p(x)\"), size = 3) +\n  geom_point(aes(y = cq_j, color = \"cq(x)\"), size = 3) \n\n\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n# Valores de j e probabilidades p_j e q_j\nj_values = np.arange(1, 11)\np_j = np.array([0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10])\nq_j = np.full_like(p_j, 1 / 10)  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc = max(p_j / q_j)\ncq_j = c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Plot\nplt.figure(figsize=(8, 5))\nplt.stem(j_values, cq_j, linefmt=\"black\", markerfmt=\"go\", basefmt=\" \", label=\"cq(x)\")\nplt.stem(j_values, p_j, linefmt=\"black\", markerfmt=\"ro\", basefmt=\" \", label=\"p(x)\")\n\n# Configurações do gráfico\nplt.ylim(0, 0.2)\nplt.legend(loc=\"upper right\")\nplt.show()\n\n\n\n\n\nTeoria do método de rejeição\nTeorema: O método da aceitação e rejeição gera uma v.a. X tal que\n\\[\nP(X = j) = p_j ,\\  j = 0, 1, \\dots\n\\]\nO número de passos que o algoritmo necessita para gerar X tem distribuição geométrica com média c.\nProva:\n\\[\nP(Y = j \\text{ e aceitar}) = P(Y = j)P(\\text{aceitar } | Y = j) = q_j\n\\frac{p_j}{c q_j} = \\frac{p_j}{c}\n\\]\nEntão,\n\\[\nP(\\text{aceitar}) = \\sum_{j=0}^{\\infty} \\frac{p_j}{c} = \\frac{1}{c}\n\\]\nA cada passo a probabilidade de aceitar um valor é \\(\\frac{1}{c}\\), então o número de passos necessários para aceitar um valor tem dist. geométrica com média c.\nAlém disso, temos\n\\[\nP(X = j) = \\sum_{n=1}^{\\infty} P(Y = j \\text{ e aceitar pela 1a vez no passo n}) = \\sum_{n=1}^{\\infty} \\left(1 - \\frac{1}{c}\\right)^{n-1} \\frac{p_j}{c} = p_j\n\\]",
-    "crumbs": [
-      "Curso de Programação Estatística"
-    ]
-  },
-  {
-    "objectID": "index.html#exercício",
-    "href": "index.html#exercício",
-    "title": "Curso de Programação Estatística",
-    "section": "Exercício",
-    "text": "Exercício\nImplemente o método de aceitação e rejeição para gerar uma amostra da variável aleatória \\(X\\) com a distribuição de probabilidades alvo \\(p_j\\) dada anteriormente:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nUse a distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\) como a distribuição proposta \\(q_j\\), em que \\(q_j = 1/10\\) para todos os valores de \\(j\\).\n\n\nRoss, Sheldon M. 2006. Simulation, Fourth Edition. USA: Academic Press, Inc.",
+    "text": "Objetivo Geral\nEste curso visa explorar o impacto das representações numéricas nos resultados de algoritmos de análise estatística. O foco será na programação, visualização e preparação de dados, além de discutir tópicos importantes como aleatoriedade, pseudoaleatoriedade, erros de truncamento e arredondamento, entre outros. O curso inclui ainda uma introdução à inferência por simulação estocástica, utilizando métodos como Monte Carlo e integrações numéricas. O material do curso foi amplamente baseado nas discussões apresentadas em Ross (2006).\nEste livro apresenta códigos tanto em R quanto em Python\nAutores: Andressa Cerqueira, Danilo Lourenço Lopes, Rafael Izbicki, Thiago Rodrigo Ramos\n\n\n\n\nRoss, Sheldon M. 2006. Simulation, Fourth Edition. USA: Academic Press, Inc.",
     "crumbs": [
       "Curso de Programação Estatística"
     ]
@@ -185,36 +155,6 @@
     "title": "1  Breve introdução ao Python",
     "section": "1.13 Exercícios",
     "text": "1.13 Exercícios\n\n1.13.1 Exercício 1.\nExecute as seguintes operações no Python e interprete os resultados:\n\nUse a função math.log() para calcular o logaritmo natural de 10 e depois o logaritmo na base 10 de 1000.\nDescubra a função que calcula a raiz quadrada de um número utilizando a função help(), e aplique-a ao número 144.\n\n\n\n1.13.2 Exercício 2.\nArmazene o resultado de 2 * 7 em uma variável chamada resultado. Use resultado para calcular o valor de resultado ** 2.\nListe todas as variáveis no ambiente do Python usando a função globals(). Exclua a variável resultado usando del e verifique novamente as variáveis presentes.\n\n\n1.13.3 Exercício 3.\nCrie um vetor NumPy v contendo os números 4, 8, 15, 16, 23, 42. Use subsetting para selecionar: - O segundo e o quarto elemento. - Todos os elementos exceto o terceiro. - Os elementos que são maiores que 10.\nMultiplique cada elemento do vetor NumPy v por 2 e armazene o resultado em um novo vetor v2.\n\n\n1.13.4 Exercício 4.\nVerifique se 8 &gt; 5 e se 8 == 10.\nCrie dois vetores NumPy lógicos a = np.array([True, False, True]) e b = np.array([False, True, False]). Aplique os operadores &, | e np.logical_xor() nesses vetores.\n\n\n1.13.5 Exercício 5.\nEscreva uma função soma_quadrados que receba dois números como argumentos e retorne a soma de seus quadrados. Teste sua função com os números 3 e 4.\nModifique a função soma_quadrados para que o segundo argumento tenha um valor padrão de 2. Teste a função chamando-a com apenas um argumento.\n\n\n1.13.6 Exercício 6.\nEscreva um laço for que calcule a soma dos números de 1 a 100.\nCrie um laço while que multiplique os números de 1 a 6 e retorne o resultado.\n\n\n1.13.7 Exercício 7.\nCrie duas variáveis com o seu primeiro e último nome. Use a função f-string para juntar as duas variáveis em uma frase que diga “Meu nome completo é [nome completo]”.\nAltere o separador para um traço - e junte novamente as variáveis.\n\n\n1.13.8 Exercício 8.\nCrie um DataFrame com os dados fictícios a seguir utilizando pandas:\n\n\n\nNome\nIdade\nCidade\n\n\n\n\nAna\n23\nSão Paulo\n\n\nPedro\n34\nRio de Janeiro\n\n\nJoão\n19\nCuritiba\n\n\n\nFiltre as observações onde a idade é maior que 20.\nOrdene o DataFrame pela coluna Idade em ordem decrescente.\n\n\n1.13.9 Exercício 9.\nUsando o DataFrame criado no exercício anterior, crie um gráfico de barras (plt.bar) que mostre a idade de cada pessoa.\nNo gráfico anterior, mude a cor de cada barra.\n\n\n1.13.10 Exercício 10.\nCrie um DataFrame com os dados de temperatura de uma semana:\n\n\n\nDia\nTemperatura (°C)\n\n\n\n\nSeg\n22\n\n\nTer\n24\n\n\nQua\n19\n\n\nQui\n21\n\n\nSex\n23\n\n\nSáb\n25\n\n\nDom\n20\n\n\n\nAgora, responda às perguntas abaixo:\n\nFiltre todos os dias em que a temperatura foi maior que 21°C.\nCalcule a média das temperaturas da semana.\nCrie um gráfico de linha (plt.plot) que mostre a variação da temperatura ao longo da semana.",
-    "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Breve introdução ao Python</span>"
-    ]
-  },
-  {
-    "objectID": "0_py.html#algoritmo",
-    "href": "0_py.html#algoritmo",
-    "title": "1  Breve introdução ao Python",
-    "section": "2.1 Algoritmo",
-    "text": "2.1 Algoritmo\nO método assume que conhecemos uma distribuição \\(q_j\\), fácil de simular, que cubra o suporte da distribuição alvo \\(p_j\\). Essa distribuição é chamada de distribuição proposta. Além disso, ele assume que existe uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\) tal que \\(p_j &gt; 0\\), e que conseguimos calcular \\(c\\).\nO método de aceitação e rejeição segue os seguintes passos:\n\nGere um valor \\(Y\\) da distribuição proposta \\(q_j\\).\nGere um valor \\(U \\sim \\text{Uniform}(0, 1)\\).\nAceite \\(Y\\) como uma amostra de \\(p_j\\) se \\(U \\leq \\frac{p(Y)}{c \\cdot q(Y)}\\), caso contrário, rejeite \\(Y\\) e repita o processo.",
-    "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Breve introdução ao Python</span>"
-    ]
-  },
-  {
-    "objectID": "0_py.html#exemplo",
-    "href": "0_py.html#exemplo",
-    "title": "1  Breve introdução ao Python",
-    "section": "2.2 Exemplo",
-    "text": "2.2 Exemplo\nVamos demonstrar a amostragem por rejeição gerando amostras de uma distribuição alvo discreta \\(p_j\\), utilizando uma distribuição uniforme discreta como distribuição proposta.\nSuponha que \\(Y\\) siga uma distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\), ou seja, \\(q_j = 1/10\\) para todos os valores \\(j\\). A distribuição alvo \\(p_j\\) tem os seguintes valores:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nPara aplicar o método de aceitação e rejeição, precisamos de uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\). Neste caso, temos \\(c = 1.2\\).\n\nRPython\n\n\nlibrary(ggplot2)\n\n# Valores de j e probabilidades p_j e q_j\nj_values &lt;- 1:10\np_j &lt;- c(0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10)\nq_j &lt;- rep(1 / 10, length(p_j))  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc &lt;- max(p_j / q_j)\ncq_j &lt;- c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Criação do data frame para o ggplot2\ndf &lt;- data.frame(j = j_values, p_j = p_j, cq_j = cq_j)\n\n# Plot com ggplot2\nggplot(df, aes(x = j)) +\n  geom_segment(aes(x = j, xend = j, y = 0, yend = cq_j), color = \"black\") +\n  geom_point(aes(y = cq_j), color = \"green\", size = 3) +\n  geom_point(aes(y = p_j), color = \"red\", size = 3) +\n  labs(x = \"\", y = \"\") +\n  ylim(0, 0.2) +\n  theme_minimal() +\n  theme(legend.position = \"top\") +\n  scale_color_manual(values = c(\"p(x)\" = \"red\", \"cq(x)\" = \"green\"), name = \"\") +\n  guides(color = guide_legend(override.aes = list(shape = 16))) +\n  geom_point(aes(y = p_j, color = \"p(x)\"), size = 3) +\n  geom_point(aes(y = cq_j, color = \"cq(x)\"), size = 3) \n\n\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n# Valores de j e probabilidades p_j e q_j\nj_values = np.arange(1, 11)\np_j = np.array([0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10])\nq_j = np.full_like(p_j, 1 / 10)  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc = max(p_j / q_j)\ncq_j = c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Plot\nplt.figure(figsize=(8, 5))\nplt.stem(j_values, cq_j, linefmt=\"black\", markerfmt=\"go\", basefmt=\" \", label=\"cq(x)\")\nplt.stem(j_values, p_j, linefmt=\"black\", markerfmt=\"ro\", basefmt=\" \", label=\"p(x)\")\n\n# Configurações do gráfico\nplt.ylim(0, 0.2)\nplt.legend(loc=\"upper right\")\nplt.show()\n\n\n\n\n\n2.2.1 Teoria do método de rejeição\nTeorema: O método da aceitação e rejeição gera uma v.a. X tal que\n\\[\nP(X = j) = p_j ,\\  j = 0, 1, \\dots\n\\]\nO número de passos que o algoritmo necessita para gerar X tem distribuição geométrica com média c.\nProva:\n\\[\nP(Y = j \\text{ e aceitar}) = P(Y = j)P(\\text{aceitar } | Y = j) = q_j\n\\frac{p_j}{c q_j} = \\frac{p_j}{c}\n\\]\nEntão,\n\\[\nP(\\text{aceitar}) = \\sum_{j=0}^{\\infty} \\frac{p_j}{c} = \\frac{1}{c}\n\\]\nA cada passo a probabilidade de aceitar um valor é \\(\\frac{1}{c}\\), então o número de passos necessários para aceitar um valor tem dist. geométrica com média c.\nAlém disso, temos\n\\[\nP(X = j) = \\sum_{n=1}^{\\infty} P(Y = j \\text{ e aceitar pela 1a vez no passo n}) = \\sum_{n=1}^{\\infty} \\left(1 - \\frac{1}{c}\\right)^{n-1} \\frac{p_j}{c} = p_j\n\\]",
-    "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Breve introdução ao Python</span>"
-    ]
-  },
-  {
-    "objectID": "0_py.html#exercício",
-    "href": "0_py.html#exercício",
-    "title": "1  Breve introdução ao Python",
-    "section": "2.3 Exercício",
-    "text": "2.3 Exercício\nImplemente o método de aceitação e rejeição para gerar uma amostra da variável aleatória \\(X\\) com a distribuição de probabilidades alvo \\(p_j\\) dada anteriormente:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nUse a distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\) como a distribuição proposta \\(q_j\\), em que \\(q_j = 1/10\\) para todos os valores de \\(j\\).",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Breve introdução ao Python</span>"
     ]
@@ -380,36 +320,6 @@
     ]
   },
   {
-    "objectID": "0_R.html#algoritmo",
-    "href": "0_R.html#algoritmo",
-    "title": "2  Breve Introdução ao R",
-    "section": "3.1 Algoritmo",
-    "text": "3.1 Algoritmo\nO método assume que conhecemos uma distribuição \\(q_j\\), fácil de simular, que cubra o suporte da distribuição alvo \\(p_j\\). Essa distribuição é chamada de distribuição proposta. Além disso, ele assume que existe uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\) tal que \\(p_j &gt; 0\\), e que conseguimos calcular \\(c\\).\nO método de aceitação e rejeição segue os seguintes passos:\n\nGere um valor \\(Y\\) da distribuição proposta \\(q_j\\).\nGere um valor \\(U \\sim \\text{Uniform}(0, 1)\\).\nAceite \\(Y\\) como uma amostra de \\(p_j\\) se \\(U \\leq \\frac{p(Y)}{c \\cdot q(Y)}\\), caso contrário, rejeite \\(Y\\) e repita o processo.",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Breve Introdução ao R</span>"
-    ]
-  },
-  {
-    "objectID": "0_R.html#exemplo",
-    "href": "0_R.html#exemplo",
-    "title": "2  Breve Introdução ao R",
-    "section": "3.2 Exemplo",
-    "text": "3.2 Exemplo\nVamos demonstrar a amostragem por rejeição gerando amostras de uma distribuição alvo discreta \\(p_j\\), utilizando uma distribuição uniforme discreta como distribuição proposta.\nSuponha que \\(Y\\) siga uma distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\), ou seja, \\(q_j = 1/10\\) para todos os valores \\(j\\). A distribuição alvo \\(p_j\\) tem os seguintes valores:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nPara aplicar o método de aceitação e rejeição, precisamos de uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\). Neste caso, temos \\(c = 1.2\\).\n\nRPython\n\n\nlibrary(ggplot2)\n\n# Valores de j e probabilidades p_j e q_j\nj_values &lt;- 1:10\np_j &lt;- c(0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10)\nq_j &lt;- rep(1 / 10, length(p_j))  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc &lt;- max(p_j / q_j)\ncq_j &lt;- c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Criação do data frame para o ggplot2\ndf &lt;- data.frame(j = j_values, p_j = p_j, cq_j = cq_j)\n\n# Plot com ggplot2\nggplot(df, aes(x = j)) +\n  geom_segment(aes(x = j, xend = j, y = 0, yend = cq_j), color = \"black\") +\n  geom_point(aes(y = cq_j), color = \"green\", size = 3) +\n  geom_point(aes(y = p_j), color = \"red\", size = 3) +\n  labs(x = \"\", y = \"\") +\n  ylim(0, 0.2) +\n  theme_minimal() +\n  theme(legend.position = \"top\") +\n  scale_color_manual(values = c(\"p(x)\" = \"red\", \"cq(x)\" = \"green\"), name = \"\") +\n  guides(color = guide_legend(override.aes = list(shape = 16))) +\n  geom_point(aes(y = p_j, color = \"p(x)\"), size = 3) +\n  geom_point(aes(y = cq_j, color = \"cq(x)\"), size = 3) \n\n\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n# Valores de j e probabilidades p_j e q_j\nj_values = np.arange(1, 11)\np_j = np.array([0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10])\nq_j = np.full_like(p_j, 1 / 10)  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc = max(p_j / q_j)\ncq_j = c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Plot\nplt.figure(figsize=(8, 5))\nplt.stem(j_values, cq_j, linefmt=\"black\", markerfmt=\"go\", basefmt=\" \", label=\"cq(x)\")\nplt.stem(j_values, p_j, linefmt=\"black\", markerfmt=\"ro\", basefmt=\" \", label=\"p(x)\")\n\n# Configurações do gráfico\nplt.ylim(0, 0.2)\nplt.legend(loc=\"upper right\")\nplt.show()\n\n\n\n\n\n3.2.1 Teoria do método de rejeição\nTeorema: O método da aceitação e rejeição gera uma v.a. X tal que\n\\[\nP(X = j) = p_j ,\\  j = 0, 1, \\dots\n\\]\nO número de passos que o algoritmo necessita para gerar X tem distribuição geométrica com média c.\nProva:\n\\[\nP(Y = j \\text{ e aceitar}) = P(Y = j)P(\\text{aceitar } | Y = j) = q_j\n\\frac{p_j}{c q_j} = \\frac{p_j}{c}\n\\]\nEntão,\n\\[\nP(\\text{aceitar}) = \\sum_{j=0}^{\\infty} \\frac{p_j}{c} = \\frac{1}{c}\n\\]\nA cada passo a probabilidade de aceitar um valor é \\(\\frac{1}{c}\\), então o número de passos necessários para aceitar um valor tem dist. geométrica com média c.\nAlém disso, temos\n\\[\nP(X = j) = \\sum_{n=1}^{\\infty} P(Y = j \\text{ e aceitar pela 1a vez no passo n}) = \\sum_{n=1}^{\\infty} \\left(1 - \\frac{1}{c}\\right)^{n-1} \\frac{p_j}{c} = p_j\n\\]",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Breve Introdução ao R</span>"
-    ]
-  },
-  {
-    "objectID": "0_R.html#exercício",
-    "href": "0_R.html#exercício",
-    "title": "2  Breve Introdução ao R",
-    "section": "3.3 Exercício",
-    "text": "3.3 Exercício\nImplemente o método de aceitação e rejeição para gerar uma amostra da variável aleatória \\(X\\) com a distribuição de probabilidades alvo \\(p_j\\) dada anteriormente:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nUse a distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\) como a distribuição proposta \\(q_j\\), em que \\(q_j = 1/10\\) para todos os valores de \\(j\\).",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Breve Introdução ao R</span>"
-    ]
-  },
-  {
     "objectID": "1_intro.html",
     "href": "1_intro.html",
     "title": "3  Geração de Números Aleatórios e Aplicação em Estatística",
@@ -470,36 +380,6 @@
     ]
   },
   {
-    "objectID": "1_intro.html#algoritmo",
-    "href": "1_intro.html#algoritmo",
-    "title": "3  Geração de Números Aleatórios e Aplicação em Estatística",
-    "section": "4.1 Algoritmo",
-    "text": "4.1 Algoritmo\nO método assume que conhecemos uma distribuição \\(q_j\\), fácil de simular, que cubra o suporte da distribuição alvo \\(p_j\\). Essa distribuição é chamada de distribuição proposta. Além disso, ele assume que existe uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\) tal que \\(p_j &gt; 0\\), e que conseguimos calcular \\(c\\).\nO método de aceitação e rejeição segue os seguintes passos:\n\nGere um valor \\(Y\\) da distribuição proposta \\(q_j\\).\nGere um valor \\(U \\sim \\text{Uniform}(0, 1)\\).\nAceite \\(Y\\) como uma amostra de \\(p_j\\) se \\(U \\leq \\frac{p(Y)}{c \\cdot q(Y)}\\), caso contrário, rejeite \\(Y\\) e repita o processo.",
-    "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Geração de Números Aleatórios e Aplicação em Estatística</span>"
-    ]
-  },
-  {
-    "objectID": "1_intro.html#exemplo",
-    "href": "1_intro.html#exemplo",
-    "title": "3  Geração de Números Aleatórios e Aplicação em Estatística",
-    "section": "4.2 Exemplo",
-    "text": "4.2 Exemplo\nVamos demonstrar a amostragem por rejeição gerando amostras de uma distribuição alvo discreta \\(p_j\\), utilizando uma distribuição uniforme discreta como distribuição proposta.\nSuponha que \\(Y\\) siga uma distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\), ou seja, \\(q_j = 1/10\\) para todos os valores \\(j\\). A distribuição alvo \\(p_j\\) tem os seguintes valores:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nPara aplicar o método de aceitação e rejeição, precisamos de uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\). Neste caso, temos \\(c = 1.2\\).\n\nRPython\n\n\nlibrary(ggplot2)\n\n# Valores de j e probabilidades p_j e q_j\nj_values &lt;- 1:10\np_j &lt;- c(0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10)\nq_j &lt;- rep(1 / 10, length(p_j))  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc &lt;- max(p_j / q_j)\ncq_j &lt;- c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Criação do data frame para o ggplot2\ndf &lt;- data.frame(j = j_values, p_j = p_j, cq_j = cq_j)\n\n# Plot com ggplot2\nggplot(df, aes(x = j)) +\n  geom_segment(aes(x = j, xend = j, y = 0, yend = cq_j), color = \"black\") +\n  geom_point(aes(y = cq_j), color = \"green\", size = 3) +\n  geom_point(aes(y = p_j), color = \"red\", size = 3) +\n  labs(x = \"\", y = \"\") +\n  ylim(0, 0.2) +\n  theme_minimal() +\n  theme(legend.position = \"top\") +\n  scale_color_manual(values = c(\"p(x)\" = \"red\", \"cq(x)\" = \"green\"), name = \"\") +\n  guides(color = guide_legend(override.aes = list(shape = 16))) +\n  geom_point(aes(y = p_j, color = \"p(x)\"), size = 3) +\n  geom_point(aes(y = cq_j, color = \"cq(x)\"), size = 3) \n\n\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n# Valores de j e probabilidades p_j e q_j\nj_values = np.arange(1, 11)\np_j = np.array([0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10])\nq_j = np.full_like(p_j, 1 / 10)  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc = max(p_j / q_j)\ncq_j = c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Plot\nplt.figure(figsize=(8, 5))\nplt.stem(j_values, cq_j, linefmt=\"black\", markerfmt=\"go\", basefmt=\" \", label=\"cq(x)\")\nplt.stem(j_values, p_j, linefmt=\"black\", markerfmt=\"ro\", basefmt=\" \", label=\"p(x)\")\n\n# Configurações do gráfico\nplt.ylim(0, 0.2)\nplt.legend(loc=\"upper right\")\nplt.show()\n\n\n\n\n\n4.2.1 Teoria do método de rejeição\nTeorema: O método da aceitação e rejeição gera uma v.a. X tal que\n\\[\nP(X = j) = p_j ,\\  j = 0, 1, \\dots\n\\]\nO número de passos que o algoritmo necessita para gerar X tem distribuição geométrica com média c.\nProva:\n\\[\nP(Y = j \\text{ e aceitar}) = P(Y = j)P(\\text{aceitar } | Y = j) = q_j\n\\frac{p_j}{c q_j} = \\frac{p_j}{c}\n\\]\nEntão,\n\\[\nP(\\text{aceitar}) = \\sum_{j=0}^{\\infty} \\frac{p_j}{c} = \\frac{1}{c}\n\\]\nA cada passo a probabilidade de aceitar um valor é \\(\\frac{1}{c}\\), então o número de passos necessários para aceitar um valor tem dist. geométrica com média c.\nAlém disso, temos\n\\[\nP(X = j) = \\sum_{n=1}^{\\infty} P(Y = j \\text{ e aceitar pela 1a vez no passo n}) = \\sum_{n=1}^{\\infty} \\left(1 - \\frac{1}{c}\\right)^{n-1} \\frac{p_j}{c} = p_j\n\\]",
-    "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Geração de Números Aleatórios e Aplicação em Estatística</span>"
-    ]
-  },
-  {
-    "objectID": "1_intro.html#exercício",
-    "href": "1_intro.html#exercício",
-    "title": "3  Geração de Números Aleatórios e Aplicação em Estatística",
-    "section": "4.3 Exercício",
-    "text": "4.3 Exercício\nImplemente o método de aceitação e rejeição para gerar uma amostra da variável aleatória \\(X\\) com a distribuição de probabilidades alvo \\(p_j\\) dada anteriormente:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nUse a distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\) como a distribuição proposta \\(q_j\\), em que \\(q_j = 1/10\\) para todos os valores de \\(j\\).",
-    "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Geração de Números Aleatórios e Aplicação em Estatística</span>"
-    ]
-  },
-  {
     "objectID": "2_pseudorandom.html",
     "href": "2_pseudorandom.html",
     "title": "4  Números Pseudoaleatórios",
@@ -535,36 +415,6 @@
     "title": "4  Números Pseudoaleatórios",
     "section": "4.4 Gerando números uniformes com uma moeda",
     "text": "4.4 Gerando números uniformes com uma moeda\nEste código mostra como é possível gerar números uniformemente distribuídos no intervalo [0, 1] utilizando o lançamento de uma moeda justa. A ideia central baseia-se na expansão binária, onde cada lançamento da moeda representa um bit da representação binária do número. Ao somar \\(2^{-(i+1))}\\) para cada bit, construímos o número em base 2, garantindo uma distribuição uniforme. Isso ocorre porque cada bit tem uma probabilidade igual de ser 0 ou 1, criando uma sequência que cobre uniformemente o intervalo desejado.\n\nRPython\n\n\n\n\nMostrar código\n# Carregando pacotes necessários\nlibrary(ggplot2)\n\n# Função para simular o lançamento de uma moeda justa\nlancar_moeda &lt;- function() {\n  # Lançar moeda justa: 0 para coroa (K) e 1 para cara (C)\n  sample(c(0, 1), 1)\n}\n\n# Função para gerar um número uniformemente distribuído usando uma moeda\ngerar_numero_uniforme &lt;- function(n_bits = 32) {\n  numero &lt;- 0\n  for (i in 1:n_bits) {\n    bit &lt;- lancar_moeda()\n    # Atualizando o número, multiplicando pela base 2\n    numero &lt;- numero + bit * (2^-(i))\n  }\n  return(numero)\n}\n\n# Gerando 10000 números uniformemente distribuídos\nnumeros_uniformes &lt;- sapply(1:10000, function(x) gerar_numero_uniforme())\n \n# Convertendo para um data.frame\ndados &lt;- data.frame(numeros_uniformes = numeros_uniformes)\n\n# Plotando o histograma dos números gerados\nggplot(dados, aes(x = numeros_uniformes)) +\n  geom_histogram(bins = 20, fill = 'skyblue', color = 'black') +\n  ggtitle('Histograma de Números Uniformes Gerados Usando uma Moeda Justa') +\n  xlab('Valor') +\n  ylab('Frequência') +\n  theme_minimal() +\n  theme(panel.grid.major = element_line(color = \"grey\"))\n\n\n\n\n\n\n\n\n\n\n\n\n\nMostrar código\nimport random\nimport matplotlib.pyplot as plt\n\n# Função para simular o lançamento de uma moeda justa\ndef lancar_moeda():\n    # Lançar moeda justa: 0 para coroa (K) e 1 para cara (C)\n    return random.choice([0, 1])\n\n# Função para gerar um número uniformemente distribuído usando uma moeda\ndef gerar_numero_uniforme(n_bits=32):\n    numero = 0\n    for i in range(n_bits):\n        bit = lancar_moeda()\n        # Atualizando o número, multiplicando pela base 2\n        numero += bit * (2 ** -(i + 1))  # Cada bit tem um peso de 2^-(posição)\n    return numero\n\n# Gerando 1000 números uniformemente distribuídos\nnumeros_uniformes = [gerar_numero_uniforme() for _ in range(10000)]\n\n# Plotando o histograma dos números gerados\nplt.figure(figsize=(10, 6))\nplt.hist(numeros_uniformes, bins=20, color='skyblue', edgecolor='black')\nplt.title('Histograma de Números Uniformes Gerados Usando uma Moeda Justa')\nplt.xlabel('Valor')\nplt.ylabel('Frequência')\nplt.grid(True)\nplt.show()",
-    "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Números Pseudoaleatórios</span>"
-    ]
-  },
-  {
-    "objectID": "2_pseudorandom.html#algoritmo",
-    "href": "2_pseudorandom.html#algoritmo",
-    "title": "4  Números Pseudoaleatórios",
-    "section": "5.1 Algoritmo",
-    "text": "5.1 Algoritmo\nO método assume que conhecemos uma distribuição \\(q_j\\), fácil de simular, que cubra o suporte da distribuição alvo \\(p_j\\). Essa distribuição é chamada de distribuição proposta. Além disso, ele assume que existe uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\) tal que \\(p_j &gt; 0\\), e que conseguimos calcular \\(c\\).\nO método de aceitação e rejeição segue os seguintes passos:\n\nGere um valor \\(Y\\) da distribuição proposta \\(q_j\\).\nGere um valor \\(U \\sim \\text{Uniform}(0, 1)\\).\nAceite \\(Y\\) como uma amostra de \\(p_j\\) se \\(U \\leq \\frac{p(Y)}{c \\cdot q(Y)}\\), caso contrário, rejeite \\(Y\\) e repita o processo.",
-    "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Números Pseudoaleatórios</span>"
-    ]
-  },
-  {
-    "objectID": "2_pseudorandom.html#exemplo",
-    "href": "2_pseudorandom.html#exemplo",
-    "title": "4  Números Pseudoaleatórios",
-    "section": "5.2 Exemplo",
-    "text": "5.2 Exemplo\nVamos demonstrar a amostragem por rejeição gerando amostras de uma distribuição alvo discreta \\(p_j\\), utilizando uma distribuição uniforme discreta como distribuição proposta.\nSuponha que \\(Y\\) siga uma distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\), ou seja, \\(q_j = 1/10\\) para todos os valores \\(j\\). A distribuição alvo \\(p_j\\) tem os seguintes valores:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nPara aplicar o método de aceitação e rejeição, precisamos de uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\). Neste caso, temos \\(c = 1.2\\).\n\nRPython\n\n\nlibrary(ggplot2)\n\n# Valores de j e probabilidades p_j e q_j\nj_values &lt;- 1:10\np_j &lt;- c(0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10)\nq_j &lt;- rep(1 / 10, length(p_j))  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc &lt;- max(p_j / q_j)\ncq_j &lt;- c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Criação do data frame para o ggplot2\ndf &lt;- data.frame(j = j_values, p_j = p_j, cq_j = cq_j)\n\n# Plot com ggplot2\nggplot(df, aes(x = j)) +\n  geom_segment(aes(x = j, xend = j, y = 0, yend = cq_j), color = \"black\") +\n  geom_point(aes(y = cq_j), color = \"green\", size = 3) +\n  geom_point(aes(y = p_j), color = \"red\", size = 3) +\n  labs(x = \"\", y = \"\") +\n  ylim(0, 0.2) +\n  theme_minimal() +\n  theme(legend.position = \"top\") +\n  scale_color_manual(values = c(\"p(x)\" = \"red\", \"cq(x)\" = \"green\"), name = \"\") +\n  guides(color = guide_legend(override.aes = list(shape = 16))) +\n  geom_point(aes(y = p_j, color = \"p(x)\"), size = 3) +\n  geom_point(aes(y = cq_j, color = \"cq(x)\"), size = 3) \n\n\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n# Valores de j e probabilidades p_j e q_j\nj_values = np.arange(1, 11)\np_j = np.array([0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10])\nq_j = np.full_like(p_j, 1 / 10)  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc = max(p_j / q_j)\ncq_j = c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Plot\nplt.figure(figsize=(8, 5))\nplt.stem(j_values, cq_j, linefmt=\"black\", markerfmt=\"go\", basefmt=\" \", label=\"cq(x)\")\nplt.stem(j_values, p_j, linefmt=\"black\", markerfmt=\"ro\", basefmt=\" \", label=\"p(x)\")\n\n# Configurações do gráfico\nplt.ylim(0, 0.2)\nplt.legend(loc=\"upper right\")\nplt.show()\n\n\n\n\n\n5.2.1 Teoria do método de rejeição\nTeorema: O método da aceitação e rejeição gera uma v.a. X tal que\n\\[\nP(X = j) = p_j ,\\  j = 0, 1, \\dots\n\\]\nO número de passos que o algoritmo necessita para gerar X tem distribuição geométrica com média c.\nProva:\n\\[\nP(Y = j \\text{ e aceitar}) = P(Y = j)P(\\text{aceitar } | Y = j) = q_j\n\\frac{p_j}{c q_j} = \\frac{p_j}{c}\n\\]\nEntão,\n\\[\nP(\\text{aceitar}) = \\sum_{j=0}^{\\infty} \\frac{p_j}{c} = \\frac{1}{c}\n\\]\nA cada passo a probabilidade de aceitar um valor é \\(\\frac{1}{c}\\), então o número de passos necessários para aceitar um valor tem dist. geométrica com média c.\nAlém disso, temos\n\\[\nP(X = j) = \\sum_{n=1}^{\\infty} P(Y = j \\text{ e aceitar pela 1a vez no passo n}) = \\sum_{n=1}^{\\infty} \\left(1 - \\frac{1}{c}\\right)^{n-1} \\frac{p_j}{c} = p_j\n\\]",
-    "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Números Pseudoaleatórios</span>"
-    ]
-  },
-  {
-    "objectID": "2_pseudorandom.html#exercício",
-    "href": "2_pseudorandom.html#exercício",
-    "title": "4  Números Pseudoaleatórios",
-    "section": "5.3 Exercício",
-    "text": "5.3 Exercício\nImplemente o método de aceitação e rejeição para gerar uma amostra da variável aleatória \\(X\\) com a distribuição de probabilidades alvo \\(p_j\\) dada anteriormente:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nUse a distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\) como a distribuição proposta \\(q_j\\), em que \\(q_j = 1/10\\) para todos os valores de \\(j\\).",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Números Pseudoaleatórios</span>"
     ]
@@ -630,36 +480,6 @@
     ]
   },
   {
-    "objectID": "3_discrete_inversion.html#algoritmo",
-    "href": "3_discrete_inversion.html#algoritmo",
-    "title": "5  Técnica da Inversão para Variáveis Discretas",
-    "section": "6.1 Algoritmo",
-    "text": "6.1 Algoritmo\nO método assume que conhecemos uma distribuição \\(q_j\\), fácil de simular, que cubra o suporte da distribuição alvo \\(p_j\\). Essa distribuição é chamada de distribuição proposta. Além disso, ele assume que existe uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\) tal que \\(p_j &gt; 0\\), e que conseguimos calcular \\(c\\).\nO método de aceitação e rejeição segue os seguintes passos:\n\nGere um valor \\(Y\\) da distribuição proposta \\(q_j\\).\nGere um valor \\(U \\sim \\text{Uniform}(0, 1)\\).\nAceite \\(Y\\) como uma amostra de \\(p_j\\) se \\(U \\leq \\frac{p(Y)}{c \\cdot q(Y)}\\), caso contrário, rejeite \\(Y\\) e repita o processo.",
-    "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Técnica da Inversão para Variáveis  Discretas</span>"
-    ]
-  },
-  {
-    "objectID": "3_discrete_inversion.html#exemplo",
-    "href": "3_discrete_inversion.html#exemplo",
-    "title": "5  Técnica da Inversão para Variáveis Discretas",
-    "section": "6.2 Exemplo",
-    "text": "6.2 Exemplo\nVamos demonstrar a amostragem por rejeição gerando amostras de uma distribuição alvo discreta \\(p_j\\), utilizando uma distribuição uniforme discreta como distribuição proposta.\nSuponha que \\(Y\\) siga uma distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\), ou seja, \\(q_j = 1/10\\) para todos os valores \\(j\\). A distribuição alvo \\(p_j\\) tem os seguintes valores:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nPara aplicar o método de aceitação e rejeição, precisamos de uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\). Neste caso, temos \\(c = 1.2\\).\n\nRPython\n\n\nlibrary(ggplot2)\n\n# Valores de j e probabilidades p_j e q_j\nj_values &lt;- 1:10\np_j &lt;- c(0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10)\nq_j &lt;- rep(1 / 10, length(p_j))  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc &lt;- max(p_j / q_j)\ncq_j &lt;- c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Criação do data frame para o ggplot2\ndf &lt;- data.frame(j = j_values, p_j = p_j, cq_j = cq_j)\n\n# Plot com ggplot2\nggplot(df, aes(x = j)) +\n  geom_segment(aes(x = j, xend = j, y = 0, yend = cq_j), color = \"black\") +\n  geom_point(aes(y = cq_j), color = \"green\", size = 3) +\n  geom_point(aes(y = p_j), color = \"red\", size = 3) +\n  labs(x = \"\", y = \"\") +\n  ylim(0, 0.2) +\n  theme_minimal() +\n  theme(legend.position = \"top\") +\n  scale_color_manual(values = c(\"p(x)\" = \"red\", \"cq(x)\" = \"green\"), name = \"\") +\n  guides(color = guide_legend(override.aes = list(shape = 16))) +\n  geom_point(aes(y = p_j, color = \"p(x)\"), size = 3) +\n  geom_point(aes(y = cq_j, color = \"cq(x)\"), size = 3) \n\n\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n# Valores de j e probabilidades p_j e q_j\nj_values = np.arange(1, 11)\np_j = np.array([0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10])\nq_j = np.full_like(p_j, 1 / 10)  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc = max(p_j / q_j)\ncq_j = c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Plot\nplt.figure(figsize=(8, 5))\nplt.stem(j_values, cq_j, linefmt=\"black\", markerfmt=\"go\", basefmt=\" \", label=\"cq(x)\")\nplt.stem(j_values, p_j, linefmt=\"black\", markerfmt=\"ro\", basefmt=\" \", label=\"p(x)\")\n\n# Configurações do gráfico\nplt.ylim(0, 0.2)\nplt.legend(loc=\"upper right\")\nplt.show()\n\n\n\n\n\n6.2.1 Teoria do método de rejeição\nTeorema: O método da aceitação e rejeição gera uma v.a. X tal que\n\\[\nP(X = j) = p_j ,\\  j = 0, 1, \\dots\n\\]\nO número de passos que o algoritmo necessita para gerar X tem distribuição geométrica com média c.\nProva:\n\\[\nP(Y = j \\text{ e aceitar}) = P(Y = j)P(\\text{aceitar } | Y = j) = q_j\n\\frac{p_j}{c q_j} = \\frac{p_j}{c}\n\\]\nEntão,\n\\[\nP(\\text{aceitar}) = \\sum_{j=0}^{\\infty} \\frac{p_j}{c} = \\frac{1}{c}\n\\]\nA cada passo a probabilidade de aceitar um valor é \\(\\frac{1}{c}\\), então o número de passos necessários para aceitar um valor tem dist. geométrica com média c.\nAlém disso, temos\n\\[\nP(X = j) = \\sum_{n=1}^{\\infty} P(Y = j \\text{ e aceitar pela 1a vez no passo n}) = \\sum_{n=1}^{\\infty} \\left(1 - \\frac{1}{c}\\right)^{n-1} \\frac{p_j}{c} = p_j\n\\]",
-    "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Técnica da Inversão para Variáveis  Discretas</span>"
-    ]
-  },
-  {
-    "objectID": "3_discrete_inversion.html#exercício",
-    "href": "3_discrete_inversion.html#exercício",
-    "title": "5  Técnica da Inversão para Variáveis Discretas",
-    "section": "6.3 Exercício",
-    "text": "6.3 Exercício\nImplemente o método de aceitação e rejeição para gerar uma amostra da variável aleatória \\(X\\) com a distribuição de probabilidades alvo \\(p_j\\) dada anteriormente:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nUse a distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\) como a distribuição proposta \\(q_j\\), em que \\(q_j = 1/10\\) para todos os valores de \\(j\\).",
-    "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Técnica da Inversão para Variáveis  Discretas</span>"
-    ]
-  },
-  {
     "objectID": "4_continuous_inversion.html",
     "href": "4_continuous_inversion.html",
     "title": "6  Técnica da Inversão para Variáveis Contínuas",
@@ -720,36 +540,6 @@
     ]
   },
   {
-    "objectID": "4_continuous_inversion.html#algoritmo",
-    "href": "4_continuous_inversion.html#algoritmo",
-    "title": "6  Técnica da Inversão para Variáveis Contínuas",
-    "section": "7.1 Algoritmo",
-    "text": "7.1 Algoritmo\nO método assume que conhecemos uma distribuição \\(q_j\\), fácil de simular, que cubra o suporte da distribuição alvo \\(p_j\\). Essa distribuição é chamada de distribuição proposta. Além disso, ele assume que existe uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\) tal que \\(p_j &gt; 0\\), e que conseguimos calcular \\(c\\).\nO método de aceitação e rejeição segue os seguintes passos:\n\nGere um valor \\(Y\\) da distribuição proposta \\(q_j\\).\nGere um valor \\(U \\sim \\text{Uniform}(0, 1)\\).\nAceite \\(Y\\) como uma amostra de \\(p_j\\) se \\(U \\leq \\frac{p(Y)}{c \\cdot q(Y)}\\), caso contrário, rejeite \\(Y\\) e repita o processo.",
-    "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Técnica da Inversão para Variáveis Contínuas</span>"
-    ]
-  },
-  {
-    "objectID": "4_continuous_inversion.html#exemplo",
-    "href": "4_continuous_inversion.html#exemplo",
-    "title": "6  Técnica da Inversão para Variáveis Contínuas",
-    "section": "7.2 Exemplo",
-    "text": "7.2 Exemplo\nVamos demonstrar a amostragem por rejeição gerando amostras de uma distribuição alvo discreta \\(p_j\\), utilizando uma distribuição uniforme discreta como distribuição proposta.\nSuponha que \\(Y\\) siga uma distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\), ou seja, \\(q_j = 1/10\\) para todos os valores \\(j\\). A distribuição alvo \\(p_j\\) tem os seguintes valores:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nPara aplicar o método de aceitação e rejeição, precisamos de uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\). Neste caso, temos \\(c = 1.2\\).\n\nRPython\n\n\nlibrary(ggplot2)\n\n# Valores de j e probabilidades p_j e q_j\nj_values &lt;- 1:10\np_j &lt;- c(0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10)\nq_j &lt;- rep(1 / 10, length(p_j))  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc &lt;- max(p_j / q_j)\ncq_j &lt;- c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Criação do data frame para o ggplot2\ndf &lt;- data.frame(j = j_values, p_j = p_j, cq_j = cq_j)\n\n# Plot com ggplot2\nggplot(df, aes(x = j)) +\n  geom_segment(aes(x = j, xend = j, y = 0, yend = cq_j), color = \"black\") +\n  geom_point(aes(y = cq_j), color = \"green\", size = 3) +\n  geom_point(aes(y = p_j), color = \"red\", size = 3) +\n  labs(x = \"\", y = \"\") +\n  ylim(0, 0.2) +\n  theme_minimal() +\n  theme(legend.position = \"top\") +\n  scale_color_manual(values = c(\"p(x)\" = \"red\", \"cq(x)\" = \"green\"), name = \"\") +\n  guides(color = guide_legend(override.aes = list(shape = 16))) +\n  geom_point(aes(y = p_j, color = \"p(x)\"), size = 3) +\n  geom_point(aes(y = cq_j, color = \"cq(x)\"), size = 3) \n\n\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n# Valores de j e probabilidades p_j e q_j\nj_values = np.arange(1, 11)\np_j = np.array([0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10])\nq_j = np.full_like(p_j, 1 / 10)  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc = max(p_j / q_j)\ncq_j = c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Plot\nplt.figure(figsize=(8, 5))\nplt.stem(j_values, cq_j, linefmt=\"black\", markerfmt=\"go\", basefmt=\" \", label=\"cq(x)\")\nplt.stem(j_values, p_j, linefmt=\"black\", markerfmt=\"ro\", basefmt=\" \", label=\"p(x)\")\n\n# Configurações do gráfico\nplt.ylim(0, 0.2)\nplt.legend(loc=\"upper right\")\nplt.show()\n\n\n\n\n\n7.2.1 Teoria do método de rejeição\nTeorema: O método da aceitação e rejeição gera uma v.a. X tal que\n\\[\nP(X = j) = p_j ,\\  j = 0, 1, \\dots\n\\]\nO número de passos que o algoritmo necessita para gerar X tem distribuição geométrica com média c.\nProva:\n\\[\nP(Y = j \\text{ e aceitar}) = P(Y = j)P(\\text{aceitar } | Y = j) = q_j\n\\frac{p_j}{c q_j} = \\frac{p_j}{c}\n\\]\nEntão,\n\\[\nP(\\text{aceitar}) = \\sum_{j=0}^{\\infty} \\frac{p_j}{c} = \\frac{1}{c}\n\\]\nA cada passo a probabilidade de aceitar um valor é \\(\\frac{1}{c}\\), então o número de passos necessários para aceitar um valor tem dist. geométrica com média c.\nAlém disso, temos\n\\[\nP(X = j) = \\sum_{n=1}^{\\infty} P(Y = j \\text{ e aceitar pela 1a vez no passo n}) = \\sum_{n=1}^{\\infty} \\left(1 - \\frac{1}{c}\\right)^{n-1} \\frac{p_j}{c} = p_j\n\\]",
-    "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Técnica da Inversão para Variáveis Contínuas</span>"
-    ]
-  },
-  {
-    "objectID": "4_continuous_inversion.html#exercício",
-    "href": "4_continuous_inversion.html#exercício",
-    "title": "6  Técnica da Inversão para Variáveis Contínuas",
-    "section": "7.3 Exercício",
-    "text": "7.3 Exercício\nImplemente o método de aceitação e rejeição para gerar uma amostra da variável aleatória \\(X\\) com a distribuição de probabilidades alvo \\(p_j\\) dada anteriormente:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nUse a distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\) como a distribuição proposta \\(q_j\\), em que \\(q_j = 1/10\\) para todos os valores de \\(j\\).",
-    "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Técnica da Inversão para Variáveis Contínuas</span>"
-    ]
-  },
-  {
     "objectID": "5_discrete_rejection.html",
     "href": "5_discrete_rejection.html",
     "title": "7  Método da Rejeição para Variáveis Discretas",
@@ -785,36 +575,6 @@
     "title": "7  Método da Rejeição para Variáveis Discretas",
     "section": "7.3 Exercício",
     "text": "7.3 Exercício\nImplemente o método de aceitação e rejeição para gerar uma amostra da variável aleatória \\(X\\) com a distribuição de probabilidades alvo \\(p_j\\) dada anteriormente:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nUse a distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\) como a distribuição proposta \\(q_j\\), em que \\(q_j = 1/10\\) para todos os valores de \\(j\\).",
-    "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Método da Rejeição para Variáveis Discretas</span>"
-    ]
-  },
-  {
-    "objectID": "5_discrete_rejection.html#algoritmo-1",
-    "href": "5_discrete_rejection.html#algoritmo-1",
-    "title": "7  Método da Rejeição para Variáveis Discretas",
-    "section": "8.1 Algoritmo",
-    "text": "8.1 Algoritmo\nO método assume que conhecemos uma distribuição \\(q_j\\), fácil de simular, que cubra o suporte da distribuição alvo \\(p_j\\). Essa distribuição é chamada de distribuição proposta. Além disso, ele assume que existe uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\) tal que \\(p_j &gt; 0\\), e que conseguimos calcular \\(c\\).\nO método de aceitação e rejeição segue os seguintes passos:\n\nGere um valor \\(Y\\) da distribuição proposta \\(q_j\\).\nGere um valor \\(U \\sim \\text{Uniform}(0, 1)\\).\nAceite \\(Y\\) como uma amostra de \\(p_j\\) se \\(U \\leq \\frac{p(Y)}{c \\cdot q(Y)}\\), caso contrário, rejeite \\(Y\\) e repita o processo.",
-    "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Método da Rejeição para Variáveis Discretas</span>"
-    ]
-  },
-  {
-    "objectID": "5_discrete_rejection.html#exemplo-1",
-    "href": "5_discrete_rejection.html#exemplo-1",
-    "title": "7  Método da Rejeição para Variáveis Discretas",
-    "section": "8.2 Exemplo",
-    "text": "8.2 Exemplo\nVamos demonstrar a amostragem por rejeição gerando amostras de uma distribuição alvo discreta \\(p_j\\), utilizando uma distribuição uniforme discreta como distribuição proposta.\nSuponha que \\(Y\\) siga uma distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\), ou seja, \\(q_j = 1/10\\) para todos os valores \\(j\\). A distribuição alvo \\(p_j\\) tem os seguintes valores:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nPara aplicar o método de aceitação e rejeição, precisamos de uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\). Neste caso, temos \\(c = 1.2\\).\n\nRPython\n\n\nlibrary(ggplot2)\n\n# Valores de j e probabilidades p_j e q_j\nj_values &lt;- 1:10\np_j &lt;- c(0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10)\nq_j &lt;- rep(1 / 10, length(p_j))  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc &lt;- max(p_j / q_j)\ncq_j &lt;- c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Criação do data frame para o ggplot2\ndf &lt;- data.frame(j = j_values, p_j = p_j, cq_j = cq_j)\n\n# Plot com ggplot2\nggplot(df, aes(x = j)) +\n  geom_segment(aes(x = j, xend = j, y = 0, yend = cq_j), color = \"black\") +\n  geom_point(aes(y = cq_j), color = \"green\", size = 3) +\n  geom_point(aes(y = p_j), color = \"red\", size = 3) +\n  labs(x = \"\", y = \"\") +\n  ylim(0, 0.2) +\n  theme_minimal() +\n  theme(legend.position = \"top\") +\n  scale_color_manual(values = c(\"p(x)\" = \"red\", \"cq(x)\" = \"green\"), name = \"\") +\n  guides(color = guide_legend(override.aes = list(shape = 16))) +\n  geom_point(aes(y = p_j, color = \"p(x)\"), size = 3) +\n  geom_point(aes(y = cq_j, color = \"cq(x)\"), size = 3) \n\n\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n# Valores de j e probabilidades p_j e q_j\nj_values = np.arange(1, 11)\np_j = np.array([0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10])\nq_j = np.full_like(p_j, 1 / 10)  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc = max(p_j / q_j)\ncq_j = c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Plot\nplt.figure(figsize=(8, 5))\nplt.stem(j_values, cq_j, linefmt=\"black\", markerfmt=\"go\", basefmt=\" \", label=\"cq(x)\")\nplt.stem(j_values, p_j, linefmt=\"black\", markerfmt=\"ro\", basefmt=\" \", label=\"p(x)\")\n\n# Configurações do gráfico\nplt.ylim(0, 0.2)\nplt.legend(loc=\"upper right\")\nplt.show()\n\n\n\n\n\n8.2.1 Teoria do método de rejeição\nTeorema: O método da aceitação e rejeição gera uma v.a. X tal que\n\\[\nP(X = j) = p_j ,\\  j = 0, 1, \\dots\n\\]\nO número de passos que o algoritmo necessita para gerar X tem distribuição geométrica com média c.\nProva:\n\\[\nP(Y = j \\text{ e aceitar}) = P(Y = j)P(\\text{aceitar } | Y = j) = q_j\n\\frac{p_j}{c q_j} = \\frac{p_j}{c}\n\\]\nEntão,\n\\[\nP(\\text{aceitar}) = \\sum_{j=0}^{\\infty} \\frac{p_j}{c} = \\frac{1}{c}\n\\]\nA cada passo a probabilidade de aceitar um valor é \\(\\frac{1}{c}\\), então o número de passos necessários para aceitar um valor tem dist. geométrica com média c.\nAlém disso, temos\n\\[\nP(X = j) = \\sum_{n=1}^{\\infty} P(Y = j \\text{ e aceitar pela 1a vez no passo n}) = \\sum_{n=1}^{\\infty} \\left(1 - \\frac{1}{c}\\right)^{n-1} \\frac{p_j}{c} = p_j\n\\]",
-    "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Método da Rejeição para Variáveis Discretas</span>"
-    ]
-  },
-  {
-    "objectID": "5_discrete_rejection.html#exercício-1",
-    "href": "5_discrete_rejection.html#exercício-1",
-    "title": "7  Método da Rejeição para Variáveis Discretas",
-    "section": "8.3 Exercício",
-    "text": "8.3 Exercício\nImplemente o método de aceitação e rejeição para gerar uma amostra da variável aleatória \\(X\\) com a distribuição de probabilidades alvo \\(p_j\\) dada anteriormente:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nUse a distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\) como a distribuição proposta \\(q_j\\), em que \\(q_j = 1/10\\) para todos os valores de \\(j\\).",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Método da Rejeição para Variáveis Discretas</span>"
     ]
@@ -870,36 +630,6 @@
     ]
   },
   {
-    "objectID": "6_continuous_rejection.html#algoritmo-1",
-    "href": "6_continuous_rejection.html#algoritmo-1",
-    "title": "8  Método da Rejeição para Variáveis Contínuas",
-    "section": "9.1 Algoritmo",
-    "text": "9.1 Algoritmo\nO método assume que conhecemos uma distribuição \\(q_j\\), fácil de simular, que cubra o suporte da distribuição alvo \\(p_j\\). Essa distribuição é chamada de distribuição proposta. Além disso, ele assume que existe uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\) tal que \\(p_j &gt; 0\\), e que conseguimos calcular \\(c\\).\nO método de aceitação e rejeição segue os seguintes passos:\n\nGere um valor \\(Y\\) da distribuição proposta \\(q_j\\).\nGere um valor \\(U \\sim \\text{Uniform}(0, 1)\\).\nAceite \\(Y\\) como uma amostra de \\(p_j\\) se \\(U \\leq \\frac{p(Y)}{c \\cdot q(Y)}\\), caso contrário, rejeite \\(Y\\) e repita o processo.",
-    "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Método da Rejeição para Variáveis Contínuas</span>"
-    ]
-  },
-  {
-    "objectID": "6_continuous_rejection.html#exemplo-1",
-    "href": "6_continuous_rejection.html#exemplo-1",
-    "title": "8  Método da Rejeição para Variáveis Contínuas",
-    "section": "9.2 Exemplo",
-    "text": "9.2 Exemplo\nVamos demonstrar a amostragem por rejeição gerando amostras de uma distribuição alvo discreta \\(p_j\\), utilizando uma distribuição uniforme discreta como distribuição proposta.\nSuponha que \\(Y\\) siga uma distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\), ou seja, \\(q_j = 1/10\\) para todos os valores \\(j\\). A distribuição alvo \\(p_j\\) tem os seguintes valores:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nPara aplicar o método de aceitação e rejeição, precisamos de uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\). Neste caso, temos \\(c = 1.2\\).\n\nRPython\n\n\nlibrary(ggplot2)\n\n# Valores de j e probabilidades p_j e q_j\nj_values &lt;- 1:10\np_j &lt;- c(0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10)\nq_j &lt;- rep(1 / 10, length(p_j))  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc &lt;- max(p_j / q_j)\ncq_j &lt;- c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Criação do data frame para o ggplot2\ndf &lt;- data.frame(j = j_values, p_j = p_j, cq_j = cq_j)\n\n# Plot com ggplot2\nggplot(df, aes(x = j)) +\n  geom_segment(aes(x = j, xend = j, y = 0, yend = cq_j), color = \"black\") +\n  geom_point(aes(y = cq_j), color = \"green\", size = 3) +\n  geom_point(aes(y = p_j), color = \"red\", size = 3) +\n  labs(x = \"\", y = \"\") +\n  ylim(0, 0.2) +\n  theme_minimal() +\n  theme(legend.position = \"top\") +\n  scale_color_manual(values = c(\"p(x)\" = \"red\", \"cq(x)\" = \"green\"), name = \"\") +\n  guides(color = guide_legend(override.aes = list(shape = 16))) +\n  geom_point(aes(y = p_j, color = \"p(x)\"), size = 3) +\n  geom_point(aes(y = cq_j, color = \"cq(x)\"), size = 3) \n\n\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n# Valores de j e probabilidades p_j e q_j\nj_values = np.arange(1, 11)\np_j = np.array([0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10])\nq_j = np.full_like(p_j, 1 / 10)  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc = max(p_j / q_j)\ncq_j = c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Plot\nplt.figure(figsize=(8, 5))\nplt.stem(j_values, cq_j, linefmt=\"black\", markerfmt=\"go\", basefmt=\" \", label=\"cq(x)\")\nplt.stem(j_values, p_j, linefmt=\"black\", markerfmt=\"ro\", basefmt=\" \", label=\"p(x)\")\n\n# Configurações do gráfico\nplt.ylim(0, 0.2)\nplt.legend(loc=\"upper right\")\nplt.show()\n\n\n\n\n\n9.2.1 Teoria do método de rejeição\nTeorema: O método da aceitação e rejeição gera uma v.a. X tal que\n\\[\nP(X = j) = p_j ,\\  j = 0, 1, \\dots\n\\]\nO número de passos que o algoritmo necessita para gerar X tem distribuição geométrica com média c.\nProva:\n\\[\nP(Y = j \\text{ e aceitar}) = P(Y = j)P(\\text{aceitar } | Y = j) = q_j\n\\frac{p_j}{c q_j} = \\frac{p_j}{c}\n\\]\nEntão,\n\\[\nP(\\text{aceitar}) = \\sum_{j=0}^{\\infty} \\frac{p_j}{c} = \\frac{1}{c}\n\\]\nA cada passo a probabilidade de aceitar um valor é \\(\\frac{1}{c}\\), então o número de passos necessários para aceitar um valor tem dist. geométrica com média c.\nAlém disso, temos\n\\[\nP(X = j) = \\sum_{n=1}^{\\infty} P(Y = j \\text{ e aceitar pela 1a vez no passo n}) = \\sum_{n=1}^{\\infty} \\left(1 - \\frac{1}{c}\\right)^{n-1} \\frac{p_j}{c} = p_j\n\\]",
-    "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Método da Rejeição para Variáveis Contínuas</span>"
-    ]
-  },
-  {
-    "objectID": "6_continuous_rejection.html#exercício",
-    "href": "6_continuous_rejection.html#exercício",
-    "title": "8  Método da Rejeição para Variáveis Contínuas",
-    "section": "9.3 Exercício",
-    "text": "9.3 Exercício\nImplemente o método de aceitação e rejeição para gerar uma amostra da variável aleatória \\(X\\) com a distribuição de probabilidades alvo \\(p_j\\) dada anteriormente:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nUse a distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\) como a distribuição proposta \\(q_j\\), em que \\(q_j = 1/10\\) para todos os valores de \\(j\\).",
-    "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Método da Rejeição para Variáveis Contínuas</span>"
-    ]
-  },
-  {
     "objectID": "7_transf.html",
     "href": "7_transf.html",
     "title": "9  Transformação e Misturas",
@@ -940,71 +670,11 @@
     ]
   },
   {
-    "objectID": "7_transf.html#algoritmo",
-    "href": "7_transf.html#algoritmo",
-    "title": "9  Transformação e Misturas",
-    "section": "10.1 Algoritmo",
-    "text": "10.1 Algoritmo\nO método assume que conhecemos uma distribuição \\(q_j\\), fácil de simular, que cubra o suporte da distribuição alvo \\(p_j\\). Essa distribuição é chamada de distribuição proposta. Além disso, ele assume que existe uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\) tal que \\(p_j &gt; 0\\), e que conseguimos calcular \\(c\\).\nO método de aceitação e rejeição segue os seguintes passos:\n\nGere um valor \\(Y\\) da distribuição proposta \\(q_j\\).\nGere um valor \\(U \\sim \\text{Uniform}(0, 1)\\).\nAceite \\(Y\\) como uma amostra de \\(p_j\\) se \\(U \\leq \\frac{p(Y)}{c \\cdot q(Y)}\\), caso contrário, rejeite \\(Y\\) e repita o processo.",
-    "crumbs": [
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Transformação e Misturas</span>"
-    ]
-  },
-  {
-    "objectID": "7_transf.html#exemplo",
-    "href": "7_transf.html#exemplo",
-    "title": "9  Transformação e Misturas",
-    "section": "10.2 Exemplo",
-    "text": "10.2 Exemplo\nVamos demonstrar a amostragem por rejeição gerando amostras de uma distribuição alvo discreta \\(p_j\\), utilizando uma distribuição uniforme discreta como distribuição proposta.\nSuponha que \\(Y\\) siga uma distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\), ou seja, \\(q_j = 1/10\\) para todos os valores \\(j\\). A distribuição alvo \\(p_j\\) tem os seguintes valores:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nPara aplicar o método de aceitação e rejeição, precisamos de uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\). Neste caso, temos \\(c = 1.2\\).\n\nRPython\n\n\nlibrary(ggplot2)\n\n# Valores de j e probabilidades p_j e q_j\nj_values &lt;- 1:10\np_j &lt;- c(0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10)\nq_j &lt;- rep(1 / 10, length(p_j))  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc &lt;- max(p_j / q_j)\ncq_j &lt;- c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Criação do data frame para o ggplot2\ndf &lt;- data.frame(j = j_values, p_j = p_j, cq_j = cq_j)\n\n# Plot com ggplot2\nggplot(df, aes(x = j)) +\n  geom_segment(aes(x = j, xend = j, y = 0, yend = cq_j), color = \"black\") +\n  geom_point(aes(y = cq_j), color = \"green\", size = 3) +\n  geom_point(aes(y = p_j), color = \"red\", size = 3) +\n  labs(x = \"\", y = \"\") +\n  ylim(0, 0.2) +\n  theme_minimal() +\n  theme(legend.position = \"top\") +\n  scale_color_manual(values = c(\"p(x)\" = \"red\", \"cq(x)\" = \"green\"), name = \"\") +\n  guides(color = guide_legend(override.aes = list(shape = 16))) +\n  geom_point(aes(y = p_j, color = \"p(x)\"), size = 3) +\n  geom_point(aes(y = cq_j, color = \"cq(x)\"), size = 3) \n\n\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n# Valores de j e probabilidades p_j e q_j\nj_values = np.arange(1, 11)\np_j = np.array([0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10])\nq_j = np.full_like(p_j, 1 / 10)  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc = max(p_j / q_j)\ncq_j = c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Plot\nplt.figure(figsize=(8, 5))\nplt.stem(j_values, cq_j, linefmt=\"black\", markerfmt=\"go\", basefmt=\" \", label=\"cq(x)\")\nplt.stem(j_values, p_j, linefmt=\"black\", markerfmt=\"ro\", basefmt=\" \", label=\"p(x)\")\n\n# Configurações do gráfico\nplt.ylim(0, 0.2)\nplt.legend(loc=\"upper right\")\nplt.show()\n\n\n\n\n\n10.2.1 Teoria do método de rejeição\nTeorema: O método da aceitação e rejeição gera uma v.a. X tal que\n\\[\nP(X = j) = p_j ,\\  j = 0, 1, \\dots\n\\]\nO número de passos que o algoritmo necessita para gerar X tem distribuição geométrica com média c.\nProva:\n\\[\nP(Y = j \\text{ e aceitar}) = P(Y = j)P(\\text{aceitar } | Y = j) = q_j\n\\frac{p_j}{c q_j} = \\frac{p_j}{c}\n\\]\nEntão,\n\\[\nP(\\text{aceitar}) = \\sum_{j=0}^{\\infty} \\frac{p_j}{c} = \\frac{1}{c}\n\\]\nA cada passo a probabilidade de aceitar um valor é \\(\\frac{1}{c}\\), então o número de passos necessários para aceitar um valor tem dist. geométrica com média c.\nAlém disso, temos\n\\[\nP(X = j) = \\sum_{n=1}^{\\infty} P(Y = j \\text{ e aceitar pela 1a vez no passo n}) = \\sum_{n=1}^{\\infty} \\left(1 - \\frac{1}{c}\\right)^{n-1} \\frac{p_j}{c} = p_j\n\\]",
-    "crumbs": [
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Transformação e Misturas</span>"
-    ]
-  },
-  {
-    "objectID": "7_transf.html#exercício",
-    "href": "7_transf.html#exercício",
-    "title": "9  Transformação e Misturas",
-    "section": "10.3 Exercício",
-    "text": "10.3 Exercício\nImplemente o método de aceitação e rejeição para gerar uma amostra da variável aleatória \\(X\\) com a distribuição de probabilidades alvo \\(p_j\\) dada anteriormente:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nUse a distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\) como a distribuição proposta \\(q_j\\), em que \\(q_j = 1/10\\) para todos os valores de \\(j\\).",
-    "crumbs": [
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Transformação e Misturas</span>"
-    ]
-  },
-  {
     "objectID": "8_box_muller.html",
     "href": "8_box_muller.html",
     "title": "10  Método de Box-Muller",
     "section": "",
     "text": "10.1 Exercícios\nExercício 1.",
-    "crumbs": [
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Método de Box-Muller</span>"
-    ]
-  },
-  {
-    "objectID": "8_box_muller.html#algoritmo",
-    "href": "8_box_muller.html#algoritmo",
-    "title": "10  Método de Box-Muller",
-    "section": "11.1 Algoritmo",
-    "text": "11.1 Algoritmo\nO método assume que conhecemos uma distribuição \\(q_j\\), fácil de simular, que cubra o suporte da distribuição alvo \\(p_j\\). Essa distribuição é chamada de distribuição proposta. Além disso, ele assume que existe uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\) tal que \\(p_j &gt; 0\\), e que conseguimos calcular \\(c\\).\nO método de aceitação e rejeição segue os seguintes passos:\n\nGere um valor \\(Y\\) da distribuição proposta \\(q_j\\).\nGere um valor \\(U \\sim \\text{Uniform}(0, 1)\\).\nAceite \\(Y\\) como uma amostra de \\(p_j\\) se \\(U \\leq \\frac{p(Y)}{c \\cdot q(Y)}\\), caso contrário, rejeite \\(Y\\) e repita o processo.",
-    "crumbs": [
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Método de Box-Muller</span>"
-    ]
-  },
-  {
-    "objectID": "8_box_muller.html#exemplo",
-    "href": "8_box_muller.html#exemplo",
-    "title": "10  Método de Box-Muller",
-    "section": "11.2 Exemplo",
-    "text": "11.2 Exemplo\nVamos demonstrar a amostragem por rejeição gerando amostras de uma distribuição alvo discreta \\(p_j\\), utilizando uma distribuição uniforme discreta como distribuição proposta.\nSuponha que \\(Y\\) siga uma distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\), ou seja, \\(q_j = 1/10\\) para todos os valores \\(j\\). A distribuição alvo \\(p_j\\) tem os seguintes valores:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nPara aplicar o método de aceitação e rejeição, precisamos de uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\). Neste caso, temos \\(c = 1.2\\).\n\nRPython\n\n\nlibrary(ggplot2)\n\n# Valores de j e probabilidades p_j e q_j\nj_values &lt;- 1:10\np_j &lt;- c(0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10)\nq_j &lt;- rep(1 / 10, length(p_j))  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc &lt;- max(p_j / q_j)\ncq_j &lt;- c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Criação do data frame para o ggplot2\ndf &lt;- data.frame(j = j_values, p_j = p_j, cq_j = cq_j)\n\n# Plot com ggplot2\nggplot(df, aes(x = j)) +\n  geom_segment(aes(x = j, xend = j, y = 0, yend = cq_j), color = \"black\") +\n  geom_point(aes(y = cq_j), color = \"green\", size = 3) +\n  geom_point(aes(y = p_j), color = \"red\", size = 3) +\n  labs(x = \"\", y = \"\") +\n  ylim(0, 0.2) +\n  theme_minimal() +\n  theme(legend.position = \"top\") +\n  scale_color_manual(values = c(\"p(x)\" = \"red\", \"cq(x)\" = \"green\"), name = \"\") +\n  guides(color = guide_legend(override.aes = list(shape = 16))) +\n  geom_point(aes(y = p_j, color = \"p(x)\"), size = 3) +\n  geom_point(aes(y = cq_j, color = \"cq(x)\"), size = 3) \n\n\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n# Valores de j e probabilidades p_j e q_j\nj_values = np.arange(1, 11)\np_j = np.array([0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10])\nq_j = np.full_like(p_j, 1 / 10)  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc = max(p_j / q_j)\ncq_j = c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Plot\nplt.figure(figsize=(8, 5))\nplt.stem(j_values, cq_j, linefmt=\"black\", markerfmt=\"go\", basefmt=\" \", label=\"cq(x)\")\nplt.stem(j_values, p_j, linefmt=\"black\", markerfmt=\"ro\", basefmt=\" \", label=\"p(x)\")\n\n# Configurações do gráfico\nplt.ylim(0, 0.2)\nplt.legend(loc=\"upper right\")\nplt.show()\n\n\n\n\n\n11.2.1 Teoria do método de rejeição\nTeorema: O método da aceitação e rejeição gera uma v.a. X tal que\n\\[\nP(X = j) = p_j ,\\  j = 0, 1, \\dots\n\\]\nO número de passos que o algoritmo necessita para gerar X tem distribuição geométrica com média c.\nProva:\n\\[\nP(Y = j \\text{ e aceitar}) = P(Y = j)P(\\text{aceitar } | Y = j) = q_j\n\\frac{p_j}{c q_j} = \\frac{p_j}{c}\n\\]\nEntão,\n\\[\nP(\\text{aceitar}) = \\sum_{j=0}^{\\infty} \\frac{p_j}{c} = \\frac{1}{c}\n\\]\nA cada passo a probabilidade de aceitar um valor é \\(\\frac{1}{c}\\), então o número de passos necessários para aceitar um valor tem dist. geométrica com média c.\nAlém disso, temos\n\\[\nP(X = j) = \\sum_{n=1}^{\\infty} P(Y = j \\text{ e aceitar pela 1a vez no passo n}) = \\sum_{n=1}^{\\infty} \\left(1 - \\frac{1}{c}\\right)^{n-1} \\frac{p_j}{c} = p_j\n\\]",
-    "crumbs": [
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Método de Box-Muller</span>"
-    ]
-  },
-  {
-    "objectID": "8_box_muller.html#exercício",
-    "href": "8_box_muller.html#exercício",
-    "title": "10  Método de Box-Muller",
-    "section": "11.3 Exercício",
-    "text": "11.3 Exercício\nImplemente o método de aceitação e rejeição para gerar uma amostra da variável aleatória \\(X\\) com a distribuição de probabilidades alvo \\(p_j\\) dada anteriormente:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nUse a distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\) como a distribuição proposta \\(q_j\\), em que \\(q_j = 1/10\\) para todos os valores de \\(j\\).",
     "crumbs": [
       "<span class='chapter-number'>10</span>  <span class='chapter-title'>Método de Box-Muller</span>"
     ]
@@ -1080,71 +750,11 @@
     ]
   },
   {
-    "objectID": "9_monte_carlo.html#algoritmo",
-    "href": "9_monte_carlo.html#algoritmo",
-    "title": "11  Método de Monte Carlo",
-    "section": "12.1 Algoritmo",
-    "text": "12.1 Algoritmo\nO método assume que conhecemos uma distribuição \\(q_j\\), fácil de simular, que cubra o suporte da distribuição alvo \\(p_j\\). Essa distribuição é chamada de distribuição proposta. Além disso, ele assume que existe uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\) tal que \\(p_j &gt; 0\\), e que conseguimos calcular \\(c\\).\nO método de aceitação e rejeição segue os seguintes passos:\n\nGere um valor \\(Y\\) da distribuição proposta \\(q_j\\).\nGere um valor \\(U \\sim \\text{Uniform}(0, 1)\\).\nAceite \\(Y\\) como uma amostra de \\(p_j\\) se \\(U \\leq \\frac{p(Y)}{c \\cdot q(Y)}\\), caso contrário, rejeite \\(Y\\) e repita o processo.",
-    "crumbs": [
-      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Método de Monte Carlo</span>"
-    ]
-  },
-  {
-    "objectID": "9_monte_carlo.html#exemplo",
-    "href": "9_monte_carlo.html#exemplo",
-    "title": "11  Método de Monte Carlo",
-    "section": "12.2 Exemplo",
-    "text": "12.2 Exemplo\nVamos demonstrar a amostragem por rejeição gerando amostras de uma distribuição alvo discreta \\(p_j\\), utilizando uma distribuição uniforme discreta como distribuição proposta.\nSuponha que \\(Y\\) siga uma distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\), ou seja, \\(q_j = 1/10\\) para todos os valores \\(j\\). A distribuição alvo \\(p_j\\) tem os seguintes valores:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nPara aplicar o método de aceitação e rejeição, precisamos de uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\). Neste caso, temos \\(c = 1.2\\).\n\nRPython\n\n\nlibrary(ggplot2)\n\n# Valores de j e probabilidades p_j e q_j\nj_values &lt;- 1:10\np_j &lt;- c(0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10)\nq_j &lt;- rep(1 / 10, length(p_j))  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc &lt;- max(p_j / q_j)\ncq_j &lt;- c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Criação do data frame para o ggplot2\ndf &lt;- data.frame(j = j_values, p_j = p_j, cq_j = cq_j)\n\n# Plot com ggplot2\nggplot(df, aes(x = j)) +\n  geom_segment(aes(x = j, xend = j, y = 0, yend = cq_j), color = \"black\") +\n  geom_point(aes(y = cq_j), color = \"green\", size = 3) +\n  geom_point(aes(y = p_j), color = \"red\", size = 3) +\n  labs(x = \"\", y = \"\") +\n  ylim(0, 0.2) +\n  theme_minimal() +\n  theme(legend.position = \"top\") +\n  scale_color_manual(values = c(\"p(x)\" = \"red\", \"cq(x)\" = \"green\"), name = \"\") +\n  guides(color = guide_legend(override.aes = list(shape = 16))) +\n  geom_point(aes(y = p_j, color = \"p(x)\"), size = 3) +\n  geom_point(aes(y = cq_j, color = \"cq(x)\"), size = 3) \n\n\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n# Valores de j e probabilidades p_j e q_j\nj_values = np.arange(1, 11)\np_j = np.array([0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10])\nq_j = np.full_like(p_j, 1 / 10)  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc = max(p_j / q_j)\ncq_j = c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Plot\nplt.figure(figsize=(8, 5))\nplt.stem(j_values, cq_j, linefmt=\"black\", markerfmt=\"go\", basefmt=\" \", label=\"cq(x)\")\nplt.stem(j_values, p_j, linefmt=\"black\", markerfmt=\"ro\", basefmt=\" \", label=\"p(x)\")\n\n# Configurações do gráfico\nplt.ylim(0, 0.2)\nplt.legend(loc=\"upper right\")\nplt.show()\n\n\n\n\n\n12.2.1 Teoria do método de rejeição\nTeorema: O método da aceitação e rejeição gera uma v.a. X tal que\n\\[\nP(X = j) = p_j ,\\  j = 0, 1, \\dots\n\\]\nO número de passos que o algoritmo necessita para gerar X tem distribuição geométrica com média c.\nProva:\n\\[\nP(Y = j \\text{ e aceitar}) = P(Y = j)P(\\text{aceitar } | Y = j) = q_j\n\\frac{p_j}{c q_j} = \\frac{p_j}{c}\n\\]\nEntão,\n\\[\nP(\\text{aceitar}) = \\sum_{j=0}^{\\infty} \\frac{p_j}{c} = \\frac{1}{c}\n\\]\nA cada passo a probabilidade de aceitar um valor é \\(\\frac{1}{c}\\), então o número de passos necessários para aceitar um valor tem dist. geométrica com média c.\nAlém disso, temos\n\\[\nP(X = j) = \\sum_{n=1}^{\\infty} P(Y = j \\text{ e aceitar pela 1a vez no passo n}) = \\sum_{n=1}^{\\infty} \\left(1 - \\frac{1}{c}\\right)^{n-1} \\frac{p_j}{c} = p_j\n\\]",
-    "crumbs": [
-      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Método de Monte Carlo</span>"
-    ]
-  },
-  {
-    "objectID": "9_monte_carlo.html#exercício",
-    "href": "9_monte_carlo.html#exercício",
-    "title": "11  Método de Monte Carlo",
-    "section": "12.3 Exercício",
-    "text": "12.3 Exercício\nImplemente o método de aceitação e rejeição para gerar uma amostra da variável aleatória \\(X\\) com a distribuição de probabilidades alvo \\(p_j\\) dada anteriormente:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nUse a distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\) como a distribuição proposta \\(q_j\\), em que \\(q_j = 1/10\\) para todos os valores de \\(j\\).",
-    "crumbs": [
-      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Método de Monte Carlo</span>"
-    ]
-  },
-  {
     "objectID": "10_var_red.html",
     "href": "10_var_red.html",
     "title": "12  Técnicas de Redução de Variância",
     "section": "",
     "text": "12.1 Exercícios\nExercício 1.",
-    "crumbs": [
-      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Técnicas de Redução de Variância</span>"
-    ]
-  },
-  {
-    "objectID": "10_var_red.html#algoritmo",
-    "href": "10_var_red.html#algoritmo",
-    "title": "12  Técnicas de Redução de Variância",
-    "section": "13.1 Algoritmo",
-    "text": "13.1 Algoritmo\nO método assume que conhecemos uma distribuição \\(q_j\\), fácil de simular, que cubra o suporte da distribuição alvo \\(p_j\\). Essa distribuição é chamada de distribuição proposta. Além disso, ele assume que existe uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\) tal que \\(p_j &gt; 0\\), e que conseguimos calcular \\(c\\).\nO método de aceitação e rejeição segue os seguintes passos:\n\nGere um valor \\(Y\\) da distribuição proposta \\(q_j\\).\nGere um valor \\(U \\sim \\text{Uniform}(0, 1)\\).\nAceite \\(Y\\) como uma amostra de \\(p_j\\) se \\(U \\leq \\frac{p(Y)}{c \\cdot q(Y)}\\), caso contrário, rejeite \\(Y\\) e repita o processo.",
-    "crumbs": [
-      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Técnicas de Redução de Variância</span>"
-    ]
-  },
-  {
-    "objectID": "10_var_red.html#exemplo",
-    "href": "10_var_red.html#exemplo",
-    "title": "12  Técnicas de Redução de Variância",
-    "section": "13.2 Exemplo",
-    "text": "13.2 Exemplo\nVamos demonstrar a amostragem por rejeição gerando amostras de uma distribuição alvo discreta \\(p_j\\), utilizando uma distribuição uniforme discreta como distribuição proposta.\nSuponha que \\(Y\\) siga uma distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\), ou seja, \\(q_j = 1/10\\) para todos os valores \\(j\\). A distribuição alvo \\(p_j\\) tem os seguintes valores:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nPara aplicar o método de aceitação e rejeição, precisamos de uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\). Neste caso, temos \\(c = 1.2\\).\n\nRPython\n\n\nlibrary(ggplot2)\n\n# Valores de j e probabilidades p_j e q_j\nj_values &lt;- 1:10\np_j &lt;- c(0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10)\nq_j &lt;- rep(1 / 10, length(p_j))  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc &lt;- max(p_j / q_j)\ncq_j &lt;- c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Criação do data frame para o ggplot2\ndf &lt;- data.frame(j = j_values, p_j = p_j, cq_j = cq_j)\n\n# Plot com ggplot2\nggplot(df, aes(x = j)) +\n  geom_segment(aes(x = j, xend = j, y = 0, yend = cq_j), color = \"black\") +\n  geom_point(aes(y = cq_j), color = \"green\", size = 3) +\n  geom_point(aes(y = p_j), color = \"red\", size = 3) +\n  labs(x = \"\", y = \"\") +\n  ylim(0, 0.2) +\n  theme_minimal() +\n  theme(legend.position = \"top\") +\n  scale_color_manual(values = c(\"p(x)\" = \"red\", \"cq(x)\" = \"green\"), name = \"\") +\n  guides(color = guide_legend(override.aes = list(shape = 16))) +\n  geom_point(aes(y = p_j, color = \"p(x)\"), size = 3) +\n  geom_point(aes(y = cq_j, color = \"cq(x)\"), size = 3) \n\n\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n# Valores de j e probabilidades p_j e q_j\nj_values = np.arange(1, 11)\np_j = np.array([0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10])\nq_j = np.full_like(p_j, 1 / 10)  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc = max(p_j / q_j)\ncq_j = c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Plot\nplt.figure(figsize=(8, 5))\nplt.stem(j_values, cq_j, linefmt=\"black\", markerfmt=\"go\", basefmt=\" \", label=\"cq(x)\")\nplt.stem(j_values, p_j, linefmt=\"black\", markerfmt=\"ro\", basefmt=\" \", label=\"p(x)\")\n\n# Configurações do gráfico\nplt.ylim(0, 0.2)\nplt.legend(loc=\"upper right\")\nplt.show()\n\n\n\n\n\n13.2.1 Teoria do método de rejeição\nTeorema: O método da aceitação e rejeição gera uma v.a. X tal que\n\\[\nP(X = j) = p_j ,\\  j = 0, 1, \\dots\n\\]\nO número de passos que o algoritmo necessita para gerar X tem distribuição geométrica com média c.\nProva:\n\\[\nP(Y = j \\text{ e aceitar}) = P(Y = j)P(\\text{aceitar } | Y = j) = q_j\n\\frac{p_j}{c q_j} = \\frac{p_j}{c}\n\\]\nEntão,\n\\[\nP(\\text{aceitar}) = \\sum_{j=0}^{\\infty} \\frac{p_j}{c} = \\frac{1}{c}\n\\]\nA cada passo a probabilidade de aceitar um valor é \\(\\frac{1}{c}\\), então o número de passos necessários para aceitar um valor tem dist. geométrica com média c.\nAlém disso, temos\n\\[\nP(X = j) = \\sum_{n=1}^{\\infty} P(Y = j \\text{ e aceitar pela 1a vez no passo n}) = \\sum_{n=1}^{\\infty} \\left(1 - \\frac{1}{c}\\right)^{n-1} \\frac{p_j}{c} = p_j\n\\]",
-    "crumbs": [
-      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Técnicas de Redução de Variância</span>"
-    ]
-  },
-  {
-    "objectID": "10_var_red.html#exercício",
-    "href": "10_var_red.html#exercício",
-    "title": "12  Técnicas de Redução de Variância",
-    "section": "13.3 Exercício",
-    "text": "13.3 Exercício\nImplemente o método de aceitação e rejeição para gerar uma amostra da variável aleatória \\(X\\) com a distribuição de probabilidades alvo \\(p_j\\) dada anteriormente:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nUse a distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\) como a distribuição proposta \\(q_j\\), em que \\(q_j = 1/10\\) para todos os valores de \\(j\\).",
     "crumbs": [
       "<span class='chapter-number'>12</span>  <span class='chapter-title'>Técnicas de Redução de Variância</span>"
     ]
@@ -1200,71 +810,11 @@
     ]
   },
   {
-    "objectID": "11_import.html#algoritmo",
-    "href": "11_import.html#algoritmo",
-    "title": "13  Amostragem por Importância",
-    "section": "14.1 Algoritmo",
-    "text": "14.1 Algoritmo\nO método assume que conhecemos uma distribuição \\(q_j\\), fácil de simular, que cubra o suporte da distribuição alvo \\(p_j\\). Essa distribuição é chamada de distribuição proposta. Além disso, ele assume que existe uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\) tal que \\(p_j &gt; 0\\), e que conseguimos calcular \\(c\\).\nO método de aceitação e rejeição segue os seguintes passos:\n\nGere um valor \\(Y\\) da distribuição proposta \\(q_j\\).\nGere um valor \\(U \\sim \\text{Uniform}(0, 1)\\).\nAceite \\(Y\\) como uma amostra de \\(p_j\\) se \\(U \\leq \\frac{p(Y)}{c \\cdot q(Y)}\\), caso contrário, rejeite \\(Y\\) e repita o processo.",
-    "crumbs": [
-      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Amostragem por Importância</span>"
-    ]
-  },
-  {
-    "objectID": "11_import.html#exemplo",
-    "href": "11_import.html#exemplo",
-    "title": "13  Amostragem por Importância",
-    "section": "14.2 Exemplo",
-    "text": "14.2 Exemplo\nVamos demonstrar a amostragem por rejeição gerando amostras de uma distribuição alvo discreta \\(p_j\\), utilizando uma distribuição uniforme discreta como distribuição proposta.\nSuponha que \\(Y\\) siga uma distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\), ou seja, \\(q_j = 1/10\\) para todos os valores \\(j\\). A distribuição alvo \\(p_j\\) tem os seguintes valores:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nPara aplicar o método de aceitação e rejeição, precisamos de uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\). Neste caso, temos \\(c = 1.2\\).\n\nRPython\n\n\nlibrary(ggplot2)\n\n# Valores de j e probabilidades p_j e q_j\nj_values &lt;- 1:10\np_j &lt;- c(0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10)\nq_j &lt;- rep(1 / 10, length(p_j))  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc &lt;- max(p_j / q_j)\ncq_j &lt;- c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Criação do data frame para o ggplot2\ndf &lt;- data.frame(j = j_values, p_j = p_j, cq_j = cq_j)\n\n# Plot com ggplot2\nggplot(df, aes(x = j)) +\n  geom_segment(aes(x = j, xend = j, y = 0, yend = cq_j), color = \"black\") +\n  geom_point(aes(y = cq_j), color = \"green\", size = 3) +\n  geom_point(aes(y = p_j), color = \"red\", size = 3) +\n  labs(x = \"\", y = \"\") +\n  ylim(0, 0.2) +\n  theme_minimal() +\n  theme(legend.position = \"top\") +\n  scale_color_manual(values = c(\"p(x)\" = \"red\", \"cq(x)\" = \"green\"), name = \"\") +\n  guides(color = guide_legend(override.aes = list(shape = 16))) +\n  geom_point(aes(y = p_j, color = \"p(x)\"), size = 3) +\n  geom_point(aes(y = cq_j, color = \"cq(x)\"), size = 3) \n\n\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n# Valores de j e probabilidades p_j e q_j\nj_values = np.arange(1, 11)\np_j = np.array([0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10])\nq_j = np.full_like(p_j, 1 / 10)  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc = max(p_j / q_j)\ncq_j = c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Plot\nplt.figure(figsize=(8, 5))\nplt.stem(j_values, cq_j, linefmt=\"black\", markerfmt=\"go\", basefmt=\" \", label=\"cq(x)\")\nplt.stem(j_values, p_j, linefmt=\"black\", markerfmt=\"ro\", basefmt=\" \", label=\"p(x)\")\n\n# Configurações do gráfico\nplt.ylim(0, 0.2)\nplt.legend(loc=\"upper right\")\nplt.show()\n\n\n\n\n\n14.2.1 Teoria do método de rejeição\nTeorema: O método da aceitação e rejeição gera uma v.a. X tal que\n\\[\nP(X = j) = p_j ,\\  j = 0, 1, \\dots\n\\]\nO número de passos que o algoritmo necessita para gerar X tem distribuição geométrica com média c.\nProva:\n\\[\nP(Y = j \\text{ e aceitar}) = P(Y = j)P(\\text{aceitar } | Y = j) = q_j\n\\frac{p_j}{c q_j} = \\frac{p_j}{c}\n\\]\nEntão,\n\\[\nP(\\text{aceitar}) = \\sum_{j=0}^{\\infty} \\frac{p_j}{c} = \\frac{1}{c}\n\\]\nA cada passo a probabilidade de aceitar um valor é \\(\\frac{1}{c}\\), então o número de passos necessários para aceitar um valor tem dist. geométrica com média c.\nAlém disso, temos\n\\[\nP(X = j) = \\sum_{n=1}^{\\infty} P(Y = j \\text{ e aceitar pela 1a vez no passo n}) = \\sum_{n=1}^{\\infty} \\left(1 - \\frac{1}{c}\\right)^{n-1} \\frac{p_j}{c} = p_j\n\\]",
-    "crumbs": [
-      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Amostragem por Importância</span>"
-    ]
-  },
-  {
-    "objectID": "11_import.html#exercício",
-    "href": "11_import.html#exercício",
-    "title": "13  Amostragem por Importância",
-    "section": "14.3 Exercício",
-    "text": "14.3 Exercício\nImplemente o método de aceitação e rejeição para gerar uma amostra da variável aleatória \\(X\\) com a distribuição de probabilidades alvo \\(p_j\\) dada anteriormente:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nUse a distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\) como a distribuição proposta \\(q_j\\), em que \\(q_j = 1/10\\) para todos os valores de \\(j\\).",
-    "crumbs": [
-      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Amostragem por Importância</span>"
-    ]
-  },
-  {
     "objectID": "references.html",
     "href": "references.html",
     "title": "References",
     "section": "",
-    "text": "Método da Rejeição para Variáveis Discretas\nA amostragem por rejeição é uma técnica útil para gerar variáveis aleatórias a partir de uma distribuição de probabilidade complexa, utilizando uma distribuição proposta mais simples. A ideia básica é simular de uma distribuição discreta fácil de amostrar e, em seguida, rejeitar ou aceitar essas amostras com base na distribuição alvo.",
-    "crumbs": [
-      "References"
-    ]
-  },
-  {
-    "objectID": "references.html#algoritmo",
-    "href": "references.html#algoritmo",
-    "title": "References",
-    "section": "Algoritmo",
-    "text": "Algoritmo\nO método assume que conhecemos uma distribuição \\(q_j\\), fácil de simular, que cubra o suporte da distribuição alvo \\(p_j\\). Essa distribuição é chamada de distribuição proposta. Além disso, ele assume que existe uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\) tal que \\(p_j &gt; 0\\), e que conseguimos calcular \\(c\\).\nO método de aceitação e rejeição segue os seguintes passos:\n\nGere um valor \\(Y\\) da distribuição proposta \\(q_j\\).\nGere um valor \\(U \\sim \\text{Uniform}(0, 1)\\).\nAceite \\(Y\\) como uma amostra de \\(p_j\\) se \\(U \\leq \\frac{p(Y)}{c \\cdot q(Y)}\\), caso contrário, rejeite \\(Y\\) e repita o processo.",
-    "crumbs": [
-      "References"
-    ]
-  },
-  {
-    "objectID": "references.html#exemplo",
-    "href": "references.html#exemplo",
-    "title": "References",
-    "section": "Exemplo",
-    "text": "Exemplo\nVamos demonstrar a amostragem por rejeição gerando amostras de uma distribuição alvo discreta \\(p_j\\), utilizando uma distribuição uniforme discreta como distribuição proposta.\nSuponha que \\(Y\\) siga uma distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\), ou seja, \\(q_j = 1/10\\) para todos os valores \\(j\\). A distribuição alvo \\(p_j\\) tem os seguintes valores:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nPara aplicar o método de aceitação e rejeição, precisamos de uma constante \\(c\\) tal que \\(\\frac{p_j}{q_j} \\leq c\\) para todo \\(j\\). Neste caso, temos \\(c = 1.2\\).\n\nRPython\n\n\nlibrary(ggplot2)\n\n# Valores de j e probabilidades p_j e q_j\nj_values &lt;- 1:10\np_j &lt;- c(0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10)\nq_j &lt;- rep(1 / 10, length(p_j))  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc &lt;- max(p_j / q_j)\ncq_j &lt;- c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Criação do data frame para o ggplot2\ndf &lt;- data.frame(j = j_values, p_j = p_j, cq_j = cq_j)\n\n# Plot com ggplot2\nggplot(df, aes(x = j)) +\n  geom_segment(aes(x = j, xend = j, y = 0, yend = cq_j), color = \"black\") +\n  geom_point(aes(y = cq_j), color = \"green\", size = 3) +\n  geom_point(aes(y = p_j), color = \"red\", size = 3) +\n  labs(x = \"\", y = \"\") +\n  ylim(0, 0.2) +\n  theme_minimal() +\n  theme(legend.position = \"top\") +\n  scale_color_manual(values = c(\"p(x)\" = \"red\", \"cq(x)\" = \"green\"), name = \"\") +\n  guides(color = guide_legend(override.aes = list(shape = 16))) +\n  geom_point(aes(y = p_j, color = \"p(x)\"), size = 3) +\n  geom_point(aes(y = cq_j, color = \"cq(x)\"), size = 3) \n\n\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n# Valores de j e probabilidades p_j e q_j\nj_values = np.arange(1, 11)\np_j = np.array([0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10])\nq_j = np.full_like(p_j, 1 / 10)  # Distribuição uniforme\n\n# Constante c para ajustar q_j\nc = max(p_j / q_j)\ncq_j = c * q_j  # Multiplica a distribuição proposta pela constante\n\n# Plot\nplt.figure(figsize=(8, 5))\nplt.stem(j_values, cq_j, linefmt=\"black\", markerfmt=\"go\", basefmt=\" \", label=\"cq(x)\")\nplt.stem(j_values, p_j, linefmt=\"black\", markerfmt=\"ro\", basefmt=\" \", label=\"p(x)\")\n\n# Configurações do gráfico\nplt.ylim(0, 0.2)\nplt.legend(loc=\"upper right\")\nplt.show()\n\n\n\n\n\nTeoria do método de rejeição\nTeorema: O método da aceitação e rejeição gera uma v.a. X tal que\n\\[\nP(X = j) = p_j ,\\  j = 0, 1, \\dots\n\\]\nO número de passos que o algoritmo necessita para gerar X tem distribuição geométrica com média c.\nProva:\n\\[\nP(Y = j \\text{ e aceitar}) = P(Y = j)P(\\text{aceitar } | Y = j) = q_j\n\\frac{p_j}{c q_j} = \\frac{p_j}{c}\n\\]\nEntão,\n\\[\nP(\\text{aceitar}) = \\sum_{j=0}^{\\infty} \\frac{p_j}{c} = \\frac{1}{c}\n\\]\nA cada passo a probabilidade de aceitar um valor é \\(\\frac{1}{c}\\), então o número de passos necessários para aceitar um valor tem dist. geométrica com média c.\nAlém disso, temos\n\\[\nP(X = j) = \\sum_{n=1}^{\\infty} P(Y = j \\text{ e aceitar pela 1a vez no passo n}) = \\sum_{n=1}^{\\infty} \\left(1 - \\frac{1}{c}\\right)^{n-1} \\frac{p_j}{c} = p_j\n\\]",
-    "crumbs": [
-      "References"
-    ]
-  },
-  {
-    "objectID": "references.html#exercício",
-    "href": "references.html#exercício",
-    "title": "References",
-    "section": "Exercício",
-    "text": "Exercício\nImplemente o método de aceitação e rejeição para gerar uma amostra da variável aleatória \\(X\\) com a distribuição de probabilidades alvo \\(p_j\\) dada anteriormente:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nUse a distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\) como a distribuição proposta \\(q_j\\), em que \\(q_j = 1/10\\) para todos os valores de \\(j\\).",
+    "text": "Ross, Sheldon M. 2006. Simulation, Fourth Edition. USA:\nAcademic Press, Inc.",
     "crumbs": [
       "References"
     ]
