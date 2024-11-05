@@ -127,6 +127,9 @@ $$
 
 ## Exercício
 
+<span style="color:#2C92B2;">**Exercício 1.**</span>. 
+
+
 Implemente o método de aceitação e rejeição para gerar uma amostra da variável aleatória $X$ com a distribuição de probabilidades alvo $p_j$ dada anteriormente:
 
 | $j$   | 1    | 2    | 3    | 4    | 5    | 6    | 7    | 8    | 9    | 10   |
