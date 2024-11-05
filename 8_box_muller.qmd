@@ -1,9 +1,8 @@
 # Método de Box-Muller
 
 
-O objetivo desta aula é utilizar variáveis aleatórias uniformes para gerar valores de uma nova variável aleatória com uma distribuição de probabilidade específica. Nesta aula, focaremos na geração de variáveis aleatórias com distribuição Normal, usando o método de Box-Muller.
 
----
+O objetivo desta aula é utilizar variáveis aleatórias uniformes para gerar valores de uma nova variável aleatória com uma distribuição de probabilidade específica. Nesta aula, focaremos na geração de variáveis aleatórias com distribuição Normal, usando o método de Box-Muller.
 
 ## Representação em Coordenadas Polares
 
@@ -78,10 +77,7 @@ $$
 Com o Jacobiano, a densidade conjunta é:
 
 $$
-\begin{align}
-f_{R, \Theta}(r, \theta) &= f_{X, Y}(r \cos \theta, r \sin \theta) |J_h(r, \theta)|\\
-&= \frac{1}{2\pi} e^{-\frac{1}{2}(r^2)} r,
-\end{align}
+f_{R, \Theta}(r, \theta) = f_{X, Y}(r \cos \theta, r \sin \theta) |J_h(r, \theta)| = \frac{1}{2\pi} e^{-\frac{1}{2}(r^2)} r,
 $$
 para $0 < r < \infty, \, 0 < \theta < 2\pi$.
 
