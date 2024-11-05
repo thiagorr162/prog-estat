@@ -574,7 +574,7 @@
     "href": "5_discrete_rejection.html#exercício",
     "title": "7  Método da Rejeição para Variáveis Discretas",
     "section": "7.3 Exercício",
-    "text": "7.3 Exercício\nImplemente o método de aceitação e rejeição para gerar uma amostra da variável aleatória \\(X\\) com a distribuição de probabilidades alvo \\(p_j\\) dada anteriormente:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nUse a distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\) como a distribuição proposta \\(q_j\\), em que \\(q_j = 1/10\\) para todos os valores de \\(j\\).",
+    "text": "7.3 Exercício\nExercício 1..\nImplemente o método de aceitação e rejeição para gerar uma amostra da variável aleatória \\(X\\) com a distribuição de probabilidades alvo \\(p_j\\) dada anteriormente:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(j\\)\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n\n\n\n\n\\(p_j\\)\n0.11\n0.12\n0.09\n0.08\n0.12\n0.10\n0.09\n0.09\n0.10\n0.10\n\n\n\nUse a distribuição uniforme discreta em \\(\\{1, 2, \\dots, 10\\}\\) como a distribuição proposta \\(q_j\\), em que \\(q_j = 1/10\\) para todos os valores de \\(j\\).",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Método da Rejeição para Variáveis Discretas</span>"
     ]
@@ -674,7 +674,67 @@
     "href": "8_box_muller.html",
     "title": "10  Método de Box-Muller",
     "section": "",
-    "text": "10.1 Exercícios\nExercício 1.",
+    "text": "10.1 Representação em Coordenadas Polares\nConsidere duas variáveis aleatórias \\(X \\sim N(0, 1)\\) e \\(Y \\sim N(0, 1)\\), independentes entre si. No plano cartesiano, podemos representar o ponto \\((X, Y)\\) e explorar sua distribuição em coordenadas polares \\((R, \\Theta)\\), onde \\(R\\) representa a distância do ponto à origem e \\(\\Theta\\) é o ângulo formado com o eixo horizontal.\nAs relações trigonométricas para \\(\\Theta\\) são dadas por:\n\\[\n\\sin \\Theta = \\frac{\\text{cateto oposto}}{\\text{hipotenusa}}\n\\]\n\\[\n\\cos \\Theta = \\frac{\\text{cateto adjacente}}{\\text{hipotenusa}}\n\\]\nPara \\((X, Y)\\) normalmente distribuído, queremos expressá-lo em coordenadas polares, de modo que:\n\\[\n\\sin \\Theta = \\frac{Y}{R}\n\\]\n\\[\n\\cos \\Theta = \\frac{X}{R}\n\\]\nDessa forma, obtemos:\n\\[\nX = R \\cos \\Theta \\quad \\text{e} \\quad Y = R \\sin \\Theta\n\\]\nAlém disso, temos que:\n\\[\nR^2 = X^2 + Y^2\n\\]",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Método de Box-Muller</span>"
+    ]
+  },
+  {
+    "objectID": "8_box_muller.html#representação-em-coordenadas-polares",
+    "href": "8_box_muller.html#representação-em-coordenadas-polares",
+    "title": "10  Método de Box-Muller",
+    "section": "",
+    "text": "Representação em Coordenadas Polares",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Método de Box-Muller</span>"
+    ]
+  },
+  {
+    "objectID": "8_box_muller.html#transformação-de-variáveis",
+    "href": "8_box_muller.html#transformação-de-variáveis",
+    "title": "10  Método de Box-Muller",
+    "section": "10.2 Transformação de Variáveis",
+    "text": "10.2 Transformação de Variáveis\nAs variáveis \\(R\\) e \\(\\Theta\\) podem ser obtidas a partir de uma transformação das variáveis \\((X, Y)\\). A função de densidade conjunta de \\((R, \\Theta)\\) é dada por:\n\\[\nf_{R, \\Theta}(r, \\theta) = f_{X, Y}(h_1(r, \\theta), h_2(r, \\theta)) |J_h(r, \\theta)|\n\\]\nonde \\(J_h(r, \\theta)\\) é o Jacobiano referente às funções \\(h_1\\) e \\(h_2\\), sendo essas funções as transformações inversas que expressam \\(X\\) e \\(Y\\) em termos de \\(R\\) e \\(\\Theta\\). Esse Jacobiano pode ser calculado pelo determinante:\n\\[\nJ_h(r, \\theta) =\n\\begin{vmatrix}\n\\frac{\\partial h_1}{\\partial r} & \\frac{\\partial h_1}{\\partial \\theta} \\\\\n\\frac{\\partial h_2}{\\partial r} & \\frac{\\partial h_2}{\\partial \\theta} \\\\\n\\end{vmatrix}\n\\]\nNeste caso, o Jacobiano é dado por:\n\\[\nJ_h(r, \\theta) =\n\\begin{vmatrix}\n\\cos \\theta & -r \\sin \\theta \\\\\n\\sin \\theta & r \\cos \\theta \\\\\n\\end{vmatrix} = r(\\cos^2 \\theta + \\sin^2 \\theta) = r\n\\]\nCom o Jacobiano, a densidade conjunta é:\n\\[\nf_{R, \\Theta}(r, \\theta) = f_{X, Y}(r \\cos \\theta, r \\sin \\theta) |J_h(r, \\theta)| = \\frac{1}{2\\pi} e^{-\\frac{1}{2}(r^2)} r,\n\\] para \\(0 &lt; r &lt; \\infty, \\, 0 &lt; \\theta &lt; 2\\pi\\).\nAssim, obtemos que:\n\\[\nf_{\\Theta}(\\theta) = \\frac{1}{2\\pi}, \\quad 0 &lt; \\theta &lt; 2\\pi\n\\]\n\\[\nf_R(r) = r e^{-r^2/2}, \\quad 0 &lt; r &lt; \\infty\n\\]\nLogo, \\(\\Theta \\sim \\text{Unif}(0, 2\\pi)\\) e \\(R \\sim \\text{Rayleigh}(1)\\), sendo \\(R\\) e \\(\\Theta\\) independentes.\nAlém disso, sabe-se que se \\(R \\sim \\text{Rayleigh}(1)\\), então \\(R^2 \\sim \\chi^2_2\\) (exercício). Se \\(R^2 \\sim \\chi^2_2\\), então \\(R^2 \\sim \\text{Exp}(1/2)\\) (exercício). Portanto:\n\\[\n\\Theta \\sim \\text{Unif}(0, 2\\pi) \\quad \\text{e} \\quad R^2 \\sim \\text{Exp}(1/2)\n\\]",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Método de Box-Muller</span>"
+    ]
+  },
+  {
+    "objectID": "8_box_muller.html#resumindo",
+    "href": "8_box_muller.html#resumindo",
+    "title": "10  Método de Box-Muller",
+    "section": "10.3 Resumindo",
+    "text": "10.3 Resumindo\nConsiderando \\(X \\sim N(0, 1)\\) e \\(Y \\sim N(0, 1)\\), variáveis independentes, podemos expressá-las em termos das coordenadas polares \\((R, \\Theta)\\), onde:\n\\[\nX = R \\cos \\Theta \\quad \\text{e} \\quad Y = R \\sin \\Theta\n\\]\nCom essa transformação, obtemos que \\(\\Theta\\) tem distribuição uniforme no intervalo \\((0, 2\\pi)\\) e que \\(R^2\\) segue uma distribuição exponencial com parâmetro \\(1/2\\):\n\\[\n\\Theta \\sim \\text{Unif}(0, 2\\pi) \\quad \\text{e} \\quad R^2 \\sim \\text{Exp}(1/2)\n\\]\nAlém disso, as variáveis \\(R^2\\) e \\(\\Theta\\) são independentes.",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Método de Box-Muller</span>"
+    ]
+  },
+  {
+    "objectID": "8_box_muller.html#como-gerar-r2-e-theta",
+    "href": "8_box_muller.html#como-gerar-r2-e-theta",
+    "title": "10  Método de Box-Muller",
+    "section": "10.4 Como Gerar \\(R^2\\) e \\(\\Theta\\)",
+    "text": "10.4 Como Gerar \\(R^2\\) e \\(\\Theta\\)\nPara obter valores de \\(R^2\\) e \\(\\Theta\\) de acordo com as distribuições acima, podemos seguir estes passos:\n\nPrimeiramente, geramos duas variáveis uniformes independentes \\(U_1 \\sim \\text{Unif}(0, 1)\\) e \\(U_2 \\sim \\text{Unif}(0, 1)\\).\nEm seguida, calculamos \\(R^2 = -2 \\log U_1\\) e \\(\\Theta = 2\\pi U_2\\).\n\nEssa abordagem nos permite obter \\(R^2\\) e \\(\\Theta\\) de acordo com as distribuições desejadas.",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Método de Box-Muller</span>"
+    ]
+  },
+  {
+    "objectID": "8_box_muller.html#simulação---distribuição-normal",
+    "href": "8_box_muller.html#simulação---distribuição-normal",
+    "title": "10  Método de Box-Muller",
+    "section": "10.5 Simulação - Distribuição Normal",
+    "text": "10.5 Simulação - Distribuição Normal\nPara gerar duas variáveis independentes \\(X\\) e \\(Y\\), ambas com distribuição \\(N(0, 1)\\), utilizamos o método de Box-Muller. O procedimento é o seguinte:\n\nPrimeiramente, geramos duas variáveis uniformes independentes \\(U_1 \\sim \\text{Unif}(0, 1)\\) e \\(U_2 \\sim \\text{Unif}(0, 1)\\).\nEm seguida, aplicamos as fórmulas \\(X = \\sqrt{-2 \\log U_1} \\cos(2\\pi U_2)\\) e \\(Y = \\sqrt{-2 \\log U_1} \\sin(2\\pi U_2)\\).\n\nO método de Box-Muller permite que convertemos variáveis uniformes em variáveis com distribuição normal padrão, mantendo a independência entre \\(X\\) e \\(Y\\).",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Método de Box-Muller</span>"
+    ]
+  },
+  {
+    "objectID": "8_box_muller.html#exercícios",
+    "href": "8_box_muller.html#exercícios",
+    "title": "10  Método de Box-Muller",
+    "section": "10.6 Exercícios",
+    "text": "10.6 Exercícios\nExercício 1.\nImplemente o método de Box-Muller para gerar duas variáveis aleatórias independentes com distribuição normal \\(N(0, 1)\\) a partir de variáveis uniformes \\(U_1\\) e \\(U_2\\).\nExercício 2.\nSuponha \\(X \\sim N(0, 1)\\). Encontre a transformação para obter \\(X' \\sim N(\\mu, \\sigma^2)\\) e implemente um algorítmo que gera \\(X' \\sim N(\\mu, \\sigma^2)\\).",
     "crumbs": [
       "<span class='chapter-number'>10</span>  <span class='chapter-title'>Método de Box-Muller</span>"
     ]

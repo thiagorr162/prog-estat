@@ -71,6 +71,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -220,7 +249,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul class="collapse">
-  <li><a href="#exercícios" id="toc-exercícios" class="nav-link active" data-scroll-target="#exercícios"><span class="header-section-number">10.1</span> Exercícios</a></li>
+  <li><a href="#representação-em-coordenadas-polares" id="toc-representação-em-coordenadas-polares" class="nav-link active" data-scroll-target="#representação-em-coordenadas-polares"><span class="header-section-number">10.1</span> Representação em Coordenadas Polares</a></li>
+  <li><a href="#transformação-de-variáveis" id="toc-transformação-de-variáveis" class="nav-link" data-scroll-target="#transformação-de-variáveis"><span class="header-section-number">10.2</span> Transformação de Variáveis</a></li>
+  <li><a href="#resumindo" id="toc-resumindo" class="nav-link" data-scroll-target="#resumindo"><span class="header-section-number">10.3</span> Resumindo</a></li>
+  <li><a href="#como-gerar-r2-e-theta" id="toc-como-gerar-r2-e-theta" class="nav-link" data-scroll-target="#como-gerar-r2-e-theta"><span class="header-section-number">10.4</span> Como Gerar <span class="math inline">\(R^2\)</span> e <span class="math inline">\(\Theta\)</span></a></li>
+  <li><a href="#simulação---distribuição-normal" id="toc-simulação---distribuição-normal" class="nav-link" data-scroll-target="#simulação---distribuição-normal"><span class="header-section-number">10.5</span> Simulação - Distribuição Normal</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">10.6</span> Exercícios</a></li>
   </ul>
 </nav>
     </div>
@@ -246,20 +280,116 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Python</a></li></ul>
-<div class="tab-content" data-group="language">
-<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-
+<p>O objetivo desta aula é utilizar variáveis aleatórias uniformes para gerar valores de uma nova variável aleatória com uma distribuição de probabilidade específica. Nesta aula, focaremos na geração de variáveis aleatórias com distribuição Normal, usando o método de Box-Muller.</p>
+<section id="representação-em-coordenadas-polares" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="representação-em-coordenadas-polares"><span class="header-section-number">10.1</span> Representação em Coordenadas Polares</h2>
+<p>Considere duas variáveis aleatórias <span class="math inline">\(X \sim N(0, 1)\)</span> e <span class="math inline">\(Y \sim N(0, 1)\)</span>, independentes entre si. No plano cartesiano, podemos representar o ponto <span class="math inline">\((X, Y)\)</span> e explorar sua distribuição em coordenadas polares <span class="math inline">\((R, \Theta)\)</span>, onde <span class="math inline">\(R\)</span> representa a distância do ponto à origem e <span class="math inline">\(\Theta\)</span> é o ângulo formado com o eixo horizontal.</p>
+<p>As relações trigonométricas para <span class="math inline">\(\Theta\)</span> são dadas por:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="polar.png" class="img-fluid figure-img"></p>
+<figcaption>Representação em Coordenadas Polares</figcaption>
+</figure>
 </div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-
-</div>
-</div>
-</div>
-<section id="exercícios" class="level2" data-number="10.1">
-<h2 data-number="10.1" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">10.1</span> Exercícios</h2>
+<p><span class="math display">\[
+\sin \Theta = \frac{\text{cateto oposto}}{\text{hipotenusa}}
+\]</span></p>
+<p><span class="math display">\[
+\cos \Theta = \frac{\text{cateto adjacente}}{\text{hipotenusa}}
+\]</span></p>
+<p>Para <span class="math inline">\((X, Y)\)</span> normalmente distribuído, queremos expressá-lo em coordenadas polares, de modo que:</p>
+<p><span class="math display">\[
+\sin \Theta = \frac{Y}{R}
+\]</span></p>
+<p><span class="math display">\[
+\cos \Theta = \frac{X}{R}
+\]</span></p>
+<p>Dessa forma, obtemos:</p>
+<p><span class="math display">\[
+X = R \cos \Theta \quad \text{e} \quad Y = R \sin \Theta
+\]</span></p>
+<p>Além disso, temos que:</p>
+<p><span class="math display">\[
+R^2 = X^2 + Y^2
+\]</span></p>
+<hr>
+</section>
+<section id="transformação-de-variáveis" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="transformação-de-variáveis"><span class="header-section-number">10.2</span> Transformação de Variáveis</h2>
+<p>As variáveis <span class="math inline">\(R\)</span> e <span class="math inline">\(\Theta\)</span> podem ser obtidas a partir de uma transformação das variáveis <span class="math inline">\((X, Y)\)</span>. A função de densidade conjunta de <span class="math inline">\((R, \Theta)\)</span> é dada por:</p>
+<p><span class="math display">\[
+f_{R, \Theta}(r, \theta) = f_{X, Y}(h_1(r, \theta), h_2(r, \theta)) |J_h(r, \theta)|
+\]</span></p>
+<p>onde <span class="math inline">\(J_h(r, \theta)\)</span> é o Jacobiano referente às funções <span class="math inline">\(h_1\)</span> e <span class="math inline">\(h_2\)</span>, sendo essas funções as transformações inversas que expressam <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> em termos de <span class="math inline">\(R\)</span> e <span class="math inline">\(\Theta\)</span>. Esse Jacobiano pode ser calculado pelo determinante:</p>
+<p><span class="math display">\[
+J_h(r, \theta) =
+\begin{vmatrix}
+\frac{\partial h_1}{\partial r} &amp; \frac{\partial h_1}{\partial \theta} \\
+\frac{\partial h_2}{\partial r} &amp; \frac{\partial h_2}{\partial \theta} \\
+\end{vmatrix}
+\]</span></p>
+<p>Neste caso, o Jacobiano é dado por:</p>
+<p><span class="math display">\[
+J_h(r, \theta) =
+\begin{vmatrix}
+\cos \theta &amp; -r \sin \theta \\
+\sin \theta &amp; r \cos \theta \\
+\end{vmatrix} = r(\cos^2 \theta + \sin^2 \theta) = r
+\]</span></p>
+<p>Com o Jacobiano, a densidade conjunta é:</p>
+<p><span class="math display">\[
+f_{R, \Theta}(r, \theta) = f_{X, Y}(r \cos \theta, r \sin \theta) |J_h(r, \theta)| = \frac{1}{2\pi} e^{-\frac{1}{2}(r^2)} r,
+\]</span> para <span class="math inline">\(0 &lt; r &lt; \infty, \, 0 &lt; \theta &lt; 2\pi\)</span>.</p>
+<p>Assim, obtemos que:</p>
+<p><span class="math display">\[
+f_{\Theta}(\theta) = \frac{1}{2\pi}, \quad 0 &lt; \theta &lt; 2\pi
+\]</span></p>
+<p><span class="math display">\[
+f_R(r) = r e^{-r^2/2}, \quad 0 &lt; r &lt; \infty
+\]</span></p>
+<p>Logo, <span class="math inline">\(\Theta \sim \text{Unif}(0, 2\pi)\)</span> e <span class="math inline">\(R \sim \text{Rayleigh}(1)\)</span>, sendo <span class="math inline">\(R\)</span> e <span class="math inline">\(\Theta\)</span> independentes.</p>
+<p>Além disso, sabe-se que se <span class="math inline">\(R \sim \text{Rayleigh}(1)\)</span>, então <span class="math inline">\(R^2 \sim \chi^2_2\)</span> (exercício). Se <span class="math inline">\(R^2 \sim \chi^2_2\)</span>, então <span class="math inline">\(R^2 \sim \text{Exp}(1/2)\)</span> (exercício). Portanto:</p>
+<p><span class="math display">\[
+\Theta \sim \text{Unif}(0, 2\pi) \quad \text{e} \quad R^2 \sim \text{Exp}(1/2)
+\]</span></p>
+<hr>
+</section>
+<section id="resumindo" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="resumindo"><span class="header-section-number">10.3</span> Resumindo</h2>
+<p>Considerando <span class="math inline">\(X \sim N(0, 1)\)</span> e <span class="math inline">\(Y \sim N(0, 1)\)</span>, variáveis independentes, podemos expressá-las em termos das coordenadas polares <span class="math inline">\((R, \Theta)\)</span>, onde:</p>
+<p><span class="math display">\[
+X = R \cos \Theta \quad \text{e} \quad Y = R \sin \Theta
+\]</span></p>
+<p>Com essa transformação, obtemos que <span class="math inline">\(\Theta\)</span> tem distribuição uniforme no intervalo <span class="math inline">\((0, 2\pi)\)</span> e que <span class="math inline">\(R^2\)</span> segue uma distribuição exponencial com parâmetro <span class="math inline">\(1/2\)</span>:</p>
+<p><span class="math display">\[
+\Theta \sim \text{Unif}(0, 2\pi) \quad \text{e} \quad R^2 \sim \text{Exp}(1/2)
+\]</span></p>
+<p>Além disso, as variáveis <span class="math inline">\(R^2\)</span> e <span class="math inline">\(\Theta\)</span> são independentes.</p>
+</section>
+<section id="como-gerar-r2-e-theta" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="como-gerar-r2-e-theta"><span class="header-section-number">10.4</span> Como Gerar <span class="math inline">\(R^2\)</span> e <span class="math inline">\(\Theta\)</span></h2>
+<p>Para obter valores de <span class="math inline">\(R^2\)</span> e <span class="math inline">\(\Theta\)</span> de acordo com as distribuições acima, podemos seguir estes passos:</p>
+<ol type="1">
+<li>Primeiramente, geramos duas variáveis uniformes independentes <span class="math inline">\(U_1 \sim \text{Unif}(0, 1)\)</span> e <span class="math inline">\(U_2 \sim \text{Unif}(0, 1)\)</span>.</li>
+<li>Em seguida, calculamos <span class="math inline">\(R^2 = -2 \log U_1\)</span> e <span class="math inline">\(\Theta = 2\pi U_2\)</span>.</li>
+</ol>
+<p>Essa abordagem nos permite obter <span class="math inline">\(R^2\)</span> e <span class="math inline">\(\Theta\)</span> de acordo com as distribuições desejadas.</p>
+</section>
+<section id="simulação---distribuição-normal" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="simulação---distribuição-normal"><span class="header-section-number">10.5</span> Simulação - Distribuição Normal</h2>
+<p>Para gerar duas variáveis independentes <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>, ambas com distribuição <span class="math inline">\(N(0, 1)\)</span>, utilizamos o método de Box-Muller. O procedimento é o seguinte:</p>
+<ol type="1">
+<li>Primeiramente, geramos duas variáveis uniformes independentes <span class="math inline">\(U_1 \sim \text{Unif}(0, 1)\)</span> e <span class="math inline">\(U_2 \sim \text{Unif}(0, 1)\)</span>.</li>
+<li>Em seguida, aplicamos as fórmulas <span class="math inline">\(X = \sqrt{-2 \log U_1} \cos(2\pi U_2)\)</span> e <span class="math inline">\(Y = \sqrt{-2 \log U_1} \sin(2\pi U_2)\)</span>.</li>
+</ol>
+<p>O método de Box-Muller permite que convertemos variáveis uniformes em variáveis com distribuição normal padrão, mantendo a independência entre <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>.</p>
+</section>
+<section id="exercícios" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">10.6</span> Exercícios</h2>
 <p><span style="color:#2C92B2;"><strong>Exercício 1</strong></span>.</p>
+<p>Implemente o método de Box-Muller para gerar duas variáveis aleatórias independentes com distribuição normal <span class="math inline">\(N(0, 1)\)</span> a partir de variáveis uniformes <span class="math inline">\(U_1\)</span> e <span class="math inline">\(U_2\)</span>.</p>
+<p><span style="color:#2C92B2;"><strong>Exercício 2</strong></span>.</p>
+<p>Suponha <span class="math inline">\(X \sim N(0, 1)\)</span>. Encontre a transformação para obter <span class="math inline">\(X' \sim N(\mu, \sigma^2)\)</span> e implemente um algorítmo que gera <span class="math inline">\(X' \sim N(\mu, \sigma^2)\)</span>.</p>
 
 
 </section>
