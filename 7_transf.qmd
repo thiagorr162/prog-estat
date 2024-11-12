@@ -1,6 +1,6 @@
 # Transformação e Misturas
 
-Utilizar variáveis aleatórias que já sabemos simular para gerar valores de outra variável aleatória com uma distribuição de probabilidade específica.
+O objetivo dessa aula é utilizar variáveis aleatórias que já sabemos simular para gerar valores de outra variável aleatória com uma distribuição de probabilidade específica.
 
 ---
 
@@ -25,19 +25,14 @@ $$
 Queremos simular valores dessa distribuição. Para isso, utilizaremos o seguinte resultado: se $Y \sim \text{Exp}(1/\lambda^k)$, então $X = Y^{1/k} \sim \text{Weibull}(\lambda, k)$.
 
 De fato, temos que
-
 $$
 f_Y(y) = \frac{1}{\lambda^k} e^{-y/\lambda^k}, \quad y > 0.
 $$
-
 Para $x > 0$,
-
 $$
 P(X \leq x) = P(Y^{1/k} \leq x) = P(Y \leq x^k) = F_Y(x^k)
 $$
-
 e
-
 $$
 f_X(x) = \frac{dF_Y(x^k)}{dx} = kx^{k-1} f_Y(x^k)
 $$
@@ -71,9 +66,8 @@ $$
 f_X(x) = \sum_y p_{X|Y}(x|y) p_Y(y) \quad \text{(caso discreto)}
 $$
 
-- Dizemos que $f_X$ é uma **distribuição de mistura**
-
-**Ideia**: Para simular um valor de $X$, fazemos:
+Dizemos que $f_X$ é uma **distribuição de mistura**.
+Para simular um valor de $X$, fazemos:
   1. Simular $y$ de $f_Y$
   2. Simular $X$ de $f_{X|Y=y}$
 
@@ -121,7 +115,7 @@ Então, $X \sim t_k$.
 
 
 
-**Pseudo-Algoritmo para Misturas:**
+**Pseudo-Algoritmo para Gerar Dados de uma t-student:**
 
 1. Gere $y$ de $\chi^2_k$
 2. Gere $X$ da $N(0, k/y)$
@@ -134,4 +128,13 @@ Então, $X \sim t_k$.
 
 2. Simular uma amostra de tamanho 1000 de um t-student usando o pseudo-algoritmo do Exemplo 2.
    - Compare os valores simulados com a densidade da t-Student usando uma amostra gerada pelo Python ou R.
+   
+3. Considere a seguinte relação entre as distribuições de Poisson e Exponencial:
+Se $N \sim \text{Poisson}(\lambda)$, e $X_i \sim \text{Exp}(\lambda)$, então a soma dos $X_i$ satisfaz:
+$$
+P(N = k) = P\left(X_1 + \cdots + X_k \leq 1 < X_1 + \cdots + X_{k+1}\right).
+$$
 
+- Implemente um algoritmo para gerar amostras de tamanho 1000 de uma variável $N \sim \text{Poisson}(\lambda)$ utilizando o resultado anterior.
+- Escolha um valor de $\lambda = 5$ e simule 1000 valores de $N$.
+- Compare os valores simulados com a densidade da t-Student usando uma amostra gerada pelo Python ou R.
