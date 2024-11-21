@@ -277,7 +277,7 @@ window.Quarto = {
 </header>
 
 
-<p>Utilizar variáveis aleatórias que já sabemos simular para gerar valores de outra variável aleatória com uma distribuição de probabilidade específica.</p>
+<p>O objetivo dessa aula é utilizar variáveis aleatórias que já sabemos simular para gerar valores de outra variável aleatória com uma distribuição de probabilidade específica.</p>
 <hr>
 <section id="transformação-de-v.a." class="level2" data-number="9.1">
 <h2 data-number="9.1" class="anchored" data-anchor-id="transformação-de-v.a."><span class="header-section-number">9.1</span> Transformação de V.A.</h2>
@@ -298,16 +298,11 @@ window.Quarto = {
 f_X(x) = \frac{k}{\lambda^k} x^{k-1} e^{-(x/\lambda)^k}, \quad x &gt; 0.
 \]</span></p>
 <p>Queremos simular valores dessa distribuição. Para isso, utilizaremos o seguinte resultado: se <span class="math inline">\(Y \sim \text{Exp}(1/\lambda^k)\)</span>, então <span class="math inline">\(X = Y^{1/k} \sim \text{Weibull}(\lambda, k)\)</span>.</p>
-<p>De fato, temos que</p>
-<p><span class="math display">\[
+<p>De fato, temos que <span class="math display">\[
 f_Y(y) = \frac{1}{\lambda^k} e^{-y/\lambda^k}, \quad y &gt; 0.
-\]</span></p>
-<p>Para <span class="math inline">\(x &gt; 0\)</span>,</p>
-<p><span class="math display">\[
+\]</span> Para <span class="math inline">\(x &gt; 0\)</span>, <span class="math display">\[
 P(X \leq x) = P(Y^{1/k} \leq x) = P(Y \leq x^k) = F_Y(x^k)
-\]</span></p>
-<p>e</p>
-<p><span class="math display">\[
+\]</span> e <span class="math display">\[
 f_X(x) = \frac{dF_Y(x^k)}{dx} = kx^{k-1} f_Y(x^k)
 \]</span></p>
 <p><span class="math display">\[
@@ -336,10 +331,7 @@ f_X(x) = \int_{-\infty}^{\infty} f_{X|Y}(x|y) f_Y(y) dy \quad \text{(caso contí
 \]</span> <span class="math display">\[
 f_X(x) = \sum_y p_{X|Y}(x|y) p_Y(y) \quad \text{(caso discreto)}
 \]</span></p>
-<ul>
-<li>Dizemos que <span class="math inline">\(f_X\)</span> é uma <strong>distribuição de mistura</strong></li>
-</ul>
-<p><strong>Ideia</strong>: Para simular um valor de <span class="math inline">\(X\)</span>, fazemos: 1. Simular <span class="math inline">\(y\)</span> de <span class="math inline">\(f_Y\)</span> 2. Simular <span class="math inline">\(X\)</span> de <span class="math inline">\(f_{X|Y=y}\)</span></p>
+<p>Dizemos que <span class="math inline">\(f_X\)</span> é uma <strong>distribuição de mistura</strong>. Para simular um valor de <span class="math inline">\(X\)</span>, fazemos: 1. Simular <span class="math inline">\(y\)</span> de <span class="math inline">\(f_Y\)</span> 2. Simular <span class="math inline">\(X\)</span> de <span class="math inline">\(f_{X|Y=y}\)</span></p>
 <hr>
 <section id="exemplo-2-de-misturas-para-t-student" class="level3" data-number="9.2.1">
 <h3 data-number="9.2.1" class="anchored" data-anchor-id="exemplo-2-de-misturas-para-t-student"><span class="header-section-number">9.2.1</span> Exemplo 2: de Misturas para t-student</h3>
@@ -369,7 +361,7 @@ f_X(x) = \int_{-\infty}^{\infty} f_{X|Y}(x|y) f_Y(y) dy
 = \frac{\Gamma(k/2 + 1/2)}{\Gamma(k/2)} \frac{1}{\sqrt{k \pi}} \frac{1}{(x^2/k + 1)^{(k+1)/2}}.
 \]</span></p>
 <p>Então, <span class="math inline">\(X \sim t_k\)</span>.</p>
-<p><strong>Pseudo-Algoritmo para Misturas:</strong></p>
+<p><strong>Pseudo-Algoritmo para Gerar Dados de uma t-student:</strong></p>
 <ol type="1">
 <li>Gere <span class="math inline">\(y\)</span> de <span class="math inline">\(\chi^2_k\)</span></li>
 <li>Gere <span class="math inline">\(X\)</span> da <span class="math inline">\(N(0, k/y)\)</span></li>
@@ -387,7 +379,15 @@ f_X(x) = \int_{-\infty}^{\infty} f_{X|Y}(x|y) f_Y(y) dy
 <ul>
 <li>Compare os valores simulados com a densidade da t-Student usando uma amostra gerada pelo Python ou R.</li>
 </ul></li>
+<li>Considere a seguinte relação entre as distribuições de Poisson e Exponencial: Se <span class="math inline">\(N \sim \text{Poisson}(\lambda)\)</span>, e <span class="math inline">\(X_i \sim \text{Exp}(\lambda)\)</span>, então a soma dos <span class="math inline">\(X_i\)</span> satisfaz: <span class="math display">\[
+P(N = k) = P\left(X_1 + \cdots + X_k \leq 1 &lt; X_1 + \cdots + X_{k+1}\right).
+\]</span></li>
 </ol>
+<ul>
+<li>Implemente um algoritmo para gerar amostras de tamanho 1000 de uma variável <span class="math inline">\(N \sim \text{Poisson}(\lambda)\)</span> utilizando o resultado anterior.</li>
+<li>Escolha um valor de <span class="math inline">\(\lambda = 5\)</span> e simule 1000 valores de <span class="math inline">\(N\)</span>.</li>
+<li>Compare os valores simulados com a densidade da t-Student usando uma amostra gerada pelo Python ou R.</li>
+</ul>
 
 
 </section>
