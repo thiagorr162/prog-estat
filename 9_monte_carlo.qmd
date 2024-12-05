@@ -294,7 +294,7 @@ Para estimar $\pi$ usando Monte Carlo, procedemos da seguinte forma:
 #### Matemática do Estimador
 
 Formalmente, se $(X,Y) \sim Unif(-1,1) \times Unif(-1,1)$ e $g(x,y)=I(\text{(x,y) está no círculo})$, temos que 
-$$\theta:=\int g(x,y)f(x,y) dxy =  \frac{\text{Área do círculo}}{\text{Área do quadrado}} = \frac{\pi}{4} $$
+$$\theta:=\int g(x,y)f(x,y) dxdy =  \frac{\text{Área do círculo}}{\text{Área do quadrado}} = \frac{\pi}{4} $$
 Assim, se $(X_i,Y_i)$ é um ponto gerado uniformemente dentro do quadrado, 
 o estimador de Monte Carlo para $\frac{\pi}{4}$ é dado por:
 $$
