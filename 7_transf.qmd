@@ -123,13 +123,16 @@ Então, $X \sim t_k$.
 
 ## Exercícios
 
-1. Simular uma amostra de tamanho 1000 de Weibull usando o pseudo-algoritmo  do Exemplo 1. 
-   - Compare os valores simulados com a densidade da Weibull usando uma amostra gerada pelo Python ou R.
+1. 
+  - Simular uma amostra de tamanho 1000 de uma Weibull usando o pseudo-algoritmo  do Exemplo 1. 
+  - Compare os valores simulados com a densidade da Weibull usando uma amostra gerada pelo Python ou R.
 
-2. Simular uma amostra de tamanho 1000 de um t-student usando o pseudo-algoritmo do Exemplo 2.
-   - Compare os valores simulados com a densidade da t-Student usando uma amostra gerada pelo Python ou R.
+2. 
+  - Simular uma amostra de tamanho 1000 de uma t-student usando o pseudo-algoritmo do Exemplo 2.
+  - Compare os valores simulados com a densidade da t-Student usando uma amostra gerada pelo Python ou R.
    
 3. Considere a seguinte relação entre as distribuições de Poisson e Exponencial:
+
 Se $N \sim \text{Poisson}(\lambda)$, e $X_i \sim \text{Exp}(\lambda)$, então a soma dos $X_i$ satisfaz:
 $$
 P(N = k) = P\left(X_1 + \cdots + X_k \leq 1 < X_1 + \cdots + X_{k+1}\right).
@@ -137,4 +140,4 @@ $$
 
 - Implemente um algoritmo para gerar amostras de tamanho 1000 de uma variável $N \sim \text{Poisson}(\lambda)$ utilizando o resultado anterior.
 - Escolha um valor de $\lambda = 5$ e simule 1000 valores de $N$.
-- Compare os valores simulados com a densidade da t-Student usando uma amostra gerada pelo Python ou R.
+- Compare os valores simulados com a densidade da Poisson usando uma amostra gerada pelo Python ou R.
