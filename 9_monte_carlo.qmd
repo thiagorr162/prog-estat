@@ -687,7 +687,7 @@ $$
 
 Forneça um intervalo de confiança para avaliar a precisão da estimativa.
 
-<span style="color:#2C92B2;">**Exercício 1**</span>. 
+<span style="color:#2C92B2;">**Exercício 2**</span>. 
 
 
 Utilize o método de Monte Carlo para aproximar a integral 
@@ -698,12 +698,12 @@ $$
 Forneça um intervalo de confiança para avaliar a precisão da estimativa.
 
 
-<span style="color:#2C92B2;">**Exercício 2**</span>. 
+<span style="color:#2C92B2;">**Exercício 3**</span>. 
 
 Seja $X \sim \text{Exp}(\lambda)$ com $\lambda = 2$. Estime a esperança $\mathbb{E}[X^2]$ utilizando o método de Monte Carlo.  Forneça um intervalo de confiança para avaliar a precisão da estimativa.
 Compare com o valor real dessa quantidade.
 
-<span style="color:#2C92B2;">**Exercício 3**</span>. 
+<span style="color:#2C92B2;">**Exercício 4**</span>. 
 
 Considere que $X$ tem distribuição Normal(0,1) e $Y$ tem
 distribuição Gamma(1,1). Estime 
