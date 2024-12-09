@@ -68,8 +68,9 @@ $$
 
 Dizemos que $f_X$ é uma **distribuição de mistura**.
 Para simular um valor de $X$, fazemos:
-  1. Simular $y$ de $f_Y$
-  2. Simular $X$ de $f_{X|Y=y}$
+
+1. Simular $y$ de $f_Y$
+2. Simular $X$ de $f_{X|Y=y}$
 
 ---
 
