@@ -105,35 +105,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -296,15 +267,6 @@ window.Quarto = {
   <li><a href="#estruturas-condicionais-if-else-e-elif-em-python" id="toc-estruturas-condicionais-if-else-e-elif-em-python" class="nav-link" data-scroll-target="#estruturas-condicionais-if-else-e-elif-em-python"><span class="header-section-number">1.11</span> Estruturas Condicionais: if, else e elif em Python</a></li>
   <li><a href="#bibliotecas-essenciais-para-estatística-numpy-pandas-e-matplotlib" id="toc-bibliotecas-essenciais-para-estatística-numpy-pandas-e-matplotlib" class="nav-link" data-scroll-target="#bibliotecas-essenciais-para-estatística-numpy-pandas-e-matplotlib"><span class="header-section-number">1.12</span> Bibliotecas Essenciais para Estatística: NumPy, Pandas e Matplotlib</a></li>
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">1.13</span> Exercícios</a></li>
-  <li><a href="#método-de-monte-carlo" id="toc-método-de-monte-carlo" class="nav-link" data-scroll-target="#método-de-monte-carlo"><span class="header-section-number">2</span> Método de Monte Carlo</a>
-  <ul class="collapse">
-  <li><a href="#exemplo-1-estimativa-de-uma-integral" id="toc-exemplo-1-estimativa-de-uma-integral" class="nav-link" data-scroll-target="#exemplo-1-estimativa-de-uma-integral"><span class="header-section-number">2.1</span> Exemplo 1: Estimativa de uma Integral</a></li>
-  <li><a href="#exemplo-2-aproximando-uma-probabilidade" id="toc-exemplo-2-aproximando-uma-probabilidade" class="nav-link" data-scroll-target="#exemplo-2-aproximando-uma-probabilidade"><span class="header-section-number">2.2</span> Exemplo 2: Aproximando uma Probabilidade</a></li>
-  <li><a href="#exemplo-3-aproximando-o-valor-de-pi" id="toc-exemplo-3-aproximando-o-valor-de-pi" class="nav-link" data-scroll-target="#exemplo-3-aproximando-o-valor-de-pi"><span class="header-section-number">2.3</span> Exemplo 3: Aproximando o valor de <span class="math inline">\(\pi\)</span></a></li>
-  <li><a href="#intervalos-de-confiança-para-estimativas-de-monte-carlo" id="toc-intervalos-de-confiança-para-estimativas-de-monte-carlo" class="nav-link" data-scroll-target="#intervalos-de-confiança-para-estimativas-de-monte-carlo"><span class="header-section-number">2.4</span> Intervalos de Confiança para Estimativas de Monte Carlo</a></li>
-  <li><a href="#exemplo-4-problema-das-figurinhas" id="toc-exemplo-4-problema-das-figurinhas" class="nav-link" data-scroll-target="#exemplo-4-problema-das-figurinhas"><span class="header-section-number">2.5</span> Exemplo 4: Problema das Figurinhas</a></li>
-  <li><a href="#exercícios-1" id="toc-exercícios-1" class="nav-link" data-scroll-target="#exercícios-1"><span class="header-section-number">2.6</span> Exercícios</a></li>
-  </ul></li>
   </ul>
 </nav>
     </div>
@@ -334,7 +296,7 @@ window.Quarto = {
 <section id="variáveis-e-tipos-de-dados" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="variáveis-e-tipos-de-dados"><span class="header-section-number">1.1</span> Variáveis e Tipos de Dados</h2>
 <p>Em Python, variáveis são usadas para armazenar informações que podem ser manipuladas ao longo do código. Existem diferentes tipos de dados que podem ser atribuídos a uma variável. Vamos explorar os principais tipos básicos em Python: <code>int</code>, <code>float</code>, <code>str</code>, <code>bool</code>, e <code>None</code>.</p>
-<div id="95589017" class="cell" data-execution_count="1">
+<div id="2c78d163" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Exemplo de variáveis e tipos de dados</span></span>
@@ -363,7 +325,7 @@ Endereço: None (Tipo: &lt;class 'NoneType'&gt;)</code></pre>
 <h3 data-number="1.1.1" class="anchored" data-anchor-id="f-strings-formatação-de-strings-em-python"><span class="header-section-number">1.1.1</span> f-strings: Formatação de Strings em Python (*)</h3>
 <p>Introduzidas na versão Python 3.6, as f-strings (ou “formatted string literals”) são uma forma eficiente e legível de formatar strings, permitindo a inclusão de expressões e variáveis diretamente dentro de uma string.</p>
 <p>A sintaxe das f-strings utiliza a letra f antes da string e permite a inclusão de expressões dentro de chaves {}. Essas expressões são avaliadas em tempo de execução, e seus resultados são inseridos na string.</p>
-<div id="f46ac0d2" class="cell" data-execution_count="2">
+<div id="64ee6fff" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Usando f-strings para formatar a string</span></span>
@@ -386,7 +348,7 @@ Endereço: None (Tipo: &lt;class 'NoneType'&gt;)</code></pre>
 <section id="o-comando-help-em-python" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="o-comando-help-em-python"><span class="header-section-number">1.2</span> O Comando help() em Python</h2>
 <p>Python possui uma função embutida chamada help(), que é muito útil para obter informações sobre funções, módulos, objetos, e classes. Ele fornece uma explicação detalhada de como determinado elemento funciona, quais parâmetros aceita e o que retorna, entre outros detalhes. Essa função é especialmente útil quando você está começando ou precisa de uma rápida referência sem ter que sair do ambiente de desenvolvimento.</p>
-<div id="54627962" class="cell" data-execution_count="3">
+<div id="394f4455" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">help</span>(<span class="bu">len</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -399,7 +361,7 @@ len(obj, /)
 </code></pre>
 </div>
 </div>
-<div id="8519293c" class="cell" data-execution_count="4">
+<div id="92f0e67e" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> exemplo():</span>
@@ -421,7 +383,7 @@ exemplo()
 <h2 data-number="1.3" class="anchored" data-anchor-id="armazenando-resultados-em-variáveis"><span class="header-section-number">1.3</span> Armazenando Resultados em Variáveis</h2>
 <p>Em Python, as variáveis são usadas para armazenar resultados de cálculos ou operações para uso posterior no código. Ao armazenar um valor em uma variável, você pode acessá-lo facilmente quando precisar, sem ter que repetir o cálculo ou operação.</p>
 <p>Quando você atribui um valor ou resultado de uma operação a uma variável, o Python guarda esse valor na memória e o associa ao nome que você escolheu para a variável. Isso permite que você reutilize o valor sempre que necessário.</p>
-<div id="2eb2eeaf" class="cell" data-execution_count="5">
+<div id="5dbc5705" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>resultado <span class="op">=</span> <span class="dv">5</span> <span class="op">+</span> <span class="dv">3</span>  <span class="co">## Armazenando a soma de 5 e 3 em uma variável</span></span>
@@ -431,7 +393,7 @@ exemplo()
 <pre><code>8</code></pre>
 </div>
 </div>
-<div id="9df41603" class="cell" data-execution_count="6">
+<div id="c15214b7" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">3</span></span>
@@ -441,7 +403,7 @@ exemplo()
 <pre><code>5</code></pre>
 </div>
 </div>
-<div id="450edd09" class="cell" data-execution_count="7">
+<div id="9dd3e08c" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> x</span>
@@ -521,7 +483,7 @@ exemplo()
 </tr>
 </tbody>
 </table>
-<div id="77c5f1a9" class="cell" data-execution_count="8">
+<div id="02842d49" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">5</span></span>
@@ -534,7 +496,7 @@ exemplo()
 False</code></pre>
 </div>
 </div>
-<div id="38c4b78a" class="cell" data-execution_count="9">
+<div id="52a954fd" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="va">True</span></span>
@@ -544,7 +506,7 @@ False</code></pre>
 <pre><code>False</code></pre>
 </div>
 </div>
-<div id="b02724fb" class="cell" data-execution_count="10">
+<div id="0894c769" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="va">False</span></span>
@@ -555,7 +517,7 @@ False</code></pre>
 <pre><code>True</code></pre>
 </div>
 </div>
-<div id="cbf087d0" class="cell" data-execution_count="11">
+<div id="17b54d42" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="va">True</span></span>
@@ -566,7 +528,7 @@ False</code></pre>
 <pre><code>False</code></pre>
 </div>
 </div>
-<div id="57c409cb" class="cell" data-execution_count="12">
+<div id="03970ada" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="va">True</span></span>
@@ -581,7 +543,7 @@ False</code></pre>
 <h3 data-number="1.4.1" class="anchored" data-anchor-id="cuidado"><span class="header-section-number">1.4.1</span> Cuidado!</h3>
 <p>Em Python, o operador ^ não é usado para exponenciação. Em vez disso, ele é o operador bitwise XOR (ou exclusivo) para manipulação de bits.</p>
 <p>O operador XOR (ou exclusivo) compara os bits de dois números. Ele retorna 1 quando os bits são diferentes e 0 quando os bits são iguais.</p>
-<div id="e660ff1a" class="cell" data-execution_count="13">
+<div id="ba852c06" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">5</span>   <span class="co">## Em binário: 101</span></span>
@@ -595,7 +557,7 @@ False</code></pre>
 <pre><code>125</code></pre>
 </div>
 </div>
-<div id="6cf177fa" class="cell" data-execution_count="14">
+<div id="937a1036" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">5</span>   <span class="co">## Em binário: 101</span></span>
@@ -615,7 +577,7 @@ False</code></pre>
 <h2 data-number="1.5" class="anchored" data-anchor-id="caracteresstrings-em-python"><span class="header-section-number">1.5</span> Caracteres/Strings em Python</h2>
 <p>Em Python, uma string é uma sequência de caracteres que pode ser usada para armazenar e manipular textos. Strings são um dos tipos de dados mais comuns e úteis, e Python oferece uma grande variedade de métodos e operações para trabalhar com elas.</p>
 <p>As strings em Python podem ser definidas de diferentes maneiras, usando aspas simples (’) ou aspas duplas (“).</p>
-<div id="20187a58" class="cell" data-execution_count="15">
+<div id="758a5a1a" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Definindo strings</span></span>
@@ -626,7 +588,7 @@ False</code></pre>
 <ul>
 <li>Concatenar Strings: Você pode unir duas ou mais strings usando o operador +.</li>
 </ul>
-<div id="bdfca9aa" class="cell" data-execution_count="16">
+<div id="d3e3c59e" class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Concatenação</span></span>
@@ -640,7 +602,7 @@ False</code></pre>
 <ul>
 <li>Repetir Strings: Você pode repetir uma string múltiplas vezes usando o operador *.</li>
 </ul>
-<div id="12e3c0b5" class="cell" data-execution_count="17">
+<div id="737f74f7" class="cell" data-execution_count="17">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>repeticao <span class="op">=</span> <span class="st">"Oi! "</span> <span class="op">*</span> <span class="dv">3</span></span>
@@ -653,7 +615,7 @@ False</code></pre>
 <ul>
 <li>Acessar Caracteres por Índice: As strings em Python são indexadas, e você pode acessar um caractere específico usando o índice (começando em 0).</li>
 </ul>
-<div id="e63a6777" class="cell" data-execution_count="18">
+<div id="a44ec2a1" class="cell" data-execution_count="18">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>nome <span class="op">=</span> <span class="st">"Thiago"</span></span>
@@ -668,7 +630,7 @@ o</code></pre>
 <ul>
 <li>Fatiar Strings (Slicing): Você pode pegar uma parte da string usando fatias (substrings).</li>
 </ul>
-<div id="b19e4e99" class="cell" data-execution_count="19">
+<div id="12f0b05f" class="cell" data-execution_count="19">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>nome <span class="op">=</span> <span class="st">"Thiago"</span></span>
@@ -681,7 +643,7 @@ o</code></pre>
 <ul>
 <li>Comprimento de Strings: Para saber quantos caracteres uma string tem, use a função len().</li>
 </ul>
-<div id="dcf197b4" class="cell" data-execution_count="20">
+<div id="5f1d5e6a" class="cell" data-execution_count="20">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>nome <span class="op">=</span> <span class="st">"Thiago"</span></span>
@@ -696,7 +658,7 @@ o</code></pre>
 <ul>
 <li>lower() e upper(): Convertem todas as letras para minúsculas ou maiúsculas, respectivamente.</li>
 </ul>
-<div id="ed21ad60" class="cell" data-execution_count="21">
+<div id="15c75818" class="cell" data-execution_count="21">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>nome <span class="op">=</span> <span class="st">"Thiago"</span></span>
@@ -711,7 +673,7 @@ THIAGO</code></pre>
 <ul>
 <li>strip(): Remove espaços em branco no início e no final da string.</li>
 </ul>
-<div id="70cbba9c" class="cell" data-execution_count="22">
+<div id="ba7f90dd" class="cell" data-execution_count="22">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>frase <span class="op">=</span> <span class="st">"   Olá!   "</span></span>
@@ -724,7 +686,7 @@ THIAGO</code></pre>
 <ul>
 <li>replace(): Substitui parte de uma string por outra.</li>
 </ul>
-<div id="07f0f4c7" class="cell" data-execution_count="23">
+<div id="fef8ee33" class="cell" data-execution_count="23">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>frase <span class="op">=</span> <span class="st">"Eu gosto de R"</span></span>
@@ -738,7 +700,7 @@ THIAGO</code></pre>
 <ul>
 <li>split(): Divide uma string em uma lista, utilizando um delimitador (por padrão, espaço).</li>
 </ul>
-<div id="db651d5c" class="cell" data-execution_count="24">
+<div id="2531e2f7" class="cell" data-execution_count="24">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>frase <span class="op">=</span> <span class="st">"Eu gosto de Python"</span></span>
@@ -752,7 +714,7 @@ THIAGO</code></pre>
 <ul>
 <li>join(): Une uma lista de strings em uma única string, usando um delimitador.</li>
 </ul>
-<div id="e62370cb" class="cell" data-execution_count="25">
+<div id="b098cc0c" class="cell" data-execution_count="25">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>lista <span class="op">=</span> [<span class="st">'Thiago'</span>, <span class="st">'Rodrigo'</span>, <span class="st">'Ramos'</span>]</span>
@@ -774,7 +736,7 @@ THIAGO</code></pre>
 <li>Ordenadas: os elementos mantêm a ordem em que são inseridos.</li>
 <li>Acesso por índice: os elementos podem ser acessados pelo índice, começando por 0.</li>
 </ul>
-<div id="72ea8cc7" class="cell" data-execution_count="26">
+<div id="d94a88d5" class="cell" data-execution_count="26">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Criando uma lista</span></span>
@@ -806,7 +768,7 @@ THIAGO</code></pre>
 <li>Ordenadas: os elementos mantêm a ordem de inserção.</li>
 <li>Acesso por índice: assim como nas listas, os elementos podem ser acessados por índices, começando do 0.</li>
 </ul>
-<div id="1086e82f" class="cell" data-execution_count="27">
+<div id="c3d636a7" class="cell" data-execution_count="27">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Criando uma tupla</span></span>
@@ -826,7 +788,7 @@ THIAGO</code></pre>
 ('Thiago', 30, True)</code></pre>
 </div>
 </div>
-<div id="24b781aa" class="cell" data-execution_count="28">
+<div id="63c0895e" class="cell" data-execution_count="28">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co">### Tentando modificar a tupla (resultará em erro)</span></span>
@@ -843,7 +805,7 @@ THIAGO</code></pre>
 <li>Não ordenados: a ordem dos elementos não é garantida nas versões anteriores ao Python 3.7.</li>
 <li>Acesso por chave: os valores são acessados por suas chaves, que podem ser de tipos imutáveis (como strings ou números).</li>
 </ul>
-<div id="4876cdeb" class="cell" data-execution_count="29">
+<div id="b1059ee8" class="cell" data-execution_count="29">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Criando um dicionário</span></span>
@@ -881,7 +843,7 @@ THIAGO</code></pre>
 <li>Modulares: permitem dividir o código em partes menores e mais organizadas.</li>
 <li>Parâmetros opcionais ou obrigatórios: funções podem receber parâmetros (ou argumentos) para realizar operações com base neles.</li>
 </ul>
-<div id="5b056023" class="cell" data-execution_count="30">
+<div id="6a6ed1f8" class="cell" data-execution_count="30">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> saudacao(nome):</span>
@@ -898,7 +860,7 @@ THIAGO</code></pre>
 <section id="return" class="level3" data-number="1.9.1">
 <h3 data-number="1.9.1" class="anchored" data-anchor-id="return"><span class="header-section-number">1.9.1</span> Return</h3>
 <p>Funções podem retornar valores usando a palavra-chave return. Isso permite que o resultado da função seja usado em outras partes do código.</p>
-<div id="4f40b303" class="cell" data-execution_count="31">
+<div id="a6f3e0db" class="cell" data-execution_count="31">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> soma(a, b):</span>
@@ -916,7 +878,7 @@ THIAGO</code></pre>
 <section id="parâmetros-opcionais-e-valores-padrão" class="level3" data-number="1.9.2">
 <h3 data-number="1.9.2" class="anchored" data-anchor-id="parâmetros-opcionais-e-valores-padrão"><span class="header-section-number">1.9.2</span> Parâmetros Opcionais e Valores Padrão</h3>
 <p>Você pode definir parâmetros opcionais em uma função, atribuindo valores padrão a eles.</p>
-<div id="7d9afb1e" class="cell" data-execution_count="32">
+<div id="fd754e32" class="cell" data-execution_count="32">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> saudacao(nome<span class="op">=</span><span class="st">"amigo"</span>):</span>
@@ -935,7 +897,7 @@ Olá, Rafael!</code></pre>
 <section id="lambda" class="level3" data-number="1.9.3">
 <h3 data-number="1.9.3" class="anchored" data-anchor-id="lambda"><span class="header-section-number">1.9.3</span> Lambda</h3>
 <p>Python também oferece funções anônimas (ou funções lambda), que são funções curtas e sem nome. Elas são úteis quando você precisa de uma função simples e temporária.</p>
-<div id="3d64f6a6" class="cell" data-execution_count="33">
+<div id="1f4c99f0" class="cell" data-execution_count="33">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Função lambda para multiplicar dois números</span></span>
@@ -954,7 +916,7 @@ Olá, Rafael!</code></pre>
 <section id="for" class="level3" data-number="1.10.1">
 <h3 data-number="1.10.1" class="anchored" data-anchor-id="for"><span class="header-section-number">1.10.1</span> for</h3>
 <p>O loop for é usado para iterar sobre uma sequência (como uma lista, tupla, string ou range) e executar um bloco de código para cada item dessa sequência. É especialmente útil quando o número de iterações é conhecido ou quando você deseja percorrer uma estrutura de dados.</p>
-<div id="ebc3f606" class="cell" data-execution_count="34">
+<div id="0baa4e7d" class="cell" data-execution_count="34">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Iterando sobre uma lista</span></span>
@@ -968,7 +930,7 @@ banana
 laranja</code></pre>
 </div>
 </div>
-<div id="7740e4b2" class="cell" data-execution_count="35">
+<div id="ed7d7df2" class="cell" data-execution_count="35">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Iterando de 0 a 4</span></span>
@@ -983,7 +945,7 @@ laranja</code></pre>
 4</code></pre>
 </div>
 </div>
-<div id="f1a7e3d4" class="cell" data-execution_count="36">
+<div id="94d83a88" class="cell" data-execution_count="36">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>frutas <span class="op">=</span> [<span class="st">'maçã'</span>, <span class="st">'banana'</span>, <span class="st">'laranja'</span>]</span>
@@ -1000,7 +962,7 @@ laranja</code></pre>
 <section id="while" class="level3" data-number="1.10.2">
 <h3 data-number="1.10.2" class="anchored" data-anchor-id="while"><span class="header-section-number">1.10.2</span> while</h3>
 <p>O loop while executa um bloco de código repetidamente enquanto uma condição for verdadeira. Ele é útil quando o número de iterações não é conhecido antecipadamente e depende de uma condição dinâmica.</p>
-<div id="81d03f58" class="cell" data-execution_count="37">
+<div id="6b5f2749" class="cell" data-execution_count="37">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Loop enquanto o valor de x for menor que 5</span></span>
@@ -1022,7 +984,7 @@ laranja</code></pre>
 <h3 data-number="1.10.3" class="anchored" data-anchor-id="controle-de-loops-break-e-continue"><span class="header-section-number">1.10.3</span> Controle de Loops: break e continue</h3>
 <p><strong>break</strong>: interrompe o loop imediatamente, mesmo que a condição ainda seja verdadeira (no caso do while) ou ainda restem itens na sequência (no caso do for).</p>
 <p><strong>continue</strong>: pula para a próxima iteração do loop, ignorando o código restante naquela iteração.</p>
-<div id="90947c9c" class="cell" data-execution_count="38">
+<div id="abc57016" class="cell" data-execution_count="38">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
@@ -1038,7 +1000,7 @@ laranja</code></pre>
 4</code></pre>
 </div>
 </div>
-<div id="56b0761b" class="cell" data-execution_count="39">
+<div id="991e029f" class="cell" data-execution_count="39">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>):</span>
@@ -1061,7 +1023,7 @@ laranja</code></pre>
 <section id="if" class="level3" data-number="1.11.1">
 <h3 data-number="1.11.1" class="anchored" data-anchor-id="if"><span class="header-section-number">1.11.1</span> if</h3>
 <p>A instrução if é usada para executar um bloco de código se uma condição for verdadeira. Se a condição avaliada for True, o bloco de código indentado após o if será executado.</p>
-<div id="c9a402ee" class="cell" data-execution_count="40">
+<div id="8c5b97cf" class="cell" data-execution_count="40">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>idade <span class="op">=</span> <span class="dv">20</span></span>
@@ -1076,7 +1038,7 @@ laranja</code></pre>
 <section id="else" class="level3" data-number="1.11.2">
 <h3 data-number="1.11.2" class="anchored" data-anchor-id="else"><span class="header-section-number">1.11.2</span> else</h3>
 <p>A instrução else é usada para executar um bloco de código se a condição do if for falsa. É como uma segunda opção, caso a primeira condição não seja atendida.</p>
-<div id="70b3474a" class="cell" data-execution_count="41">
+<div id="4978ea76" class="cell" data-execution_count="41">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>idade <span class="op">=</span> <span class="dv">16</span></span>
@@ -1093,7 +1055,7 @@ laranja</code></pre>
 <section id="elif" class="level3" data-number="1.11.3">
 <h3 data-number="1.11.3" class="anchored" data-anchor-id="elif"><span class="header-section-number">1.11.3</span> elif</h3>
 <p>A instrução elif (abreviação de else if) permite testar múltiplas condições. Se a condição if for falsa, o Python verificará a condição do elif. Você pode ter vários blocos elif em uma estrutura condicional.</p>
-<div id="4114cb2c" class="cell" data-execution_count="42">
+<div id="c56ebfbc" class="cell" data-execution_count="42">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>nota <span class="op">=</span> <span class="dv">85</span></span>
@@ -1117,7 +1079,7 @@ laranja</code></pre>
 <li>or: pelo menos uma condição deve ser verdadeira.</li>
 <li>not: inverte o resultado da condição.</li>
 </ul>
-<div id="474685af" class="cell" data-execution_count="43">
+<div id="b0f41849" class="cell" data-execution_count="43">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>idade <span class="op">=</span> <span class="dv">20</span></span>
@@ -1145,7 +1107,7 @@ laranja</code></pre>
 <li>Operações vetorizadas: Permite realizar operações em todos os elementos de um array sem a necessidade de loops explícitos.</li>
 <li>Funções matemáticas: Inclui uma vasta gama de funções para álgebra linear, estatística, trigonometria, entre outros.</li>
 </ul>
-<div id="9dc3f0f8" class="cell" data-execution_count="44">
+<div id="04a4c9fd" class="cell" data-execution_count="44">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1166,7 +1128,7 @@ laranja</code></pre>
  [15 22]]</code></pre>
 </div>
 </div>
-<div id="4d1eae7b" class="cell" data-execution_count="45">
+<div id="3c5187cf" class="cell" data-execution_count="45">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb87"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>dados <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>])</span>
@@ -1177,7 +1139,7 @@ laranja</code></pre>
 <pre><code>3.0</code></pre>
 </div>
 </div>
-<div id="cc884fd9" class="cell" data-execution_count="46">
+<div id="561156f2" class="cell" data-execution_count="46">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb89"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>mediana <span class="op">=</span> np.median(dados)</span>
@@ -1187,7 +1149,7 @@ laranja</code></pre>
 <pre><code>3.0</code></pre>
 </div>
 </div>
-<div id="54e3ab64" class="cell" data-execution_count="47">
+<div id="986ca990" class="cell" data-execution_count="47">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb91"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>variancia <span class="op">=</span> np.var(dados)</span>
@@ -1197,7 +1159,7 @@ laranja</code></pre>
 <pre><code>2.0</code></pre>
 </div>
 </div>
-<div id="c081af6b" class="cell" data-execution_count="48">
+<div id="1aab70fc" class="cell" data-execution_count="48">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb93"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>desvio_padrao <span class="op">=</span> np.std(dados)</span>
@@ -1207,7 +1169,7 @@ laranja</code></pre>
 <pre><code>1.4142135623730951</code></pre>
 </div>
 </div>
-<div id="cd4a6dbc" class="cell" data-execution_count="49">
+<div id="b488ab6d" class="cell" data-execution_count="49">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb95"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>minimo <span class="op">=</span> np.<span class="bu">min</span>(dados)</span>
@@ -1218,7 +1180,7 @@ laranja</code></pre>
 <pre><code>1 5</code></pre>
 </div>
 </div>
-<div id="d2677f2d" class="cell" data-execution_count="50">
+<div id="9a779de4" class="cell" data-execution_count="50">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb97"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>p25 <span class="op">=</span> np.percentile(dados, <span class="dv">25</span>)</span>
@@ -1237,7 +1199,7 @@ laranja</code></pre>
 <section id="séries" class="level4" data-number="1.12.2.1">
 <h4 data-number="1.12.2.1" class="anchored" data-anchor-id="séries"><span class="header-section-number">1.12.2.1</span> Séries</h4>
 <p>Uma Series é uma coluna de dados unidimensional, semelhante a um array de NumPy, mas com rótulos (índices) associados a cada valor. A Series pode armazenar qualquer tipo de dado, como inteiros, floats, strings, ou objetos.</p>
-<div id="a21d00f1" class="cell" data-execution_count="51">
+<div id="03934afe" class="cell" data-execution_count="51">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb99"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1263,7 +1225,7 @@ dtype: int64
 <section id="dataframe" class="level4" data-number="1.12.2.2">
 <h4 data-number="1.12.2.2" class="anchored" data-anchor-id="dataframe"><span class="header-section-number">1.12.2.2</span> DataFrame</h4>
 <p>O DataFrame é a estrutura de dados mais importante do Pandas. Ele é uma tabela bidimensional (semelhante a uma planilha ou tabela SQL) com rótulos para as linhas e colunas. Cada coluna de um DataFrame é uma Series, e as colunas podem ter diferentes tipos de dados.</p>
-<div id="3d6d9aff" class="cell" data-execution_count="52">
+<div id="adfec516" class="cell" data-execution_count="52">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb101"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Criando um DataFrame a partir de um dicionário</span></span>
@@ -1293,7 +1255,7 @@ dtype: int64
 <li>Agrupamento e Agregação</li>
 <li>Tratamento de Dados Faltantes</li>
 </ol>
-<div id="a51132a3" class="cell" data-execution_count="53">
+<div id="5a58939e" class="cell" data-execution_count="53">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb103"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Selecionando uma única coluna</span></span>
@@ -1306,7 +1268,7 @@ dtype: int64
 Name: Nome, dtype: object</code></pre>
 </div>
 </div>
-<div id="80191c3c" class="cell" data-execution_count="54">
+<div id="71369974" class="cell" data-execution_count="54">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb105"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Selecionando múltiplas colunas</span></span>
@@ -1319,7 +1281,7 @@ Name: Nome, dtype: object</code></pre>
 2   João        Curitiba</code></pre>
 </div>
 </div>
-<div id="3d2ee8ca" class="cell" data-execution_count="55">
+<div id="200c99ee" class="cell" data-execution_count="55">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb107"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Filtrando o DataFrame para mostrar apenas pessoas com mais de 20 anos</span></span>
@@ -1332,7 +1294,7 @@ Name: Nome, dtype: object</code></pre>
 1  Pedro     34  Rio de Janeiro</code></pre>
 </div>
 </div>
-<div id="89aafff9" class="cell" data-execution_count="56">
+<div id="b292c968" class="cell" data-execution_count="56">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb109"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Alterando o valor de uma célula</span></span>
@@ -1341,7 +1303,7 @@ Name: Nome, dtype: object</code></pre>
 <span id="cb109-4"><a href="#cb109-4" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Idade'</span>] <span class="op">=</span> df[<span class="st">'Idade'</span>] <span class="op">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="a011fa71" class="cell" data-execution_count="57">
+<div id="71db0d5b" class="cell" data-execution_count="57">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb110"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Agrupando por 'Cidade' e calculando a média de 'Idade'</span></span>
@@ -1356,7 +1318,7 @@ São Paulo         25.0
 Name: Idade, dtype: float64</code></pre>
 </div>
 </div>
-<div id="320742c8" class="cell" data-execution_count="58">
+<div id="d0b2af3b" class="cell" data-execution_count="58">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb112"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Verificando valores faltantes</span></span>
@@ -1385,7 +1347,7 @@ Name: Idade, dtype: int64</code></pre>
 <section id="estatísticas-e-operações-com-dados" class="level4" data-number="1.12.2.4">
 <h4 data-number="1.12.2.4" class="anchored" data-anchor-id="estatísticas-e-operações-com-dados"><span class="header-section-number">1.12.2.4</span> Estatísticas e Operações com Dados</h4>
 <p>Pandas facilita o cálculo de estatísticas descritivas, como média, desvio padrão, contagem, entre outras.</p>
-<div id="4aa1e01e" class="cell" data-execution_count="59">
+<div id="620f9e37" class="cell" data-execution_count="59">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb115"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Estatísticas descritivas</span></span>
@@ -1403,7 +1365,7 @@ min    20.000000
 max    35.000000</code></pre>
 </div>
 </div>
-<div id="6db2f015" class="cell" data-execution_count="60">
+<div id="7e7bdb80" class="cell" data-execution_count="60">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb117"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Soma, contagem e média de colunas específicas</span></span>
@@ -1423,7 +1385,7 @@ max    35.000000</code></pre>
 <h3 data-number="1.12.3" class="anchored" data-anchor-id="matplotlib-biblioteca-de-visualização-de-dados-em-python"><span class="header-section-number">1.12.3</span> Matplotlib: Biblioteca de Visualização de Dados em Python</h3>
 <p>Matplotlib é uma biblioteca poderosa e flexível para visualização de dados em Python. Ela permite criar uma ampla gama de gráficos, desde simples gráficos de linha até visualizações complexas e altamente customizadas. Embora outras bibliotecas como Seaborn ou Plotly sejam populares para visualizações avançadas, Matplotlib continua sendo o núcleo para muitas dessas bibliotecas e é amplamente utilizado por sua versatilidade e integração com NumPy e Pandas.</p>
 <p>A maneira mais comum de usar Matplotlib é através do submódulo pyplot, que fornece uma interface simples para criar gráficos. A estrutura básica de um gráfico com pyplot envolve definir os dados e criar o gráfico com funções que controlam o comportamento do gráfico.</p>
-<div id="1f679d95" class="cell" data-execution_count="61">
+<div id="21caf03d" class="cell" data-execution_count="61">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb119"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -1455,7 +1417,7 @@ max    35.000000</code></pre>
 <h4 data-number="1.12.3.1" class="anchored" data-anchor-id="tipos-de-gráficos-comuns"><span class="header-section-number">1.12.3.1</span> Tipos de Gráficos Comuns</h4>
 <section id="linha" class="level5" data-number="1.12.3.1.1">
 <h5 data-number="1.12.3.1.1" class="anchored" data-anchor-id="linha"><span class="header-section-number">1.12.3.1.1</span> Linha</h5>
-<div id="facd38b1" class="cell" data-execution_count="62">
+<div id="6212e835" class="cell" data-execution_count="62">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb120"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>]</span>
@@ -1475,7 +1437,7 @@ max    35.000000</code></pre>
 </section>
 <section id="dispersão" class="level5" data-number="1.12.3.1.2">
 <h5 data-number="1.12.3.1.2" class="anchored" data-anchor-id="dispersão"><span class="header-section-number">1.12.3.1.2</span> Dispersão</h5>
-<div id="2f044469" class="cell" data-execution_count="63">
+<div id="437d688a" class="cell" data-execution_count="63">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb121"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a>plt.scatter(x, y)</span>
@@ -1493,7 +1455,7 @@ max    35.000000</code></pre>
 </section>
 <section id="barras" class="level5" data-number="1.12.3.1.3">
 <h5 data-number="1.12.3.1.3" class="anchored" data-anchor-id="barras"><span class="header-section-number">1.12.3.1.3</span> Barras</h5>
-<div id="61697b2e" class="cell" data-execution_count="64">
+<div id="cc7213e0" class="cell" data-execution_count="64">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb122"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>categorias <span class="op">=</span> [<span class="st">'A'</span>, <span class="st">'B'</span>, <span class="st">'C'</span>]</span>
@@ -1513,7 +1475,7 @@ max    35.000000</code></pre>
 </section>
 <section id="histograma" class="level5" data-number="1.12.3.1.4">
 <h5 data-number="1.12.3.1.4" class="anchored" data-anchor-id="histograma"><span class="header-section-number">1.12.3.1.4</span> Histograma</h5>
-<div id="654158b8" class="cell" data-execution_count="65">
+<div id="58f35cf4" class="cell" data-execution_count="65">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb123"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1526,7 +1488,7 @@ max    35.000000</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="0_py_files/figure-html/cell-66-output-1.png" width="575" height="432" class="figure-img"></p>
+<p><img src="0_py_files/figure-html/cell-66-output-1.png" width="566" height="432" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1534,7 +1496,7 @@ max    35.000000</code></pre>
 </section>
 <section id="pizza" class="level5" data-number="1.12.3.1.5">
 <h5 data-number="1.12.3.1.5" class="anchored" data-anchor-id="pizza"><span class="header-section-number">1.12.3.1.5</span> Pizza</h5>
-<div id="d6940865" class="cell" data-execution_count="66">
+<div id="90ddff7b" class="cell" data-execution_count="66">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb124"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a>tamanhos <span class="op">=</span> [<span class="dv">15</span>, <span class="dv">30</span>, <span class="dv">45</span>, <span class="dv">10</span>]</span>
@@ -1557,7 +1519,7 @@ max    35.000000</code></pre>
 <h4 data-number="1.12.3.2" class="anchored" data-anchor-id="customização"><span class="header-section-number">1.12.3.2</span> Customização</h4>
 <section id="alterando-cores-e-estilos-de-linha" class="level5" data-number="1.12.3.2.1">
 <h5 data-number="1.12.3.2.1" class="anchored" data-anchor-id="alterando-cores-e-estilos-de-linha"><span class="header-section-number">1.12.3.2.1</span> Alterando Cores e Estilos de Linha</h5>
-<div id="7d4d870d" class="cell" data-execution_count="67">
+<div id="16c39e4a" class="cell" data-execution_count="67">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb125"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, marker<span class="op">=</span><span class="st">'o'</span>)  <span class="co">## Linha vermelha com marcador</span></span>
@@ -1575,7 +1537,7 @@ max    35.000000</code></pre>
 </section>
 <section id="adicionando-títulos-e-rótulos-aos-eixos" class="level5" data-number="1.12.3.2.2">
 <h5 data-number="1.12.3.2.2" class="anchored" data-anchor-id="adicionando-títulos-e-rótulos-aos-eixos"><span class="header-section-number">1.12.3.2.2</span> Adicionando Títulos e Rótulos aos Eixos</h5>
-<div id="a26c493e" class="cell" data-execution_count="68">
+<div id="cef3eb01" class="cell" data-execution_count="68">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb126"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y)</span>
@@ -1595,7 +1557,7 @@ max    35.000000</code></pre>
 </section>
 <section id="legendas" class="level5" data-number="1.12.3.2.3">
 <h5 data-number="1.12.3.2.3" class="anchored" data-anchor-id="legendas"><span class="header-section-number">1.12.3.2.3</span> Legendas</h5>
-<div id="f08148f8" class="cell" data-execution_count="69">
+<div id="c7d5a039" class="cell" data-execution_count="69">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb127"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y, label<span class="op">=</span><span class="st">'Quadrados'</span>)</span>
@@ -1615,7 +1577,7 @@ max    35.000000</code></pre>
 </section>
 <section id="ajustando-os-eixos" class="level5" data-number="1.12.3.2.4">
 <h5 data-number="1.12.3.2.4" class="anchored" data-anchor-id="ajustando-os-eixos"><span class="header-section-number">1.12.3.2.4</span> Ajustando os Eixos</h5>
-<div id="96564c9e" class="cell" data-execution_count="70">
+<div id="f4928c6a" class="cell" data-execution_count="70">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb128"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y)</span>
@@ -1635,7 +1597,7 @@ max    35.000000</code></pre>
 </section>
 <section id="subplot" class="level5" data-number="1.12.3.2.5">
 <h5 data-number="1.12.3.2.5" class="anchored" data-anchor-id="subplot"><span class="header-section-number">1.12.3.2.5</span> Subplot</h5>
-<div id="ec4455d9" class="cell" data-execution_count="71">
+<div id="ffb18ff1" class="cell" data-execution_count="71">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb129"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Criando uma figura com dois gráficos lado a lado</span></span>
@@ -1664,7 +1626,7 @@ max    35.000000</code></pre>
 </section>
 <section id="integração-com-pandas" class="level4" data-number="1.12.3.3">
 <h4 data-number="1.12.3.3" class="anchored" data-anchor-id="integração-com-pandas"><span class="header-section-number">1.12.3.3</span> Integração com Pandas</h4>
-<div id="1ea2bf2a" class="cell" data-execution_count="72">
+<div id="bb589ade" class="cell" data-execution_count="72">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb130"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1818,573 +1780,6 @@ max    35.000000</code></pre>
 </ol>
 
 
-</section>
-</section>
-<section id="método-de-monte-carlo" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Método de Monte Carlo</h1>
-<p>Os <strong>Métodos de Monte Carlo</strong> (MMC) são uma técnica poderosa que utiliza a simulação de valores aleatórios para calcular aproximações de valores esperados e integrais que não podem ser resolvidos analiticamente. Neste contexto, aprendemos a utilizar variáveis aleatórias simuladas para realizar o cálculo aproximado de integrais.</p>
-<p>Seja <span class="math inline">\(X\)</span> uma v.a. discreta com função de probabilidade <span class="math inline">\(p(x)\)</span> ou uma v.a. contínua com função densidade <span class="math inline">\(f(x)\)</span>. O Método de Monte Carlo propõe um estimador para <span class="math display">\[
-\theta = \mathbb{E}[g(X)] = \begin{cases}
-\int_{-\infty}^{\infty} g(x) f(x) \, dx &amp; \text{se $X$ é contínua} \\
-\sum_x g(x) p(x) &amp; \text{se $X$ é discreta}
-\end{cases}
-\]</span></p>
-<p>Especificamente, ele funciona da seguinte forma. Seja <span class="math inline">\(X_1, \dots, X_n\)</span> uma sequência de variáveis aleatórias i.i.d. com a mesma distribuição que <span class="math inline">\(X\)</span>. Então:</p>
-<p><span class="math display">\[
-\hat{\theta}_n = \frac{1}{n} \sum_{i=1}^n g(X_i)
-\]</span></p>
-<p>é o estimador de Monte Carlo para <span class="math inline">\(\theta\)</span>.</p>
-<p><strong>Pseudo-Algoritmo para aproximar <span class="math inline">\(\theta\)</span>:</strong></p>
-<ol type="1">
-<li>Gere <span class="math inline">\(X_1, \dots, X_n\)</span> valores independentes da v.a. <span class="math inline">\(X\)</span>.</li>
-<li>Calcule: <span class="math display">\[
-\hat{\theta}_n = \frac{1}{n} \sum_{i=1}^n g(X_i)
-\]</span></li>
-</ol>
-<p><strong>Porque Funciona?</strong></p>
-<p>O método de Monte Carlo funciona devido à Lei Forte dos Grandes Números, que garante que a média amostral convergirá quase certamente para a esperança verdadeira conforme o número de amostras tende ao infinito:</p>
-<p><span class="math display">\[
-\hat{\theta}_n = \frac{1}{n} \sum_{i=1}^n g(X_i)    \longrightarrow    \theta \text{ (quase certamente)}
-\]</span></p>
-<p>Assim, quando <span class="math inline">\(n\)</span> cresce, a estimativa de Monte Carlo converge para o verdadeiro valor de <span class="math inline">\(\theta\)</span>.</p>
-<p><strong>Importante</strong>: Frenquentemente <span class="math inline">\(n\)</span> é denotado por <span class="math inline">\(B\)</span> na literatura de Monte Carlo, de forma a não haver confusão com o tamanho de amostras não geradas no computador.</p>
-<section id="exemplo-1-estimativa-de-uma-integral" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="exemplo-1-estimativa-de-uma-integral"><span class="header-section-number">2.1</span> Exemplo 1: Estimativa de uma Integral</h2>
-<p>Queremos obter uma estimativa para</p>
-<p><span class="math display">\[
-\theta = \int\limits_{0}^{1}e^{-x} dx
-\]</span></p>
-<p>Para isso, basta observar que se <span class="math inline">\(U \sim Unif(0,1)\)</span>, então <span class="math inline">\(\theta = \mathbb{E}[e^{-U}]\)</span>. De fato, se <span class="math inline">\(U \in Unif(0,1)\)</span>, <span class="math display">\[
-\theta=\int\limits_{0}^{1}e^{-x} dx= \int\limits_{0}^{1}e^{-u}f(u) du.
-\]</span> Assim, o estimador desta integral via MMC pode ser obtido da seguinte forma:</p>
-<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Python</a></li></ul>
-<div class="tab-content" data-group="language">
-<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<pre class="{r}"><code>n &lt;- 100
-u &lt;- runif(n, min = 0, max = 1)
-
-# Estimativa de theta usando Monte Carlo
-theta_hat &lt;- mean(exp(-u))
-cat("Estimativa de theta_hat:", theta_hat, "\n")
-
-# Valor real da integral
-valor_real &lt;- 1 - exp(-1)
-cat("Valor real:", valor_real, "\n")</code></pre>
-</div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<pre class="{python}"><code>import numpy as np
-
-# Número de amostras
-n = 100
-
-# Geração de amostras uniformes
-u = np.random.uniform(0, 1, n)
-
-# Estimativa de theta usando Monte Carlo
-theta_hat = np.mean(np.exp(-u))
-print("Estimativa de theta_hat:", theta_hat)
-
-# Valor real da integral
-valor_real = 1 - np.exp(-1)
-print("Valor real:", valor_real)</code></pre>
-</div>
-</div>
-</div>
-<p>Vamos verificar como o valor de <span class="math inline">\(n\)</span> influencia na aproximação:</p>
-<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Python</a></li></ul>
-<div class="tab-content" data-group="language">
-<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
-<pre class="{r}"><code>library(ggplot2)
-
-set.seed(58)
-N &lt;- 1:2000
-theta_hat &lt;- numeric(length(N))
-u &lt;- numeric(length(N))  # Pré-alocação do vetor
-
-# Preenchendo o vetor u e calculando theta_hat
-for (i in seq_along(N)) {
-  u[i] &lt;- runif(1)
-  theta_hat[i] &lt;- mean(exp(-u[1:i]))
-}
-
-# Criando o dataframe para o ggplot
-df &lt;- data.frame(N = N, theta_hat = theta_hat)
-
-# Plotar o gráfico usando ggplot2
-ggplot(df, aes(x = N, y = theta_hat)) +
-  geom_line(color = "blue") +
-  geom_hline(yintercept = 1 - exp(-1), color = "red", linetype = "dashed") +
-  labs(x = "n", y = expression(hat(theta)[n]), title = expression(Aproximação~de~theta)) +
-  theme_minimal()</code></pre>
-</div>
-<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
-<pre class="{python}"><code>import numpy as np
-import matplotlib.pyplot as plt
-
-np.random.seed(58)
-N = np.arange(1, 2001, 1)
-theta_hat = np.zeros(len(N))
-u = np.array([])
-
-for i in range(len(N)):
-    u = np.append(u, np.random.uniform(0, 1))
-    theta_hat[i] = np.mean(np.exp(-u))
-
-plt.plot(N, theta_hat)
-plt.axhline(y=1 - np.exp(-1), color='red', linestyle='--')
-plt.xlabel('n')
-plt.ylabel(r'$\hat{\theta}_n$')
-plt.title(r'Aproximação de $\theta$')
-plt.show()</code></pre>
-</div>
-</div>
-</div>
-<p>Esse gráfico mostra a evolução da estimativa à medida que o número de variáveis aleatórias <span class="math inline">\(n\)</span> aumenta, comparando com o valor real da integral.</p>
-</section>
-<section id="exemplo-2-aproximando-uma-probabilidade" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="exemplo-2-aproximando-uma-probabilidade"><span class="header-section-number">2.2</span> Exemplo 2: Aproximando uma Probabilidade</h2>
-<p>Seja <span class="math inline">\(X \sim Gama(2,3)\)</span>. Queremos aproximar o valor de <span class="math inline">\(\mathbb{P}(X \geq 0.4)\)</span> usando o método de Monte Carlo. Note que <span class="math display">\[\theta:= \mathbb{P}(X \geq 0.4) = \int g(x)f(x)dx,\]</span> em que <span class="math inline">\(g(x)=I(x \geq 0.4)\)</span> e <span class="math inline">\(f(x)\)</span> é a densidade da Gama(2,3). Assim, podemos aproximar a probabilidade gerada via MC.</p>
-<p>Neste caso, o algoritmo corresponde a gerar <span class="math inline">\(X_i \sim Gama(2,3)\)</span>, defir e definir uma variável indicadora <span class="math inline">\(Y_i\)</span> que vale 1 quando <span class="math inline">\(X_i \geq 0.4\)</span> e 0 caso contrário. A estimativa de Monte Carlo é dada pela média dos <span class="math inline">\(Y_i\)</span>’s:</p>
-<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Python</a></li></ul>
-<div class="tab-content" data-group="language">
-<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
-<pre class="{r}"><code>set.seed(58)
-library(ggplot2)
-
-# Número de amostras
-N &lt;- 50000
-
-# Geração de amostras da distribuição Gamma
-x &lt;- rgamma(N, shape = 2, rate = 3)  # Usando rate = 1/scale
-
-# Cálculo de P(X &gt;= 0.4)
-y &lt;- as.integer(x &gt;= 0.4)
-
-# Estimativa via Monte Carlo
-valor_aproximado &lt;- mean(y)
-cat("Valor aproximado via Monte Carlo:", valor_aproximado, "\n")
-
-# Valor real usando a função de distribuição acumulada (CDF)
-valor_real &lt;- 1 - pgamma(0.4, shape = 2, rate = 3)
-cat("Valor real (CDF):", valor_real, "\n")</code></pre>
-</div>
-<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
-<pre class="{python}"><code>import numpy as np
-from scipy.stats import gamma
-
-# Número de amostras
-N = 50000
-
-# Geração de amostras da distribuição Gamma
-x = gamma.rvs(2, scale=1/3, size=N)
-
-# Cálculo de P(X &gt;= 0.4)
-y = (x &gt;= 0.4).astype(int)
-
-# Estimativa via Monte Carlo
-valor_aproximado = np.mean(y)
-print("Valor aproximado via Monte Carlo:", valor_aproximado)
-
-# Valor real usando a função de distribuição acumulada (CDF)
-valor_real = 1 - gamma.cdf(0.4, 2, scale=1/3)
-print("Valor real (CDF):", valor_real)</code></pre>
-</div>
-</div>
-</div>
-</section>
-<section id="exemplo-3-aproximando-o-valor-de-pi" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="exemplo-3-aproximando-o-valor-de-pi"><span class="header-section-number">2.3</span> Exemplo 3: Aproximando o valor de <span class="math inline">\(\pi\)</span></h2>
-<p>Neste exemplo, queremos aproximar o valor de <span class="math inline">\(\pi\)</span> utilizando o método de Monte Carlo. A ideia é gerar pontos aleatórios em um quadrado e contar quantos caem dentro de um círculo inscrito no quadrado. Vamos seguir o raciocínio a partir da geometria básica.</p>
-<section id="geometria" class="level4" data-number="2.3.0.1">
-<h4 data-number="2.3.0.1" class="anchored" data-anchor-id="geometria"><span class="header-section-number">2.3.0.1</span> Geometria</h4>
-<ul>
-<li>Considere um quadrado com lado 2 centrado na origem, ou seja, o quadrado vai de <span class="math inline">\((-1, -1)\)</span> até <span class="math inline">\((1, 1)\)</span>.</li>
-<li>Dentro deste quadrado, inscreva um círculo de raio 1, também centrado na origem.</li>
-<li>A área do quadrado é <span class="math inline">\(4\)</span> (já que <span class="math inline">\(2 \times 2 = 4\)</span>) e a área do círculo é <span class="math inline">\(\pi \cdot r^2 = \pi \cdot 1^2 = \pi\)</span>.</li>
-</ul>
-<p>A razão entre a área do círculo e a área do quadrado é dada por:</p>
-<p><span class="math display">\[
-\frac{\text{Área do círculo}}{\text{Área do quadrado}} = \frac{\pi}{4}
-\]</span></p>
-<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">Python</a></li></ul>
-<div class="tab-content" data-group="language">
-<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
-<pre class="{r}"><code>require(plotrix)
-require(grid)
-
-plot(c(-1, 1), c(-1,1), type = "n", asp=1,xlab="",yla="")
-rect( -1, -1, 1, 1,border="blue") 
-draw.circle( 0, 0, 1 ,border="red")</code></pre>
-</div>
-<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
-<pre class="{python}"><code>import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle, Circle
-
-# Configura o gráfico
-fig, ax = plt.subplots()
-ax.set_aspect('equal')  # Define o aspecto como 1:1 (quadrado)
-ax.set_xlim(-1, 1)
-ax.set_ylim(-1, 1)
-ax.set_xlabel('')
-ax.set_ylabel('')
-
-# Desenha o retângulo
-rect = Rectangle((-1, -1), 2, 2, edgecolor='blue', facecolor='none')
-ax.add_patch(rect)
-
-# Desenha o círculo
-circle = Circle((0, 0), 1, edgecolor='red', facecolor='none')
-ax.add_patch(circle)
-
-# Mostra o gráfico
-plt.show()</code></pre>
-</div>
-</div>
-</div>
-<p>Para estimar <span class="math inline">\(\pi\)</span> usando Monte Carlo, procedemos da seguinte forma:</p>
-<ol type="1">
-<li><p>Geramos pontos aleatórios <span class="math inline">\((x, y)\)</span> no quadrado <span class="math inline">\([-1, 1] \times [-1, 1]\)</span>.</p></li>
-<li><p>Verificamos se cada ponto está dentro do círculo, o que ocorre se <span class="math inline">\(x^2 + y^2 \leq 1\)</span>.</p></li>
-<li><p>A fração de pontos que caem dentro do círculo aproxima a razão <span class="math inline">\(\frac{\pi}{4}\)</span>.</p></li>
-<li><p>Multiplicamos essa fração por 4 para obter uma estimativa de <span class="math inline">\(\pi\)</span>.</p></li>
-</ol>
-</section>
-<section id="matemática-do-estimador" class="level4" data-number="2.3.0.2">
-<h4 data-number="2.3.0.2" class="anchored" data-anchor-id="matemática-do-estimador"><span class="header-section-number">2.3.0.2</span> Matemática do Estimador</h4>
-<p>Formalmente, se <span class="math inline">\((X,Y) \sim Unif(-1,1) \times Unif(-1,1)\)</span> e <span class="math inline">\(g(x,y)=I(\text{(x,y) está no círculo})\)</span>, temos que <span class="math display">\[\theta:=\int g(x,y)f(x,y) dxdy =  \frac{\text{Área do círculo}}{\text{Área do quadrado}} = \frac{\pi}{4} \]</span> Assim, se <span class="math inline">\((X_i,Y_i)\)</span> é um ponto gerado uniformemente dentro do quadrado, o estimador de Monte Carlo para <span class="math inline">\(\frac{\pi}{4}\)</span> é dado por: <span class="math display">\[
-\hat{\theta}_n = \frac{1}{n} \sum_{i=1}^n g(x_i,y_i)= \frac{1}{n} \sum_{i=1}^n z_i,
-\]</span> em que <span class="math inline">\(z_i = 1\)</span> se o ponto <span class="math inline">\(i\)</span> está dentro do círculo (i.e., se <span class="math inline">\(x_i^2 + y_i^2 \leq 1\)</span>) e <span class="math inline">\(z_i = 0\)</span> caso contrário.</p>
-<p>Multiplicando por 4, obtemos a estimativa de <span class="math inline">\(\pi\)</span>:</p>
-<p><span class="math display">\[
-\hat{\pi}_n = 4 \cdot \hat{\theta}_n = 4 \cdot \frac{1}{n} \sum_{i=1}^n z_i
-\]</span></p>
-<p>De acordo com a <strong>Lei Forte dos Grandes Números</strong>, sabemos que:</p>
-<p><span class="math display">\[
-\hat{\pi}_n \longrightarrow \pi \quad \text{(quase certamente, quando $n \to \infty$)}.
-\]</span></p>
-<p>Ou seja, à medida que o número de pontos simulados <span class="math inline">\(n\)</span> aumenta, a estimativa <span class="math inline">\(\hat{\pi}_n\)</span> convergirá para o valor verdadeiro de <span class="math inline">\(\pi\)</span>.</p>
-<p><strong>Implementação</strong></p>
-<p>Os trechos de código fornecidos em R e Python simulam esse processo, gerando <span class="math inline">\(n\)</span> pontos e calculando a aproximação de <span class="math inline">\(\pi\)</span> com base nos pontos que caem dentro do círculo. Além disso, são gerados gráficos que mostram como a estimativa de <span class="math inline">\(\pi\)</span> melhora conforme o número de simulações aumenta, evidenciando a convergência mencionada.</p>
-<p>Agora que todos os detalhes matemáticos do exemplo estão claros, o código para simulação pode ser executado para observar a aproximação prática de <span class="math inline">\(\pi\)</span>.</p>
-<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">Python</a></li></ul>
-<div class="tab-content" data-group="language">
-<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
-<pre class="{r}"><code>set.seed(459)
-library(ggplot2)
-
-N &lt;- 1:80000
-z &lt;- numeric(length(N))
-
-# Loop para gerar os pontos e verificar se estão dentro do círculo
-for (i in seq_along(N)) {
-  x &lt;- 2 * runif(1) - 1
-  y &lt;- 2 * runif(1) - 1
-  z[i] &lt;- (x^2 + y^2 &lt;= 1)
-}
-
-# Cálculo da estimativa de pi
-theta_hat &lt;- cumsum(z) / N
-pi_hat &lt;- theta_hat * 4
-
-# Criando o dataframe para o ggplot
-df &lt;- data.frame(N = N, pi_hat = pi_hat)
-
-# Plotar o gráfico usando ggplot2
-ggplot(df, aes(x = N, y = pi_hat)) +
-  geom_line(color = "blue") +
-  geom_hline(yintercept = pi, color = "red", linetype = "dashed") +
-  labs(x = "n", y = expression(hat(pi)[n]), title = expression(Aproximacao~de~pi)) +
-  theme_minimal()</code></pre>
-</div>
-<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
-<pre class="{python}"><code>import numpy as np
-import matplotlib.pyplot as plt
-
-np.random.seed(459)
-N = np.arange(1, 80001, 1)
-z = np.zeros(len(N))
-
-for i in range(len(N)):
-    x = 2 * np.random.uniform(0, 1) - 1
-    y = 2 * np.random.uniform(0, 1) - 1
-    z[i] = (x**2 + y**2 &lt;= 1)
-
-theta_hat = np.cumsum(z) / N
-pi_hat = theta_hat * 4
-
-plt.plot(N, pi_hat)
-plt.axhline(y=np.pi, color='red', linestyle='--')
-plt.xlabel('n')
-plt.ylabel(r'$\hat{\pi}_n$')
-plt.title(r'Aproximação de $\pi$')
-plt.show()</code></pre>
-</div>
-</div>
-</div>
-<p>Esse gráfico mostra como a estimativa de <span class="math inline">\(\pi\)</span> melhora conforme o número de pontos simulados <span class="math inline">\(n\)</span> aumenta.</p>
-</section>
-</section>
-<section id="intervalos-de-confiança-para-estimativas-de-monte-carlo" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="intervalos-de-confiança-para-estimativas-de-monte-carlo"><span class="header-section-number">2.4</span> Intervalos de Confiança para Estimativas de Monte Carlo</h2>
-<p>O Método de Monte Carlo possibilita quantificar a incerteza em nossas estimativas. Para isso, podemos utilizar <strong>intervalos de confiança</strong>.</p>
-<p>Suponha que temos uma sequência de amostras <span class="math inline">\(X_1, X_2, \dots, X_n\)</span> de uma variável aleatória <span class="math inline">\(X\)</span>, e calculamos a média amostral <span class="math inline">\(\hat{\theta}_n = \frac{1}{n} \sum_{i=1}^n g(X_i)\)</span>. Pelo <strong>Teorema Central do Limite</strong>, sabemos que, para <span class="math inline">\(n\)</span> suficientemente grande, a média amostral <span class="math inline">\(\hat{\theta}_n\)</span> é aproximadamente normalmente distribuída:</p>
-<p><span class="math display">\[
-\hat{\theta}_n \sim N\left( \theta, \frac{\sigma^2}{n} \right)
-\]</span></p>
-<p>onde <span class="math inline">\(\sigma^2 = \text{Var}[g(X)]\)</span> é a variância de <span class="math inline">\(g(X)\)</span>. Essa aproximação permite a construção de um intervalo de confiança para <span class="math inline">\(\theta\)</span>.</p>
-<p>O intervalo de confiança aproximado para <span class="math inline">\(\theta\)</span> com nível de confiança <span class="math inline">\((1 - \alpha) \times 100\%\)</span> é dado por:</p>
-<p><span class="math display">\[
-\hat{\theta}_n \pm z_{\alpha/2} \frac{\hat{\sigma}}{\sqrt{n}}
-\]</span></p>
-<p>onde <span class="math inline">\(z_{\alpha/2}\)</span> é o quantil da distribuição normal padrão associado à probabilidade <span class="math inline">\(\alpha/2\)</span> e <span class="math inline">\(\hat{\sigma}\)</span> é a estimativa da variância de <span class="math inline">\(g(X)\)</span>, obtida a partir das amostras.</p>
-<p><strong>Pseudo-Algoritmo para construir um intervalo de confiança:</strong></p>
-<ol type="1">
-<li>Gere <span class="math inline">\(X_1, \dots, X_n\)</span> amostras i.i.d. da v.a. <span class="math inline">\(X\)</span>.</li>
-<li>Calcule <span class="math inline">\(\hat{\theta}_n = \frac{1}{n} \sum_{i=1}^n g(X_i)\)</span>.</li>
-<li>Estime a variância de <span class="math inline">\(g(X)\)</span> como: <span class="math display">\[
-\hat{\sigma}^2 = \frac{1}{n} \sum_{i=1}^n (g(X_i) - \hat{\theta}_n)^2
-\]</span></li>
-<li>Calcule o intervalo de confiança: <span class="math display">\[
-\hat{\theta}_n \pm z_{\alpha/2} \frac{\hat{\sigma}}{\sqrt{n}}
-\]</span></li>
-</ol>
-<section id="exemplo-intervalo-de-confiança-para-a-estimativa-de-pi" class="level3" data-number="2.4.1">
-<h3 data-number="2.4.1" class="anchored" data-anchor-id="exemplo-intervalo-de-confiança-para-a-estimativa-de-pi"><span class="header-section-number">2.4.1</span> Exemplo: Intervalo de Confiança para a Estimativa de <span class="math inline">\(\pi\)</span></h3>
-<p>Neste exemplo, construímos um intervalo de confiança para a estimativa de <span class="math inline">\(\pi\)</span> usando o método de Monte Carlo, seguindo os passos acima.</p>
-<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false">Python</a></li></ul>
-<div class="tab-content" data-group="language">
-<div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
-<pre class="{r}"><code>set.seed(0)
-N &lt;- 10000  # número de amostras
-z &lt;- numeric(N)
-
-# Loop para gerar os pontos e verificar se estão dentro do círculo
-for (i in 1:N) {
-  x &lt;- 2 * runif(1) - 1
-  y &lt;- 2 * runif(1) - 1
-  z[i] &lt;- (x^2 + y^2 &lt;= 1)
-}
-
-# Estimativa de pi
-theta_hat &lt;- mean(z)
-pi_hat &lt;- theta_hat * 4
-cat("Estimativa de pi:", pi_hat, "\n")
-
-# Cálculo da variância e intervalo de confiança
-sigma_hat &lt;- sqrt(var(z) / N)
-alpha &lt;- 0.05  # Nível de significância
-z_alpha2 &lt;- qnorm(1 - alpha / 2)
-
-# Intervalo de confiança
-IC &lt;- c(theta_hat - z_alpha2 * sigma_hat, theta_hat + z_alpha2 * sigma_hat) * 4
-cat("Intervalo de confiança para pi:", IC, "\n")</code></pre>
-</div>
-<div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">
-<pre class="{python}"><code>import numpy as np
-from scipy.stats import norm
-
-# Semente para reprodução
-np.random.seed(0)
-N = 10000  # número de amostras
-z = np.zeros(N)
-
-# Loop para gerar os pontos e verificar se estão dentro do círculo
-for i in range(N):
-    x = 2 * np.random.uniform(0, 1) - 1
-    y = 2 * np.random.uniform(0, 1) - 1
-    z[i] = (x**2 + y**2 &lt;= 1)
-
-# Estimativa de pi
-theta_hat = np.mean(z)
-pi_hat = theta_hat * 4
-print("Estimativa de pi:", pi_hat)
-
-# Cálculo da variância e intervalo de confiança
-sigma_hat = np.sqrt(np.var(z) / N)
-alpha = 0.05  # Nível de significância
-z_alpha2 = norm.ppf(1 - alpha / 2)
-
-# Intervalo de confiança
-IC = (theta_hat - z_alpha2 * sigma_hat, theta_hat + z_alpha2 * sigma_hat)
-IC = [i * 4 for i in IC]
-
-print("Intervalo de confiança para pi:", IC)</code></pre>
-</div>
-</div>
-</div>
-<p>Neste caso, o intervalo de confiança construído em torno da estimativa <span class="math inline">\(\hat{\pi}_n\)</span> oferece uma ideia de quão próxima nossa estimativa está do valor verdadeiro de <span class="math inline">\(\pi\)</span>, com uma certa confiança.</p>
-</section>
-</section>
-<section id="exemplo-4-problema-das-figurinhas" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="exemplo-4-problema-das-figurinhas"><span class="header-section-number">2.5</span> Exemplo 4: Problema das Figurinhas</h2>
-<p>Um colecionador está juntando figurinhas para completar um álbum da Copa. Qual é a probabilidade de que, ao comprar <span class="math inline">\(n\)</span> pacotes, pelo menos um deles contenha duas ou mais figurinhas iguais? Durante o curso de probabilidade, você aprenderá como calcular essa probabilidade. Outra abordagem possível é o uso do método de Monte Carlo. Nesse caso, simulamos a compra de <span class="math inline">\(n\)</span> pacotes, cada um com 5 figurinhas, de um total de 640 figurinhas disponíveis no álbum. Repetimos essa simulação <span class="math inline">\(B=1000\)</span> vezes e contamos quantas vezes ocorreu pelo menos uma repetição de figurinhas em algum dos pacotes. A proporção de simulações com repetições é a estimativa de Monte Carlo da probabilidade que estamos interessados em calcular.</p>
-<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false">Python</a></li></ul>
-<div class="tab-content" data-group="language">
-<div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
-<pre class="{r}"><code>nFigurinhas &lt;- 640
-B &lt;- 1000
-nPacotes &lt;- 1:50
-aoMenosUmaRepetidaNoMesmoPacote &lt;- matrix(NA, length(nPacotes), B)
-for(ii in 1:length(nPacotes)) {
-  for(jj in 1:B) {
-    figurinhas &lt;- sample(1:nFigurinhas, nPacotes[ii] * 5, replace = TRUE)
-    figurinhas &lt;- matrix(figurinhas, nPacotes[ii], 5)
-    aoMenosUmaRepetidaNoMesmoPacote[ii,jj] &lt;- sum(apply(figurinhas, 1, function(xx) length(unique(xx)) != length(xx)) &gt; 0)
-  }
-}
-
-probCoincidencia &lt;- apply(aoMenosUmaRepetidaNoMesmoPacote, 1, mean)</code></pre>
-</div>
-<div id="tabset-7-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-2-tab">
-<pre class="{python}"><code>import numpy as np
-import random
-
-nFigurinhas = 640
-B = 1000
-nPacotes = np.arange(1, 51)  # Intervalo de 1 a 50 (Python é exclusivo no final)
-aoMenosUmaRepetidaNoMesmoPacote = np.empty((len(nPacotes), B))
-
-for ii in range(len(nPacotes)):
-    for jj in range(B):
-        figurinhas = [random.choices(range(1, nFigurinhas + 1), k=5) for _ in range(nPacotes[ii])]
-        figurinhas = np.array(figurinhas)
-        aoMenosUmaRepetidaNoMesmoPacote[ii, jj] = np.sum([len(set(pacote)) != len(pacote) for pacote in figurinhas])
-
-probCoincidencia = np.mean(aoMenosUmaRepetidaNoMesmoPacote, axis=1)</code></pre>
-</div>
-</div>
-</div>
-<p>Agora podemos visualizar os resultados obtidos por meio do gráfico a seguir:</p>
-<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-2" role="tab" aria-controls="tabset-8-2" aria-selected="false">Python</a></li></ul>
-<div class="tab-content" data-group="language">
-<div id="tabset-8-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-8-1-tab">
-<pre class="{r}"><code>dados &lt;- data.frame(probCoincidencia = probCoincidencia, nPacotes = nPacotes)
-
-library(ggplot2)
-ggplot(dados, aes(x = nPacotes, y = probCoincidencia)) +
-  geom_point(aes(size = 1.1)) +
-  xlab("Número de Pacotes") +
-  ylab("Prob de ao menos 1 repetida no mesmo pacote") + 
-  theme(legend.position = "none")+
-  theme_minimal()</code></pre>
-</div>
-<div id="tabset-8-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-8-2-tab">
-<pre class="{python}"><code>import pandas as pd
-import matplotlib.pyplot as plt
-
-# Criação do DataFrame
-dados = pd.DataFrame({'nPacotes': nPacotes, 'probCoincidencia': probCoincidencia})
-
-# Criação do gráfico
-plt.figure(figsize=(8, 6))
-plt.scatter(dados['nPacotes'], dados['probCoincidencia'], s=70)  # 's' ajusta o tamanho dos pontos
-plt.xlabel('Número de Pacotes')
-plt.ylabel('Prob de ao menos 1 repetida no mesmo pacote')
-plt.grid(True, which='both', linestyle='--', linewidth=0.7)
-plt.gca().set_facecolor('white')  # Para seguir o tema minimalista
-plt.show()</code></pre>
-</div>
-</div>
-</div>
-<p><strong>Simulação para completar o álbum</strong></p>
-<p>Uma segunda pergunta que também podemos responder via simulação é: quantos pacotes necessitamos em média para completar o álbum? A solução estimada pode ser obtida com o código abaixo:</p>
-<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-9-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-1" role="tab" aria-controls="tabset-9-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-9-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-2" role="tab" aria-controls="tabset-9-2" aria-selected="false">Python</a></li></ul>
-<div class="tab-content" data-group="language">
-<div id="tabset-9-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-9-1-tab">
-<pre class="{r}"><code>numeroPacotes &lt;- rep(NA, B)
-for(jj in 1:B) {
-  albumCompleto &lt;- FALSE
-  nPacotes &lt;- 0
-  figurinhas &lt;- NULL
-  while(!albumCompleto) {
-    figurinhas &lt;- c(figurinhas, sample(1:nFigurinhas, 5, replace = TRUE))
-    if(length(unique(figurinhas)) == nFigurinhas) {
-      albumCompleto &lt;- TRUE
-    }
-    nPacotes &lt;- nPacotes + 1
-  }
-  numeroPacotes[jj] &lt;- nPacotes
-}</code></pre>
-</div>
-<div id="tabset-9-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-9-2-tab">
-<pre class="{python}"><code>import numpy as np
-import random
-
-nFigurinhas = 640
-B = 1000
-numeroPacotes = np.empty(B)
-
-for jj in range(B):
-    albumCompleto = False
-    nPacotes = 0
-    figurinhas = []
-
-    while not albumCompleto:
-        figurinhas.extend(random.choices(range(1, nFigurinhas + 1), k=5))
-        if len(set(figurinhas)) == nFigurinhas:
-            albumCompleto = True
-        nPacotes += 1
-
-    numeroPacotes[jj] = nPacotes</code></pre>
-</div>
-</div>
-</div>
-<p>O número médio de pacotes necessários para completar o álbum é:</p>
-<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-10-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-10-1" role="tab" aria-controls="tabset-10-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-10-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-10-2" role="tab" aria-controls="tabset-10-2" aria-selected="false">Python</a></li></ul>
-<div class="tab-content" data-group="language">
-<div id="tabset-10-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-10-1-tab">
-<pre class="{r}"><code>mean(numeroPacotes)</code></pre>
-</div>
-<div id="tabset-10-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-10-2-tab">
-<pre class="{python}"><code>mean_numeroPacotes = np.mean(numeroPacotes)
-mean_numeroPacotes</code></pre>
-</div>
-</div>
-</div>
-<p>Com essa simulação, também podemos estimar as seguintes probabilidades:</p>
-<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-11-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-11-1" role="tab" aria-controls="tabset-11-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-11-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-11-2" role="tab" aria-controls="tabset-11-2" aria-selected="false">Python</a></li></ul>
-<div class="tab-content" data-group="language">
-<div id="tabset-11-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-11-1-tab">
-<pre class="{r}"><code>cat("Probabilidade de precisar de mais de 800 pacotes: ", mean(numeroPacotes &gt; 800) * 100, "%", sep = "")
-cat("Probabilidade de precisar de mais de 1000 pacotes: ", mean(numeroPacotes &gt; 1000) * 100, "%", sep = "")</code></pre>
-</div>
-<div id="tabset-11-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-11-2-tab">
-<pre class="{python}"><code>prob_mais_800 = np.mean(numeroPacotes &gt; 800) * 100
-prob_mais_1000 = np.mean(numeroPacotes &gt; 1000) * 100
-
-print(f"Probabilidade de precisar de mais de 800 pacotes: {prob_mais_800}%")
-print(f"Probabilidade de precisar de mais de 1000 pacotes: {prob_mais_1000}%")</code></pre>
-</div>
-</div>
-</div>
-</section>
-<section id="exercícios-1" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="exercícios-1"><span class="header-section-number">2.6</span> Exercícios</h2>
-<p><span style="color:#2C92B2;"><strong>Exercício 1</strong></span>.</p>
-<p>Utilize o método de Monte Carlo para aproximar a integral <span class="math display">\[
-I = \int_0^{10} \sin(x^2) \, dx
-\]</span></p>
-<p>Forneça um intervalo de confiança para avaliar a precisão da estimativa.</p>
-<p><span style="color:#2C92B2;"><strong>Exercício 2</strong></span>.</p>
-<p>Utilize o método de Monte Carlo para aproximar a integral <span class="math display">\[
-I = \int_1^{\infty} \frac{1}{x^3} \, dx
-\]</span></p>
-<p>Forneça um intervalo de confiança para avaliar a precisão da estimativa.</p>
-<p><span style="color:#2C92B2;"><strong>Exercício 3</strong></span>.</p>
-<p>Seja <span class="math inline">\(X \sim \text{Exp}(\lambda)\)</span> com <span class="math inline">\(\lambda = 2\)</span>. Estime a esperança <span class="math inline">\(\mathbb{E}[X^2]\)</span> utilizando o método de Monte Carlo. Forneça um intervalo de confiança para avaliar a precisão da estimativa. Compare com o valor real dessa quantidade.</p>
-<p><span style="color:#2C92B2;"><strong>Exercício 4</strong></span>.</p>
-<p>Considere que <span class="math inline">\(X\)</span> tem distribuição Normal(0,1) e <span class="math inline">\(Y\)</span> tem distribuição Gamma(1,1). Estime <span class="math inline">\(P(X\times Y &gt; 3)\)</span>. Forneça um intervalo de confiança para avaliar a precisão da estimativa.</p>
 </section>
 </section>
 
