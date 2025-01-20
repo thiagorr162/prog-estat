@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -71,6 +105,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -220,7 +283,9 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul class="collapse">
-  <li><a href="#exercícios" id="toc-exercícios" class="nav-link active" data-scroll-target="#exercícios"><span class="header-section-number">12.1</span> Exercícios</a></li>
+  <li><a href="#técnica-1-variáveis-antitéticas" id="toc-técnica-1-variáveis-antitéticas" class="nav-link active" data-scroll-target="#técnica-1-variáveis-antitéticas"><span class="header-section-number">12.1</span> Técnica 1: Variáveis Antitéticas</a></li>
+  <li><a href="#exemplo-aproximação-de-uma-integral" id="toc-exemplo-aproximação-de-uma-integral" class="nav-link" data-scroll-target="#exemplo-aproximação-de-uma-integral"><span class="header-section-number">12.2</span> Exemplo: Aproximação de uma Integral</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">12.3</span> Exercícios</a></li>
   </ul>
 </nav>
     </div>
@@ -246,20 +311,231 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>A simulação de Monte Carlo é utilizada para estimar esperanças matemáticas e calcular integrais numéricas. No entanto, a precisão do método pode ser limitada pela variância das amostras geradas. As técnicas de redução de variância visam minimizar essa variabilidade sem aumentar significativamente o número de amostras.</p>
+<section id="técnica-1-variáveis-antitéticas" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="técnica-1-variáveis-antitéticas"><span class="header-section-number">12.1</span> Técnica 1: Variáveis Antitéticas</h2>
+<section id="motivação" class="level3" data-number="12.1.1">
+<h3 data-number="12.1.1" class="anchored" data-anchor-id="motivação"><span class="header-section-number">12.1.1</span> Motivação</h3>
+<p>Queremos estimar uma integral <span class="math inline">\(\theta = E[X]\)</span>. O estimador de Monte Carlo usual é: <span class="math display">\[
+\hat{\theta} = \frac{1}{n} \sum_{i=1}^{n} X_i
+\]</span> onde <span class="math inline">\(X_1, ..., X_n\)</span> são variáveis aleatórias iid com média <span class="math inline">\(\theta\)</span>. A variância desse estimador é dada por <span class="math display">\[
+\text{Var}(\hat{\theta}) = \frac{\text{Var}(X)}{n}
+\]</span></p>
+<p>Se conseguirmos construir um conjunto de amostras correlacionadas negativamente com a amostra de <span class="math inline">\(X\)</span>’s, podemos reduzir essa variância.</p>
+</section>
+<section id="descrição" class="level3" data-number="12.1.2">
+<h3 data-number="12.1.2" class="anchored" data-anchor-id="descrição"><span class="header-section-number">12.1.2</span> Descrição</h3>
+<p>A ideia principal das <strong>variáveis antitéticas</strong> é gerar pares de amostras <span class="math inline">\(X_i\)</span> e <span class="math inline">\(Y_i\)</span> que sejam correlacionadas negativamente. Se tivermos uma segunda amostra <span class="math inline">\(Y_1, ..., Y_n\)</span>, não necessariamente independente de <span class="math inline">\(X\)</span>, com <span class="math display">\[
+E[Y] = E[X] = \theta
+\]</span> e <span class="math display">\[
+V[Y] = V[X] = \sigma^2,
+\]</span> então podemos definir um novo estimador: <span class="math display">\[
+\hat{\theta}_A = \frac{1}{2n} \sum_{i=1}^{n} (X_i + Y_i)
+\]</span> cuja esperança é <span class="math display">\[
+\text{E}(\hat{\theta}_A)=\theta \]</span> e variância é <span class="math display">\[
+\text{Var}(\hat{\theta}_A) = \frac{1}{4n} \sum_{i=1}^{n} \left( \text{Var}(X) + \text{Var}(Y) + 2\text{Cov}(X,Y) \right)
+\]</span> ou, simplificando, <span class="math display">\[
+\text{Var}(\hat{\theta}_A) = \frac{\text{Var}(X)}{n} \left( \frac{1 + \rho}{2} \right)
+\]</span> onde <span class="math inline">\(\rho = \text{Corr}(X, Y)\)</span>. Se <span class="math inline">\(\rho &lt; 0\)</span>, então <span class="math inline">\(\text{Var}(\hat{\theta}_A) &lt; \text{Var}(\hat{\theta})\)</span>, tornando o estimador <strong>mais eficiente</strong>.</p>
+</section>
+<section id="algoritmo" class="level3" data-number="12.1.3">
+<h3 data-number="12.1.3" class="anchored" data-anchor-id="algoritmo"><span class="header-section-number">12.1.3</span> Algoritmo</h3>
+<p>Uma maneira de gerar variáveis negativamente correlacionadas é a partir de distribuições uniformes. Para isso, vamos assumir que <span class="math inline">\(X \sim h(U)\)</span>, para algum <span class="math inline">\(h\)</span> conhecido, em que <span class="math inline">\(U \sim U(0,1)\)</span>. Sabemos, pelo método da transformação inversa, que sempre é possível encontrar <span class="math inline">\(h\)</span> com essa propriedade.</p>
+<p>A ideia chave é então usar que <span class="math inline">\(1-U\)</span> também tem distribuição <span class="math inline">\(U(0,1)\)</span>. Assim <span class="math inline">\(h(1-U)\)</span> tem a mesma distribuição de <span class="math inline">\(X\)</span> e, em particular, a mesma média <span class="math inline">\(\theta\)</span>. Além disso, pode-se mostrar que se <span class="math inline">\(h\)</span> é monótono, <span class="math inline">\(h(U)\)</span> tem correlação negativa com <span class="math inline">\(h(1-U)\)</span>.</p>
+<p>O método das variáveis antitéticas pode ser implementado da seguinte forma:</p>
+<ol type="1">
+<li>Geramos <span class="math inline">\(n\)</span> variáveis aleatórias uniformes <span class="math inline">\(U_i \sim U(0,1)\)</span>.</li>
+<li>Definimos <span class="math inline">\(X_i = h(U_i)\)</span>.</li>
+<li>Para cada <span class="math inline">\(U_i\)</span>, também geramos <span class="math inline">\(Y_i = h(1 - U_i)\)</span>.</li>
+<li>Construímos o estimador antitético: <span class="math display">\[
+\hat{\theta}_A = \frac{1}{2n} \sum_{i=1}^{n} (X_i + Y_i)
+\]</span></li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="exemplo-aproximação-de-uma-integral" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="exemplo-aproximação-de-uma-integral"><span class="header-section-number">12.2</span> Exemplo: Aproximação de uma Integral</h2>
+<p>Queremos estimar a seguinte integral:</p>
+<p><span class="math display">\[
+I = \int_0^1 \log(1 + x^2) \, dx
+\]</span></p>
+<p>Sabemos que podemos reescrever essa integral como uma esperança matemática:</p>
+<p><span class="math display">\[
+I = E[\log(1 + X^2)], \quad X \sim U(0,1)
+\]</span></p>
+<p>O algoritmo é:</p>
+<ol type="1">
+<li>Geramos <span class="math inline">\(n\)</span> variáveis uniformes <span class="math inline">\(U_i \sim U(0,1)\)</span>.</li>
+<li>Definimos <span class="math inline">\(X_i = -\log(U_i)\)</span>.</li>
+<li>Definimos <span class="math inline">\(Y_i = -\log(1 - U_i)\)</span>.</li>
+<li>Construímos:</li>
+</ol>
+<p><span class="math display">\[
+Z_i = \frac{1}{2} \left( \log(1 + X_i^2) + \log(1 + Y_i^2) \right)
+\]</span></p>
+<hr>
 <div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Python</a></li></ul>
 <div class="tab-content" data-group="language">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-
+<div class="cell">
+<details class="code-fold">
+<summary>Mostrar código</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">50000</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Geração das amostras</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">runif</span>(n, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">log</span>(u)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">log</span>(<span class="dv">1</span> <span class="sc">-</span> u)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Cálculo das estimativas</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>theta.hatx <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">+</span> x<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>theta.haty <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">+</span> y<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>theta.hatz <span class="ot">&lt;-</span> (theta.hatx <span class="sc">+</span> theta.haty) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Média das estimativas</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>mean_values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">mean</span>(theta.hatx), <span class="fu">mean</span>(theta.haty), <span class="fu">mean</span>(theta.hatz))</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Médias das estimativas:</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Médias das estimativas:</code></pre>
+</div>
+<details class="code-fold">
+<summary>Mostrar código</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(mean_values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6906937 0.6919855 0.6913396</code></pre>
+</div>
+</div>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-
+<div class="cell">
+<details class="code-fold">
+<summary>Mostrar código</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">50000</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Geração das amostras</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> np.random.uniform(<span class="dv">0</span>, <span class="dv">1</span>, n)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="op">-</span>np.log(u)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="op">-</span>np.log(<span class="dv">1</span> <span class="op">-</span> u)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Cálculo das estimativas</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>theta_hatx <span class="op">=</span> np.log(<span class="dv">1</span> <span class="op">+</span> x<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>theta_haty <span class="op">=</span> np.log(<span class="dv">1</span> <span class="op">+</span> y<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>theta_hatz <span class="op">=</span> (theta_hatx <span class="op">+</span> theta_haty) <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Média das estimativas</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>mean_values <span class="op">=</span> [np.mean(theta_hatx), np.mean(theta_haty), np.mean(theta_hatz)]</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Médias das estimativas:"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Médias das estimativas:</code></pre>
+</div>
+<details class="code-fold">
+<summary>Mostrar código</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(mean_values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[np.float64(0.6885117805461132), np.float64(0.683592556950855), np.float64(0.686052168748484)]</code></pre>
 </div>
 </div>
 </div>
-<section id="exercícios" class="level2" data-number="12.1">
-<h2 data-number="12.1" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">12.1</span> Exercícios</h2>
-<p><span style="color:#2C92B2;"><strong>Exercício 1</strong></span>.</p>
+</div>
+</div>
+<p>A seguir, repetiremos esse processo várias vezes para avaliar as variâncias dos diferentes estimadores.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Python</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Mostrar código</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">50000</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">1000</span>  <span class="co"># Número de repetições</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>theta.hatx <span class="ot">&lt;-</span> <span class="fu">numeric</span>(B)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>theta.haty <span class="ot">&lt;-</span> <span class="fu">numeric</span>(B)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>theta.hatz <span class="ot">&lt;-</span> <span class="fu">numeric</span>(B)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (b <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>B) {</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  u <span class="ot">&lt;-</span> <span class="fu">runif</span>(n, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">log</span>(u)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">log</span>(<span class="dv">1</span> <span class="sc">-</span> u)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  theta.hatx[b] <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">log</span>(<span class="dv">1</span> <span class="sc">+</span> x<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  theta.haty[b] <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">log</span>(<span class="dv">1</span> <span class="sc">+</span> y<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  theta.hatz[b] <span class="ot">&lt;-</span> <span class="fu">mean</span>((<span class="fu">log</span>(<span class="dv">1</span> <span class="sc">+</span> x<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">+</span> y<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">/</span> <span class="dv">2</span>)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Cálculo das variâncias das estimativas</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>var_values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">var</span>(theta.hatx), <span class="fu">var</span>(theta.haty), <span class="fu">var</span>(theta.hatz))</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Variâncias das estimativas:</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Variâncias das estimativas:</code></pre>
+</div>
+<details class="code-fold">
+<summary>Mostrar código</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(var_values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.227314e-05 1.160393e-05 2.119955e-06</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Mostrar código</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">50000</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> <span class="dv">1000</span>  <span class="co"># Número de repetições</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>theta_hatx <span class="op">=</span> np.zeros(B)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>theta_haty <span class="op">=</span> np.zeros(B)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>theta_hatz <span class="op">=</span> np.zeros(B)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> b <span class="kw">in</span> <span class="bu">range</span>(B):</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    u <span class="op">=</span> np.random.uniform(<span class="dv">0</span>, <span class="dv">1</span>, n)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="op">-</span>np.log(u)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="op">-</span>np.log(<span class="dv">1</span> <span class="op">-</span> u)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    theta_hatx[b] <span class="op">=</span> np.mean(np.log(<span class="dv">1</span> <span class="op">+</span> x<span class="op">**</span><span class="dv">2</span>))</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    theta_haty[b] <span class="op">=</span> np.mean(np.log(<span class="dv">1</span> <span class="op">+</span> y<span class="op">**</span><span class="dv">2</span>))</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    theta_hatz[b] <span class="op">=</span> np.mean((np.log(<span class="dv">1</span> <span class="op">+</span> x<span class="op">**</span><span class="dv">2</span>) <span class="op">+</span> np.log(<span class="dv">1</span> <span class="op">+</span> y<span class="op">**</span><span class="dv">2</span>)) <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Cálculo das variâncias das estimativas</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>var_values <span class="op">=</span> [np.var(theta_hatx), np.var(theta_haty), np.var(theta_hatz)]</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Variâncias das estimativas:"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Variâncias das estimativas:</code></pre>
+</div>
+<details class="code-fold">
+<summary>Mostrar código</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(var_values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[np.float64(1.1439204126724436e-05), np.float64(1.1832216036912732e-05), np.float64(1.978147697118848e-06)]</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="exercícios" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">12.3</span> Exercícios</h2>
+<p><strong>Exercício 1</strong>. Implemente a técnica das variáveis antitéticas para estimar <span class="math inline">\(E[\sin(X)]\)</span> onde <span class="math inline">\(X \sim U(0, \pi)\)</span>. Compare a variância do estimador com o estimador usual.</p>
 
 
 </section>
