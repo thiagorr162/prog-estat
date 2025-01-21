@@ -72,7 +72,7 @@ $$
 
 ---
 
-## Exemplo: Aproximação de uma Integral
+### Exemplo: Aproximação de uma Integral
 
 Queremos estimar a seguinte integral:
 
@@ -208,9 +208,122 @@ print(var_values)
 ```
 :::
 
+## Técnica 2: Uso de Variáveis de Controle
+
+### Motivação
+Ao estimar o valor esperado de uma variável aleatória $X$, muitas vezes queremos melhorar a precisão da estimativa reduzindo a variância associada. Para isso, podemos introduzir uma variável auxiliar $Y$, conhecida como **variável de controle**, que possui um valor esperado conhecido, $\mathbb{E}[Y] = \mu$, e uma relação com $X$ que nos ajuda a diminuir a variância.
+
+### Explicação do Método
+Dado que queremos estimar $\theta = \mathbb{E}[X]$, definimos uma nova estimativa ajustada:
+
+$$
+Z = X + c(Y - \mu),
+$$
+
+onde $c$ é uma constante a ser escolhida para minimizar a variância de $Z$. Ao calcular a expectativa de $Z$, temos:
+
+$$
+\mathbb{E}[Z] = \mathbb{E}[X + c(Y - \mu)] = \mathbb{E}[X] + c \cdot (\mathbb{E}[Y] - \mu) = \mathbb{E}[X] = \theta.
+$$
+
+Assim, a nova estimativa é não viesada. Agora, calculamos a variância:
+
+$$
+\text{Var}[Z] = \text{Var}[X + c(Y - \mu)] = \text{Var}[X] + c^2 \text{Var}[Y] + 2c \cdot \text{Cov}(X, Y).
+$$
+
+Para minimizar essa variância, derivamos em relação a $c$ e encontramos o valor ótimo:
+
+$$
+c^* = -\frac{\text{Cov}(X, Y)}{\text{Var}(Y)}.
+$$
+
+Substituindo $c^*$ na expressão da variância, obtemos:
+
+$$
+\text{Var}[Z] = \text{Var}[X] - \frac{[\text{Cov}(X, Y)]^2}{\text{Var}(Y)}.
+$$
+
+Essa fórmula mostra que o uso da variável de controle reduz a variância de forma significativa.
+
+### Redução da Variância
+Usando a correlação $\text{Corr}(X, Y) = \text{Cov}(X, Y)/\sqrt{\text{Var}(X)\text{Var}(Y)}$, podemos reescrever a variância como:
+
+$$
+\text{Var}[Z] = \text{Var}[X] \cdot \left(1 - [\text{Corr}(X, Y)]^2\right).
+$$
+
+A redução percentual da variância é dada por:
+
+$$
+\frac{\text{Var}[Z]}{\text{Var}[X]} = 1 - [\text{Corr}(X, Y)]^2.
+$$
+
+Quanto maior a correlação entre $X$ e $Y$, maior será a redução da variância.
+
+### Estimativa Prática
+Na prática, as quantidades $\text{Cov}(X, Y)$ e $\text{Var}(Y)$ podem ser estimadas a partir de uma amostra gerada via Monte Carlo. Suponha que temos $n$ amostras de $X$ e $Y$: $X_1, \dots, X_n$ e $Y_1, \dots, Y_n$. Então:
+
+$$
+\widehat{\text{Cov}}(X, Y) = \frac{1}{n-1} \sum_{i=1}^n (X_i - \bar{X})(Y_i - \bar{Y}),
+$$
+
+$$
+\widehat{\text{Var}}(Y) = \frac{1}{n-1} \sum_{i=1}^n (Y_i - \bar{Y})^2.
+$$
+
+Com esses valores, aproximamos $c^*$ por:
+
+$$
+\widehat{c}^* = -\frac{\widehat{\text{Cov}}(X, Y)}{\widehat{\text{Var}}(Y)}.
+$$
+
+O estimador final é dado por:
+
+$$
+Z = X + \widehat{c}^* (Y - \bar{Y}).
+$$
+
+### Exemplo
+Considere $X = e^U$, onde $U \sim \text{Unif}(0, 1)$. Vamos usar $Y = U$ como variável de controle. Sabemos que $\mathbb{E}[U] = 0.5$. Calculamos:
+
+$$
+\text{Cov}(e^U, U) = \mathbb{E}[e^U U] - \mathbb{E}[U]\mathbb{E}[e^U].
+$$
+
+Após as integrações necessárias, encontramos:
+
+$$
+\text{Cov}(e^U, U) = 0.14086.
+$$
+
+A variância de $e^U + c^*(U - 0.5)$ é:
+
+$$
+\text{Var}[e^U + c^*(U - 0.5)] = 0.2420 - 12(0.14086^2) = 0.0039.
+$$
+
+A redução de variância é:
+
+$$
+1 - \frac{0.0039}{0.2420} = 0.9838 \quad \text{(98.38%)}.
+$$
+
+Isso demonstra como o uso de variáveis de controle pode reduzir drasticamente a variância na estimativa.
+
 
 ---
 
 ## Exercícios
 
 **Exercício 1**. Implemente a técnica das variáveis antitéticas para estimar $E[\sin(X)]$ onde $X \sim U(0, \pi)$. Compare a variância do estimador com o estimador usual.
+
+**Exercício 2**. Considere a integral:
+
+$$
+\theta = \int_{0}^{\pi/4} \int_{0}^{\pi/4} x^2 y^2 \sin(x + y) \log(x + y) \, dx \, dy.
+$$
+
+(a) Implemente o método de Monte Carlo para aproximar o valor da integral acima.  
+(b) Aproxime a integral utilizando $X^2 Y^2$ como variável de controle.  
+(c) Compare a variância dos estimadores obtidos nos itens (a) e (b).
