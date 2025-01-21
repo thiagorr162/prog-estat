@@ -284,7 +284,7 @@ window.Quarto = {
    
   <ul class="collapse">
   <li><a href="#técnica-1-variáveis-antitéticas" id="toc-técnica-1-variáveis-antitéticas" class="nav-link active" data-scroll-target="#técnica-1-variáveis-antitéticas"><span class="header-section-number">12.1</span> Técnica 1: Variáveis Antitéticas</a></li>
-  <li><a href="#exemplo-aproximação-de-uma-integral" id="toc-exemplo-aproximação-de-uma-integral" class="nav-link" data-scroll-target="#exemplo-aproximação-de-uma-integral"><span class="header-section-number">12.2</span> Exemplo: Aproximação de uma Integral</a></li>
+  <li><a href="#técnica-2-uso-de-variáveis-de-controle" id="toc-técnica-2-uso-de-variáveis-de-controle" class="nav-link" data-scroll-target="#técnica-2-uso-de-variáveis-de-controle"><span class="header-section-number">12.2</span> Técnica 2: Uso de Variáveis de Controle</a></li>
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">12.3</span> Exercícios</a></li>
   </ul>
 </nav>
@@ -353,9 +353,8 @@ V[Y] = V[X] = \sigma^2,
 </ol>
 <hr>
 </section>
-</section>
-<section id="exemplo-aproximação-de-uma-integral" class="level2" data-number="12.2">
-<h2 data-number="12.2" class="anchored" data-anchor-id="exemplo-aproximação-de-uma-integral"><span class="header-section-number">12.2</span> Exemplo: Aproximação de uma Integral</h2>
+<section id="exemplo-aproximação-de-uma-integral" class="level3" data-number="12.1.4">
+<h3 data-number="12.1.4" class="anchored" data-anchor-id="exemplo-aproximação-de-uma-integral"><span class="header-section-number">12.1.4</span> Exemplo: Aproximação de uma Integral</h3>
 <p>Queremos estimar a seguinte integral:</p>
 <p><span class="math display">\[
 I = \int_0^1 \log(1 + x^2) \, dx
@@ -531,11 +530,104 @@ Z_i = \frac{1}{2} \left( \log(1 + X_i^2) + \log(1 + Y_i^2) \right)
 </div>
 </div>
 </div>
+</section>
+</section>
+<section id="técnica-2-uso-de-variáveis-de-controle" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="técnica-2-uso-de-variáveis-de-controle"><span class="header-section-number">12.2</span> Técnica 2: Uso de Variáveis de Controle</h2>
+<section id="motivação-1" class="level3" data-number="12.2.1">
+<h3 data-number="12.2.1" class="anchored" data-anchor-id="motivação-1"><span class="header-section-number">12.2.1</span> Motivação</h3>
+<p>Ao estimar o valor esperado de uma variável aleatória <span class="math inline">\(X\)</span>, muitas vezes queremos melhorar a precisão da estimativa reduzindo a variância associada. Para isso, podemos introduzir uma variável auxiliar <span class="math inline">\(Y\)</span>, conhecida como <strong>variável de controle</strong>, que possui um valor esperado conhecido, <span class="math inline">\(\mathbb{E}[Y] = \mu\)</span>, e uma relação com <span class="math inline">\(X\)</span> que nos ajuda a diminuir a variância.</p>
+</section>
+<section id="explicação-do-método" class="level3" data-number="12.2.2">
+<h3 data-number="12.2.2" class="anchored" data-anchor-id="explicação-do-método"><span class="header-section-number">12.2.2</span> Explicação do Método</h3>
+<p>Dado que queremos estimar <span class="math inline">\(\theta = \mathbb{E}[X]\)</span>, definimos uma nova estimativa ajustada:</p>
+<p><span class="math display">\[
+Z = X + c(Y - \mu),
+\]</span></p>
+<p>onde <span class="math inline">\(c\)</span> é uma constante a ser escolhida para minimizar a variância de <span class="math inline">\(Z\)</span>. Ao calcular a expectativa de <span class="math inline">\(Z\)</span>, temos:</p>
+<p><span class="math display">\[
+\mathbb{E}[Z] = \mathbb{E}[X + c(Y - \mu)] = \mathbb{E}[X] + c \cdot (\mathbb{E}[Y] - \mu) = \mathbb{E}[X] = \theta.
+\]</span></p>
+<p>Assim, a nova estimativa é não viesada. Agora, calculamos a variância:</p>
+<p><span class="math display">\[
+\text{Var}[Z] = \text{Var}[X + c(Y - \mu)] = \text{Var}[X] + c^2 \text{Var}[Y] + 2c \cdot \text{Cov}(X, Y).
+\]</span></p>
+<p>Para minimizar essa variância, derivamos em relação a <span class="math inline">\(c\)</span> e encontramos o valor ótimo:</p>
+<p><span class="math display">\[
+c^* = -\frac{\text{Cov}(X, Y)}{\text{Var}(Y)}.
+\]</span></p>
+<p>Substituindo <span class="math inline">\(c^*\)</span> na expressão da variância, obtemos:</p>
+<p><span class="math display">\[
+\text{Var}[Z] = \text{Var}[X] - \frac{[\text{Cov}(X, Y)]^2}{\text{Var}(Y)}.
+\]</span></p>
+<p>Essa fórmula mostra que o uso da variável de controle reduz a variância de forma significativa.</p>
+</section>
+<section id="redução-da-variância" class="level3" data-number="12.2.3">
+<h3 data-number="12.2.3" class="anchored" data-anchor-id="redução-da-variância"><span class="header-section-number">12.2.3</span> Redução da Variância</h3>
+<p>Usando a correlação <span class="math inline">\(\text{Corr}(X, Y) = \text{Cov}(X, Y)/\sqrt{\text{Var}(X)\text{Var}(Y)}\)</span>, podemos reescrever a variância como:</p>
+<p><span class="math display">\[
+\text{Var}[Z] = \text{Var}[X] \cdot \left(1 - [\text{Corr}(X, Y)]^2\right).
+\]</span></p>
+<p>A redução percentual da variância é dada por:</p>
+<p><span class="math display">\[
+\frac{\text{Var}[Z]}{\text{Var}[X]} = 1 - [\text{Corr}(X, Y)]^2.
+\]</span></p>
+<p>Quanto maior a correlação entre <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>, maior será a redução da variância.</p>
+</section>
+<section id="estimativa-prática" class="level3" data-number="12.2.4">
+<h3 data-number="12.2.4" class="anchored" data-anchor-id="estimativa-prática"><span class="header-section-number">12.2.4</span> Estimativa Prática</h3>
+<p>Na prática, as quantidades <span class="math inline">\(\text{Cov}(X, Y)\)</span> e <span class="math inline">\(\text{Var}(Y)\)</span> podem ser estimadas a partir de uma amostra gerada via Monte Carlo. Suponha que temos <span class="math inline">\(n\)</span> amostras de <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>: <span class="math inline">\(X_1, \dots, X_n\)</span> e <span class="math inline">\(Y_1, \dots, Y_n\)</span>. Então:</p>
+<p><span class="math display">\[
+\widehat{\text{Cov}}(X, Y) = \frac{1}{n-1} \sum_{i=1}^n (X_i - \bar{X})(Y_i - \bar{Y}),
+\]</span></p>
+<p><span class="math display">\[
+\widehat{\text{Var}}(Y) = \frac{1}{n-1} \sum_{i=1}^n (Y_i - \bar{Y})^2.
+\]</span></p>
+<p>Com esses valores, aproximamos <span class="math inline">\(c^*\)</span> por:</p>
+<p><span class="math display">\[
+\widehat{c}^* = -\frac{\widehat{\text{Cov}}(X, Y)}{\widehat{\text{Var}}(Y)}.
+\]</span></p>
+<p>O estimador final é dado por:</p>
+<p><span class="math display">\[
+Z = X + \widehat{c}^* (Y - \bar{Y}).
+\]</span></p>
+</section>
+<section id="exemplo" class="level3" data-number="12.2.5">
+<h3 data-number="12.2.5" class="anchored" data-anchor-id="exemplo"><span class="header-section-number">12.2.5</span> Exemplo</h3>
+<p>Considere <span class="math inline">\(X = e^U\)</span>, onde <span class="math inline">\(U \sim \text{Unif}(0, 1)\)</span>. Vamos usar <span class="math inline">\(Y = U\)</span> como variável de controle. Sabemos que <span class="math inline">\(\mathbb{E}[U] = 0.5\)</span>. Calculamos:</p>
+<p><span class="math display">\[
+\text{Cov}(e^U, U) = \mathbb{E}[e^U U] - \mathbb{E}[U]\mathbb{E}[e^U].
+\]</span></p>
+<p>Após as integrações necessárias, encontramos:</p>
+<p><span class="math display">\[
+\text{Cov}(e^U, U) = 0.14086.
+\]</span></p>
+<p>A variância de <span class="math inline">\(e^U + c^*(U - 0.5)\)</span> é:</p>
+<p><span class="math display">\[
+\text{Var}[e^U + c^*(U - 0.5)] = 0.2420 - 12(0.14086^2) = 0.0039.
+\]</span></p>
+<p>A redução de variância é:</p>
+<p><span class="math display">\[
+1 - \frac{0.0039}{0.2420} = 0.9838 \quad \text{(98.38%)}.
+\]</span></p>
+<p>Isso demonstra como o uso de variáveis de controle pode reduzir drasticamente a variância na estimativa.</p>
 <hr>
+</section>
 </section>
 <section id="exercícios" class="level2" data-number="12.3">
 <h2 data-number="12.3" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">12.3</span> Exercícios</h2>
 <p><strong>Exercício 1</strong>. Implemente a técnica das variáveis antitéticas para estimar <span class="math inline">\(E[\sin(X)]\)</span> onde <span class="math inline">\(X \sim U(0, \pi)\)</span>. Compare a variância do estimador com o estimador usual.</p>
+<p><strong>Exercício 2</strong>. Considere a integral:</p>
+<p><span class="math display">\[
+\theta = \int_{0}^{\pi/4} \int_{0}^{\pi/4} x^2 y^2 \sin(x + y) \log(x + y) \, dx \, dy.
+\]</span></p>
+<ol type="a">
+<li>Implemente o método de Monte Carlo para aproximar o valor da integral acima.<br>
+</li>
+<li>Aproxime a integral utilizando <span class="math inline">\(X^2 Y^2\)</span> como variável de controle.<br>
+</li>
+<li>Compare a variância dos estimadores obtidos nos itens (a) e (b).</li>
+</ol>
 
 
 </section>
