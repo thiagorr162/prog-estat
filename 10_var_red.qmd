@@ -39,7 +39,7 @@ $$
 \text{E}(\hat{\theta}_A)=\theta $$
 e variância é
 $$
-\text{Var}(\hat{\theta}_A) = \frac{1}{4n} \sum_{i=1}^{n} \left( \text{Var}(X) + \text{Var}(Y) + 2\text{Cov}(X,Y) \right)
+\text{Var}(\hat{\theta}_A) = \frac{1}{4n^2} \sum_{i=1}^{n} \left( \text{Var}(X) + \text{Var}(Y) + 2\text{Cov}(X,Y) \right)
 $$
 ou, simplificando,
 $$
@@ -77,7 +77,7 @@ $$
 Queremos estimar a seguinte integral:
 
 $$
-I = \int_0^1 \log(1 + x^2) \, dx
+I = \int_0^\infty \log(1 + x^2) e^{-x}\, dx
 $$
 
 Sabemos que podemos reescrever essa integral como uma esperança matemática:
@@ -312,6 +312,115 @@ $$
 Isso demonstra como o uso de variáveis de controle pode reduzir drasticamente a variância na estimativa.
 
 
+
+## Técnica 3: Uso de Condicionamento
+
+### Motivação
+Queremos estimar $\theta = \mathbb{E}[X]$. Considere uma variável $Y$ para a qual sabemos simular $\mathbb{E}[X \mid Y]$. Podemos usar a seguinte propriedade da expectativa condicional:
+
+$$
+\mathbb{E}[\mathbb{E}[X \mid Y]] = \mathbb{E}[X] = \theta.
+$$
+
+Além disso, usando a fórmula da variância condicional, temos:
+
+$$
+\text{Var}(X) = \mathbb{E}[\text{Var}(X \mid Y)] + \text{Var}(\mathbb{E}[X \mid Y]).
+$$
+
+Como consequência:
+
+$$
+\text{Var}(X) \geq \text{Var}(\mathbb{E}[X \mid Y]).
+$$
+
+Isso implica que $\mathbb{E}[X \mid Y]$ pode ser usado como estimador para $\theta$, e ele tem uma variância menor ou igual à de $X$.
+
+---
+
+### Exemplo 1: Estimando $\pi$
+Voltando à estimativa de $\pi$, considere o seguinte pseudo-algoritmo:
+
+1. No passo $i$, para $1 \leq i \leq n$:
+   - Gere $U_1 \sim \text{Unif}(0, 1)$ e $U_2 \sim \text{Unif}(0, 1)$.
+   - Defina $X = 2U_1 - 1$ e $Y = 2U_2 - 1$.
+   - Defina:
+     $$
+     Z_i =
+     \begin{cases}
+       1, & \text{se } X^2 + Y^2 \leq 1, \\
+       0, & \text{caso contrário}.
+     \end{cases}
+     $$
+
+2. Calcule:
+   $$
+   \hat{\theta}_n = \frac{1}{n} \sum_{i=1}^n Z_i.
+   $$
+
+3. A estimativa final para $\pi$ será:
+   $$
+   \hat{\pi}_n = 4\hat{\theta}_n.
+   $$
+
+Sabemos que $\mathbb{E}[Z_i] = \pi / 4$. Vamos agora usar $\mathbb{E}[Z_i \mid X]$ para reduzir a variância.
+
+A probabilidade condicional é dada por:
+
+$$
+\mathbb{E}[Z_i \mid X = x] = \mathbb{P}(X^2 + Y^2 \leq 1 \mid X = x).
+$$
+
+Como $Y^2 \leq 1 - x^2$, obtemos:
+
+$$
+\mathbb{E}[Z_i \mid X = x] = \int_{-\sqrt{1-x^2}}^{\sqrt{1-x^2}} \frac{1}{2} \, dy = \sqrt{1 - x^2}.
+$$
+
+Logo:
+
+$$
+\mathbb{E}[\mathbb{E}[Z_i \mid X]] = \mathbb{E}[\sqrt{1 - X^2}] = \pi / 4.
+$$
+
+---
+
+### Exemplo 2: Estimando $\mathbb{P}(X > 1)$ com Condicionamento
+Seja $Y \sim \text{Exp}(1)$ e suponha que $X \mid Y = y \sim \mathcal{N}(y, 4)$. Desejamos estimar $\mathbb{P}(X > 1)$.
+
+Definimos a variável:
+
+$$
+Z_i =
+\begin{cases}
+  1, & \text{se } X_i > 1, \\
+  0, & \text{caso contrário}.
+\end{cases}
+$$
+
+Assim, temos $\mathbb{E}[\bar{Z}] = \mathbb{P}(X > 1)$ e $\mathbb{E}[\mathbb{E}[Z_i \mid Y]] = \mathbb{P}(X > 1)$.
+
+A probabilidade condicional é:
+
+$$
+\mathbb{E}[Z_i \mid Y = y] = \mathbb{P}(X_i > 1 \mid Y = y).
+$$
+
+Sabendo que $X \mid Y = y \sim \mathcal{N}(y, 4)$, temos:
+
+$$
+\mathbb{P}(X_i > 1 \mid Y = y) = \mathbb{P}\left(\frac{X_i - y}{2} > \frac{1 - y}{2} \mid Y = y\right).
+$$
+
+Usando a função de distribuição normal padrão $\Phi$, obtemos:
+
+$$
+\mathbb{E}[Z_i \mid Y = y] = 1 - \Phi\left(\frac{1 - y}{2}\right).
+$$
+
+Este método reduz a variância ao usar o condicionamento $\mathbb{E}[Z_i \mid Y]$ como estimador.
+
+
 ---
 
 ## Exercícios
@@ -327,3 +436,8 @@ $$
 (a) Implemente o método de Monte Carlo para aproximar o valor da integral acima.  
 (b) Aproxime a integral utilizando $X^2 Y^2$ como variável de controle.  
 (c) Compare a variância dos estimadores obtidos nos itens (a) e (b).
+
+**Exercício 3**. Seja $Y \sim \text{Exp}(1)$ e $X \mid Y = y \sim \mathcal{N}(y, 4)$. Desejamos estimar $\mathbb{P}(X > 1)$.
+
+(a) Aproxime o valor de $\mathbb{P}(X > 1)$ usando o método do condicionamento.  
+(b) Proponha uma melhoria no método do condicionamento utilizando variáveis antitéticas. Compare as variâncias dos estimadores obtidos nos dois métodos.
