@@ -545,7 +545,7 @@ Z_i = \frac{1}{2} \left( \log(1 + X_i^2) + \log(1 + Y_i^2) \right)
 <p><span class="math display">\[
 Z = X + c(Y - \mu),
 \]</span></p>
-<p>onde <span class="math inline">\(c\)</span> é uma constante a ser escolhida para minimizar a variância de <span class="math inline">\(Z\)</span>. Ao calcular a expectativa de <span class="math inline">\(Z\)</span>, temos:</p>
+<p>onde <span class="math inline">\(c\)</span> é uma constante a ser escolhida para minimizar a variância de <span class="math inline">\(Z\)</span> e <span class="math inline">\(\mathbb{E}[Y]=\mu\)</span>. Ao calcular a expectativa de <span class="math inline">\(Z\)</span>, temos:</p>
 <p><span class="math display">\[
 \mathbb{E}[Z] = \mathbb{E}[X + c(Y - \mu)] = \mathbb{E}[X] + c \cdot (\mathbb{E}[Y] - \mu) = \mathbb{E}[X] = \theta.
 \]</span></p>
@@ -595,11 +595,11 @@ Z = X + \widehat{c}^* (Y - \bar{Y}).
 </section>
 <section id="exemplo" class="level3" data-number="12.2.5">
 <h3 data-number="12.2.5" class="anchored" data-anchor-id="exemplo"><span class="header-section-number">12.2.5</span> Exemplo</h3>
-<p>Considere <span class="math inline">\(X = e^U\)</span>, onde <span class="math inline">\(U \sim \text{Unif}(0, 1)\)</span>. Vamos usar <span class="math inline">\(Y = U\)</span> como variável de controle. Sabemos que <span class="math inline">\(\mathbb{E}[U] = 0.5\)</span>. Calculamos:</p>
+<p>Considere <span class="math inline">\(X = e^U\)</span>, onde <span class="math inline">\(U \sim \text{Unif}(0, 1)\)</span>. Vamos usar <span class="math inline">\(Y = U\)</span> como variável de controle. Sabemos que <span class="math inline">\(\mathbb{E}[U] = 0.5\)</span> e <span class="math inline">\(\textrm{Var}(U)=1/12\)</span>. Calculamos:</p>
 <p><span class="math display">\[
-\text{Cov}(e^U, U) = \mathbb{E}[e^U U] - \mathbb{E}[U]\mathbb{E}[e^U].
+\text{Cov}(e^U, U) = \mathbb{E}[e^U U] - \mathbb{E}[U]\mathbb{E}[e^U] = \int_0^1 xe^xdx - \frac{e-1}{2}..
 \]</span></p>
-<p>Após as integrações necessárias, encontramos:</p>
+<p>Fazendo substituição na primeira integral com <span class="math inline">\(u=x, v=e^x,\)</span>, encontramos:</p>
 <p><span class="math display">\[
 \text{Cov}(e^U, U) = 0.14086.
 \]</span></p>
