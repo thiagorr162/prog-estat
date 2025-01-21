@@ -285,7 +285,8 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#técnica-1-variáveis-antitéticas" id="toc-técnica-1-variáveis-antitéticas" class="nav-link active" data-scroll-target="#técnica-1-variáveis-antitéticas"><span class="header-section-number">12.1</span> Técnica 1: Variáveis Antitéticas</a></li>
   <li><a href="#técnica-2-uso-de-variáveis-de-controle" id="toc-técnica-2-uso-de-variáveis-de-controle" class="nav-link" data-scroll-target="#técnica-2-uso-de-variáveis-de-controle"><span class="header-section-number">12.2</span> Técnica 2: Uso de Variáveis de Controle</a></li>
-  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">12.3</span> Exercícios</a></li>
+  <li><a href="#técnica-3-uso-de-condicionamento" id="toc-técnica-3-uso-de-condicionamento" class="nav-link" data-scroll-target="#técnica-3-uso-de-condicionamento"><span class="header-section-number">12.3</span> Técnica 3: Uso de Condicionamento</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">12.4</span> Exercícios</a></li>
   </ul>
 </nav>
     </div>
@@ -611,11 +612,95 @@ Z = X + \widehat{c}^* (Y - \bar{Y}).
 1 - \frac{0.0039}{0.2420} = 0.9838 \quad \text{(98.38%)}.
 \]</span></p>
 <p>Isso demonstra como o uso de variáveis de controle pode reduzir drasticamente a variância na estimativa.</p>
+</section>
+</section>
+<section id="técnica-3-uso-de-condicionamento" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="técnica-3-uso-de-condicionamento"><span class="header-section-number">12.3</span> Técnica 3: Uso de Condicionamento</h2>
+<section id="motivação-2" class="level3" data-number="12.3.1">
+<h3 data-number="12.3.1" class="anchored" data-anchor-id="motivação-2"><span class="header-section-number">12.3.1</span> Motivação</h3>
+<p>Queremos estimar <span class="math inline">\(\theta = \mathbb{E}[X]\)</span>. Considere uma variável <span class="math inline">\(Y\)</span> para a qual sabemos simular <span class="math inline">\(\mathbb{E}[X \mid Y]\)</span>. Podemos usar a seguinte propriedade da expectativa condicional:</p>
+<p><span class="math display">\[
+\mathbb{E}[\mathbb{E}[X \mid Y]] = \mathbb{E}[X] = \theta.
+\]</span></p>
+<p>Além disso, usando a fórmula da variância condicional, temos:</p>
+<p><span class="math display">\[
+\text{Var}(X) = \mathbb{E}[\text{Var}(X \mid Y)] + \text{Var}(\mathbb{E}[X \mid Y]).
+\]</span></p>
+<p>Como consequência:</p>
+<p><span class="math display">\[
+\text{Var}(X) \geq \text{Var}(\mathbb{E}[X \mid Y]).
+\]</span></p>
+<p>Isso implica que <span class="math inline">\(\mathbb{E}[X \mid Y]\)</span> pode ser usado como estimador para <span class="math inline">\(\theta\)</span>, e ele tem uma variância menor ou igual à de <span class="math inline">\(X\)</span>.</p>
+<hr>
+</section>
+<section id="exemplo-1-estimando-pi" class="level3" data-number="12.3.2">
+<h3 data-number="12.3.2" class="anchored" data-anchor-id="exemplo-1-estimando-pi"><span class="header-section-number">12.3.2</span> Exemplo 1: Estimando <span class="math inline">\(\pi\)</span></h3>
+<p>Voltando à estimativa de <span class="math inline">\(\pi\)</span>, considere o seguinte pseudo-algoritmo:</p>
+<ol type="1">
+<li><p>No passo <span class="math inline">\(i\)</span>, para <span class="math inline">\(1 \leq i \leq n\)</span>:</p>
+<ul>
+<li>Gere <span class="math inline">\(U_1 \sim \text{Unif}(0, 1)\)</span> e <span class="math inline">\(U_2 \sim \text{Unif}(0, 1)\)</span>.</li>
+<li>Defina <span class="math inline">\(X = 2U_1 - 1\)</span> e <span class="math inline">\(Y = 2U_2 - 1\)</span>.</li>
+<li>Defina: <span class="math display">\[
+Z_i =
+\begin{cases}
+  1, &amp; \text{se } X^2 + Y^2 \leq 1, \\
+  0, &amp; \text{caso contrário}.
+\end{cases}
+\]</span></li>
+</ul></li>
+<li><p>Calcule: <span class="math display">\[
+\hat{\theta}_n = \frac{1}{n} \sum_{i=1}^n Z_i.
+\]</span></p></li>
+<li><p>A estimativa final para <span class="math inline">\(\pi\)</span> será: <span class="math display">\[
+\hat{\pi}_n = 4\hat{\theta}_n.
+\]</span></p></li>
+</ol>
+<p>Sabemos que <span class="math inline">\(\mathbb{E}[Z_i] = \pi / 4\)</span>. Vamos agora usar <span class="math inline">\(\mathbb{E}[Z_i \mid X]\)</span> para reduzir a variância.</p>
+<p>A probabilidade condicional é dada por:</p>
+<p><span class="math display">\[
+\mathbb{E}[Z_i \mid X = x] = \mathbb{P}(X^2 + Y^2 \leq 1 \mid X = x).
+\]</span></p>
+<p>Como <span class="math inline">\(Y^2 \leq 1 - x^2\)</span>, obtemos:</p>
+<p><span class="math display">\[
+\mathbb{E}[Z_i \mid X = x] = \int_{-\sqrt{1-x^2}}^{\sqrt{1-x^2}} \frac{1}{2} \, dy = \sqrt{1 - x^2}.
+\]</span></p>
+<p>Logo:</p>
+<p><span class="math display">\[
+\mathbb{E}[\mathbb{E}[Z_i \mid X]] = \mathbb{E}[\sqrt{1 - X^2}] = \pi / 4.
+\]</span></p>
+<hr>
+</section>
+<section id="exemplo-2-estimando-mathbbpx-1-com-condicionamento" class="level3" data-number="12.3.3">
+<h3 data-number="12.3.3" class="anchored" data-anchor-id="exemplo-2-estimando-mathbbpx-1-com-condicionamento"><span class="header-section-number">12.3.3</span> Exemplo 2: Estimando <span class="math inline">\(\mathbb{P}(X &gt; 1)\)</span> com Condicionamento</h3>
+<p>Seja <span class="math inline">\(Y \sim \text{Exp}(1)\)</span> e suponha que <span class="math inline">\(X \mid Y = y \sim \mathcal{N}(y, 4)\)</span>. Desejamos estimar <span class="math inline">\(\mathbb{P}(X &gt; 1)\)</span>.</p>
+<p>Definimos a variável:</p>
+<p><span class="math display">\[
+Z_i =
+\begin{cases}
+  1, &amp; \text{se } X_i &gt; 1, \\
+  0, &amp; \text{caso contrário}.
+\end{cases}
+\]</span></p>
+<p>Assim, temos <span class="math inline">\(\mathbb{E}[\bar{Z}] = \mathbb{P}(X &gt; 1)\)</span> e <span class="math inline">\(\mathbb{E}[\mathbb{E}[Z_i \mid Y]] = \mathbb{P}(X &gt; 1)\)</span>.</p>
+<p>A probabilidade condicional é:</p>
+<p><span class="math display">\[
+\mathbb{E}[Z_i \mid Y = y] = \mathbb{P}(X_i &gt; 1 \mid Y = y).
+\]</span></p>
+<p>Sabendo que <span class="math inline">\(X \mid Y = y \sim \mathcal{N}(y, 4)\)</span>, temos:</p>
+<p><span class="math display">\[
+\mathbb{P}(X_i &gt; 1 \mid Y = y) = \mathbb{P}\left(\frac{X_i - y}{2} &gt; \frac{1 - y}{2} \mid Y = y\right).
+\]</span></p>
+<p>Usando a função de distribuição normal padrão <span class="math inline">\(\Phi\)</span>, obtemos:</p>
+<p><span class="math display">\[
+\mathbb{E}[Z_i \mid Y = y] = 1 - \Phi\left(\frac{1 - y}{2}\right).
+\]</span></p>
+<p>Este método reduz a variância ao usar o condicionamento <span class="math inline">\(\mathbb{E}[Z_i \mid Y]\)</span> como estimador.</p>
 <hr>
 </section>
 </section>
-<section id="exercícios" class="level2" data-number="12.3">
-<h2 data-number="12.3" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">12.3</span> Exercícios</h2>
+<section id="exercícios" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">12.4</span> Exercícios</h2>
 <p><strong>Exercício 1</strong>. Implemente a técnica das variáveis antitéticas para estimar <span class="math inline">\(E[\sin(X)]\)</span> onde <span class="math inline">\(X \sim U(0, \pi)\)</span>. Compare a variância do estimador com o estimador usual.</p>
 <p><strong>Exercício 2</strong>. Considere a integral:</p>
 <p><span class="math display">\[
@@ -627,6 +712,12 @@ Z = X + \widehat{c}^* (Y - \bar{Y}).
 <li>Aproxime a integral utilizando <span class="math inline">\(X^2 Y^2\)</span> como variável de controle.<br>
 </li>
 <li>Compare a variância dos estimadores obtidos nos itens (a) e (b).</li>
+</ol>
+<p><strong>Exercício 3</strong>. Seja <span class="math inline">\(Y \sim \text{Exp}(1)\)</span> e <span class="math inline">\(X \mid Y = y \sim \mathcal{N}(y, 4)\)</span>. Desejamos estimar <span class="math inline">\(\mathbb{P}(X &gt; 1)\)</span>.</p>
+<ol type="a">
+<li>Aproxime o valor de <span class="math inline">\(\mathbb{P}(X &gt; 1)\)</span> usando o método do condicionamento.<br>
+</li>
+<li>Proponha uma melhoria no método do condicionamento utilizando variáveis antitéticas. Compare as variâncias dos estimadores obtidos nos dois métodos.</li>
 </ol>
 
 
