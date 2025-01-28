@@ -72,7 +72,7 @@ A ideia chave é que, se $X$ tem densidade $f(x)$, a esperança $\mathbb{E}[h(X)
 $$
 \mathbb{E}[h(X)] = \int h(x) f(x) dx = \int h(x) \frac{f(x)}{g(x)} g(x) dx = \mathbb{E}\left[ h(Y) \frac{f(Y)}{g(Y)} \right],
 $$
-em que $Y$ tem densidade $g$. Isso vale desde que $g$ possua suporte tão ou mais amplo que $f(x)$.
+em que $Y$ tem densidade $g$. Isso vale desde que $g$ possua suporte tão ou mais amplo que a região de integração.
 Assim, podemos estimar $\mathbb{E}[h(X)]$ usando $n$ valores simulados de $Y$ independentemente pela fórmula:
 
 $$
