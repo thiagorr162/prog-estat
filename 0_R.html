@@ -415,7 +415,7 @@ window.Quarto = {
 <div class="cell-output cell-output-stdout">
 <pre><code>          used (Mb) gc trigger (Mb) max used (Mb)
 Ncells  624771 33.4    1280227 68.4  1280227 68.4
-Vcells 1176378  9.0    8388608 64.0  1932270 14.8</code></pre>
+Vcells 1176382  9.0    8388608 64.0  1932270 14.8</code></pre>
 </div>
 </div>
 </section>
@@ -804,7 +804,7 @@ Vcells 1176378  9.0    8388608 64.0  1932270 14.8</code></pre>
 <span id="cb115-8"><a href="#cb115-8" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">aux</span>(x))[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>user.self 
-     0.02 </code></pre>
+    0.031 </code></pre>
 </div>
 </div>
 <ol start="2" type="1">
@@ -821,7 +821,7 @@ Vcells 1176378  9.0    8388608 64.0  1932270 14.8</code></pre>
 <span id="cb117-8"><a href="#cb117-8" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">aux</span>(x))[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>user.self 
-    0.008 </code></pre>
+    0.013 </code></pre>
 </div>
 </div>
 <ol start="3" type="1">
@@ -919,7 +919,7 @@ Vcells 1176378  9.0    8388608 64.0  1932270 14.8</code></pre>
 <div class="sourceCode cell-code" id="cb136"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a>ajuste<span class="sc">$</span>coefficients</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)           x 
-   1.083060    1.997313 </code></pre>
+   1.061282    2.056347 </code></pre>
 </div>
 </div>
 <p>Para adicionar a reta estimada ao gráfico:</p>
@@ -1046,26 +1046,26 @@ x   a b c d
 <div class="sourceCode cell-code" id="cb172"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb172-1"><a href="#cb172-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(dados, <span class="dv">2</span>, mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     altura     salario        peso 
-   1.697721 3012.641746   58.415007 </code></pre>
+   1.699426 3016.106109   57.452674 </code></pre>
 </div>
 </div>
 <p>Aqui, o argumento <code>2</code> indica que a operação deve ser aplicada a cada coluna. Para calcular a soma de cada linha:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb174"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb174-1"><a href="#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(dados, <span class="dv">1</span>, sum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  [1] 3493.117 3380.344 3012.310 3356.702 3648.723 2743.573 2884.522 2278.682
-  [9] 2894.827 2480.698 2754.761 3124.665 4203.487 3320.872 2811.490 2516.629
- [17] 2893.613 3280.635 2520.913 3297.645 3161.686 2868.177 3413.519 3045.503
- [25] 3654.746 3753.716 3204.825 2380.352 2482.924 2618.788 2939.883 3085.299
- [33] 3502.165 3503.245 3136.283 3353.514 3723.452 3553.031 2685.730 3002.904
- [41] 2157.843 3368.953 2766.326 4042.535 2471.824 2933.278 2183.912 2798.157
- [49] 2966.753 3293.013 2501.115 2934.789 3410.945 3033.174 4157.064 2552.870
- [57] 3142.166 3895.426 2618.162 3751.179 2877.273 3748.200 2556.811 2899.742
- [65] 3481.896 4052.704 2885.810 2557.663 3753.780 3213.566 2448.011 2891.461
- [73] 2781.520 3483.621 2425.262 3279.477 3633.466 3291.273 2999.578 2431.261
- [81] 2832.557 3701.222 3014.233 3311.952 3257.148 3164.801 2358.592 2570.590
- [89] 3134.236 3266.200 3241.336 2648.947 3372.773 2831.687 3552.593 3257.351
- [97] 2889.866 2617.595 2877.984 2733.978</code></pre>
+<pre><code>  [1] 3600.155 3396.901 2688.495 2924.159 3086.395 2897.754 3117.914 3285.172
+  [9] 3631.145 3209.517 2400.176 3636.823 3065.600 2440.403 2613.241 3248.917
+ [17] 3193.632 3508.556 2350.438 2925.236 2304.920 3758.817 2744.517 2847.789
+ [25] 3573.922 3612.204 3026.814 3204.992 3537.244 3219.963 3265.623 2657.025
+ [33] 2376.975 3094.641 3540.184 2936.083 2751.957 2709.820 3510.908 3197.100
+ [41] 2469.014 2680.597 3446.968 3122.897 3284.102 3331.768 2165.517 3282.815
+ [49] 3647.393 3244.381 2372.869 2840.482 2381.818 2464.326 3041.184 3111.405
+ [57] 3832.654 3047.047 2901.412 3381.710 2609.007 2320.882 3658.448 2985.224
+ [65] 4177.590 3395.651 2145.668 3460.910 3272.800 2941.534 3326.751 2452.386
+ [73] 3154.260 2988.071 3712.133 3093.986 4616.691 2959.743 3598.849 2950.266
+ [81] 2648.004 2848.949 4133.171 3808.840 3435.648 3475.782 3736.174 3203.746
+ [89] 2758.080 2301.103 3009.238 3984.225 2958.545 3313.762 3393.928 1947.856
+ [97] 2123.732 2790.916 2080.872 2609.913</code></pre>
 </div>
 </div>
 </section>
@@ -1085,16 +1085,16 @@ x   a b c d
 <span id="cb176-10"><a href="#cb176-10" aria-hidden="true" tabindex="-1"></a>estatisticas<span class="sc">$</span>altura</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$media
-[1] 1.697721
+[1] 1.699426
 
 $mediaAparada
-[1] 1.702156
+[1] 1.697677
 
 $mediana
-[1] 1.704283
+[1] 1.696804
 
 $maximo
-[1] 2.126278</code></pre>
+[1] 2.157355</code></pre>
 </div>
 </div>
 </section>
