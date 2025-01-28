@@ -83,7 +83,7 @@ $$
 Sabemos que podemos reescrever essa integral como uma esperança matemática:
 
 $$
-I = E[\log(1 + X^2)], \quad X \sim U(0,1)
+I = E[\log(1 + X^2)], \quad X \sim \textrm{Exp}(1)
 $$
 
 O algoritmo é:
@@ -220,7 +220,7 @@ $$
 Z = X + c(Y - \mu),
 $$
 
-onde $c$ é uma constante a ser escolhida para minimizar a variância de $Z$. Ao calcular a expectativa de $Z$, temos:
+onde $c$ é uma constante a ser escolhida para minimizar a variância de $Z$ e $\mathbb{E}[Y]=\mu$. Ao calcular a expectativa de $Z$, temos:
 
 $$
 \mathbb{E}[Z] = \mathbb{E}[X + c(Y - \mu)] = \mathbb{E}[X] + c \cdot (\mathbb{E}[Y] - \mu) = \mathbb{E}[X] = \theta.
@@ -285,13 +285,15 @@ Z = X + \widehat{c}^* (Y - \bar{Y}).
 $$
 
 ### Exemplo
-Considere $X = e^U$, onde $U \sim \text{Unif}(0, 1)$. Vamos usar $Y = U$ como variável de controle. Sabemos que $\mathbb{E}[U] = 0.5$. Calculamos:
+Considere $X = e^U$, onde $U \sim \text{Unif}(0, 1)$. Vamos usar $Y = U$ como variável de controle. Sabemos que $\mathbb{E}[U] = 0.5$ e $\textrm{Var}(U)=1/12$. Calculamos:
 
 $$
-\text{Cov}(e^U, U) = \mathbb{E}[e^U U] - \mathbb{E}[U]\mathbb{E}[e^U].
+\text{Cov}(e^U, U) = \mathbb{E}[e^U U] - \mathbb{E}[U]\mathbb{E}[e^U] = \int_0^1 xe^xdx - \frac{e-1}{2}..
 $$
 
-Após as integrações necessárias, encontramos:
+
+
+Fazendo substituição na primeira integral com $u=x, v=e^x,$, encontramos:
 
 $$
 \text{Cov}(e^U, U) = 0.14086.
