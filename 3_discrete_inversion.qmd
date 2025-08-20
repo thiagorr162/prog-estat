@@ -139,6 +139,32 @@ plt.show()
 :::
 
 
+## Prova de que o método funciona
+
+**Enunciado.** Considere uma v.a. discreta \$X\$ com suporte ordenado \$x\_1\<x\_2<\cdots\$ e massas \$p\_i=\mathbb P(X=x\_i)\$. Defina a CDF por \$F(x\_i)=\sum\_{j\le i}p\_j\$ e \$F(x)=0\$ para \$x\<x\_1\$. Seja \$U\sim\mathrm{Unif}(0,1)\$ e defina o algoritmo
+
+$$
+\tilde X=\min\{x_i:\,F(x_i)\ge U\}.
+$$
+
+Então \$\tilde X\$ tem a mesma distribuição de \$X\$.
+
+**Demonstração.** Para cada \$i\ge1\$,
+
+$$
+\{\tilde X=x_i\}=\{F(x_{i-1})<U\le F(x_i)\},
+$$
+
+onde \$F(x\_0)=0\$. Logo,
+
+$$
+\mathbb P(\tilde X=x_i)
+=\mathbb P\big(F(x_{i-1})<U\le F(x_i)\big)
+=F(x_i)-F(x_{i-1})
+=p_i.
+$$
+
+Portanto \$\tilde X\$ reproduz exatamente a PMF desejada. ▢
 
 ## Exemplo 1: Geração de Variáveis Aleatórias com Distribuição Geométrica
 
@@ -495,6 +521,8 @@ plt.legend()
 plt.show()
 ```
 :::
+
+
 
 ## Exercícios
 
