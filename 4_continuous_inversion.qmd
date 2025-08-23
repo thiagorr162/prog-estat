@@ -1,8 +1,6 @@
 # Técnica da Inversão para Variáveis Contínuas
 
-Os valores que uma variável aleatória $X$ pode assumir são chamados de **suporte** da distribuição de $X$.
-
-**Variáveis Aleatórias Contínuas** são variáveis aleatórias que têm suporte em um conjunto não enumerável de valores, como intervalos na reta real, $\mathbb{R}$, ou $(0,\infty)$, por exemplo.
+A técnica da inversão também pode ser usada para variáveis aleatórias continuas, que são varáveis com suporte em um conjunto não enumerável de valores, como intervalos na reta real, $\mathbb{R}$, ou $(0,\infty)$, por exemplo.
 
 Uma variável aleatória $X$ contínua tem  função de distribuição acumulada (f.d.a.) puder ser expressa como
 $$
@@ -100,7 +98,14 @@ plt.show()
 
 ## Método da Inversão
 
-Uma maneira de gerar valores de uma variável aleatória contínua $X$, é o **método da inversão**, que  é originado da  seguinte proposição:
+Para variáveis contínuas,  o **método da inversão**
+consiste em:
+
+1. Gerar $U \sim \text{Unif}(0,1)$.
+
+2. Calcular $X = F^{-1}(U)$.
+
+A seguir, provamos que este método de fato gera uma variável aleatória com a distribuição desejada.
 
 **Proposição:**
 Seja $U \sim \text{Unif}(0,1)$. Para qualquer variável aleatória contínua com função de distribuição acumulada $F$, a variável:
@@ -114,11 +119,7 @@ $$
 \mathbb{P}(X \leq x) = \mathbb{P}(F^{-1}(U) \leq x) = \mathbb{P}(F(F^{-1}(U)) \leq F(x)) = \mathbb{P}(U \leq F(x)) = F(x).
 $$
 
-Assim, o método da inversão consiste em:
 
-1. Gerar $U \sim \text{Unif}(0,1)$.
-
-2. Calcular $X = F^{-1}(U)$.
 
 ## Exemplo 1
 
