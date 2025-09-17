@@ -379,3 +379,33 @@ e) Qual foi o número médio de passos necessários para gerar a amostra de tama
 
 f) Compare a distribuição empírica dos valores simulados com a distribuição real de $X$.
 
+
+
+
+<span style="color:#2C92B2;">**Exercício 2**</span>. O objetivo deste exercício é gerar amostras de uma distribuição com função de densidade de probabilidade (FDP) dada por:
+$$f(x) = \frac{1}{2}\sin(x), \quad \text{para } x \in [0, \pi]$$
+Utilize como distribuição proposta uma distribuição Uniforme no mesmo intervalo, ou seja, $g(x) = \frac{1}{\pi}$ para $x \in [0, \pi]$.
+
+a) Encontre a constante $c$ tal que $f(x) \leq c \cdot g(x)$ para todo $x \in [0, \pi]$. Dica: encontre o valor máximo da razão $\frac{f(x)}{g(x)}$.
+
+b) Implemente o algoritmo de amostragem por rejeição para gerar $n=5000$ amostras da distribuição $f(x)$.
+
+c) Crie um histograma das amostras geradas e sobreponha a curva da FDP teórica $f(x)$ para verificar se o ajuste é adequado.
+
+d) Repita o exercício com uma proposta beta reescalada para o domínio do problema. Ela é mais ou menos eficiente que a uniforme?
+
+
+<span style="color:#2C92B2;">**Exercício 3**</span>. O método da rejeição também é muito útil quando conhecemos a função de densidade alvo apenas a menos de uma constante de normalização. Suponha que desejamos amostrar de uma distribuição com FDP $f(x) = k \cdot f^*(x)$, onde $k$ é uma constante desconhecida e a parte não normalizada é:
+$$f^*(x) = e^{-x}\sin^2(x), \quad \text{para } x > 0$$
+Podemos usar como proposta a distribuição Exponencial com $\lambda=1$, ou seja, $g(x) = e^{-x}$ para $x > 0$.
+
+O critério de aceitação $U \leq \frac{f(Y)}{c \cdot g(Y)}$ pode ser reescrito como $U \leq \frac{k \cdot f^*(Y)}{c \cdot g(Y)}$. Se definirmos uma nova constante $c' = c/k$, o critério se torna $U \leq \frac{f^*(Y)}{c' \cdot g(Y)}$, eliminando a necessidade de conhecer $k$.
+
+a) Encontre um valor para a constante $c'$ tal que $f^*(x) \leq c' \cdot g(x)$ para todo $x > 0$.
+
+b) Escreva o pseudo-algoritmo para gerar amostras de $f(x)$ usando $f^*(x)$, $g(x)$ e $c'$.
+
+c) Implemente o algoritmo e gere $n=2000$ amostras.
+
+d) Construa um histograma de densidade com as amostras geradas para visualizar a forma da distribuição $f(x)$.
+
