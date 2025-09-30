@@ -33,7 +33,7 @@ $$
 
 O algoritmo da inversão para gerar uma variável aleatória discreta genérica é:
 
-1. Gerar um número aleatório $u \in [0, 1)$.
+1. Gerar um número aleatório com distribuição uniforme $u \in [0, 1)$.
 
 2. Encontrar o menor valor $x_i$ tal que $F(x_i) \geq u$.
 
