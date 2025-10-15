@@ -687,16 +687,23 @@ $$
 
 Forneça um intervalo de confiança para avaliar a precisão da estimativa.
 
+
 <span style="color:#2C92B2;">**Exercício 2**</span>. 
 
-
-Utilize o método de Monte Carlo para aproximar a integral 
+Considere a integral 
 $$
 I = \int_1^{\infty} \frac{1}{x^3} \, dx
 $$
 
-Forneça um intervalo de confiança para avaliar a precisão da estimativa.
 
+- Utilize o método de Monte Carlo para aproximá-la
+
+- Forneça um intervalo de confiança para avaliar a precisão da estimativa.
+Compare com o valor real da integral.
+
+- Crie 10000 estimativas de Monte Carlo para $I$, cada uma com base em 100 observações, junto com seus intervalos de confiança. Qual a proporção delas que caem dentro do IC? 
+
+- Repita o item anterior com 1000 ao inveś de 100.
 
 <span style="color:#2C92B2;">**Exercício 3**</span>. 
 
