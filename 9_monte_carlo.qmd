@@ -717,3 +717,37 @@ distribuição Gamma(1,1). Estime
 $P(X\times Y > 3)$.
 Forneça um intervalo de confiança para avaliar a precisão da estimativa.
 
+
+<span style="color:#2C92B2;">**Exercício 5**</span>. 
+
+Seja $Z\sim N(0,1)$. Mostre que sua FGM é $E[e^{tZ}]=e^{t^2/2}$. Para $t\in\{-1,0.5,1,1.5\}$, estime $E[e^{tZ}]$ por Monte Carlo, forneça ICs e compare com a fórmula fechada. Estude o decaimento do erro quando $n$ cresce.
+
+
+
+<span style="color:#2C92B2;">**Exercício 6**</span>. 
+
+Seja $X_1,\ldots,X_n$ uma amostra iid a $X\sim \text{Gamma}(2,1)$. Calcule
+
+- uma cota superior para $P(\bar X_n-2>0.3)$ usando Markov
+
+- uma cota superior para $P(\bar X_n-2>0.3)$ usando Chebyshev
+
+- uma aproximação para $P(\bar X_n-2>0.3)$ usando o teorema do limite central
+
+- uma aproximação para $P(\bar X_n-2>0.3)$ usando Monte Carlo, com um número de simulações $B=10000$.
+
+Comente quem é mais informativo em cada $n$.
+
+
+<span style="color:#2C92B2;">**Exercício 7**</span>. 
+
+(Desafio)
+Sejam $X_1,\ldots,X_n\stackrel{iid}{\sim}\text{Exp}(\lambda)$. 
+
+- Mostre que a esperança de $X_{(k)}$ (a k-ésima estatística de ordem) é $\sum_{j=1}^k \frac{1}{\lambda(n-j+1)}$.
+Dica: Pense nos espaçamentos $Y_i=X_{(i)}-X_{(i-1)}$ com $X_{(0)}=0$.
+Mostre que $\min(X_1,\dots,X_n)\sim \text{Exp}(n\lambda)$ e, depois,
+use a falta de memória: depois que o mínimo “sai”, restam (n-1) expoenciais iid $\text{Exp}(\lambda)$. Conclua que
+   $   Y_i\sim \text{Exp}((n-i+1)\lambda)\quad\Rightarrow\quad E[Y_i]=\frac{1}{(n-i+1)\lambda}.$. Finalmente, note que $X_{(k)}=\sum_{i=1}^k Y_i$ e some as esperanças.
+
+- Estime $E[X_{(5)}]$ para $(n,k,\lambda)=(50,5,2)$ via Monte Carlo e compare com o valor teórico. Forneça IC.
