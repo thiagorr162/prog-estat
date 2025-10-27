@@ -1,14 +1,14 @@
 # Técnicas de Redução de Variância
 
 
-A simulação de Monte Carlo é utilizada para estimar esperanças matemáticas e calcular integrais numéricas. No entanto, a precisão do método pode ser limitada pela variância das amostras geradas. As técnicas de redução de variância visam minimizar essa variabilidade sem aumentar significativamente o número de amostras.
+A simulação de Monte Carlo é utilizada para estimar esperanças e calcular integrais numéricas. No entanto, a precisão do método pode ser limitada pela variância das amostras geradas. As técnicas de redução de variância visam minimizar essa variabilidade sem aumentar significativamente o número de amostras.
 
 
 ## Técnica 1: Variáveis Antitéticas
 
 ### Motivação
 
-Queremos estimar uma integral $\theta = E[X]$. O estimador de Monte Carlo usual é:
+Assuma que queremos estimar uma integral que pode ser expressa como a esperança de uma variável aleatória, $\theta = E[X]$. O estimador de Monte Carlo usual é:
 $$
 \hat{\theta} = \frac{1}{n} \sum_{i=1}^{n} X_i
 $$
@@ -17,27 +17,18 @@ $$
 \text{Var}(\hat{\theta}) = \frac{\text{Var}(X)}{n}
 $$
 
-Se conseguirmos construir um conjunto de amostras correlacionadas negativamente com a amostra de $X$'s, podemos reduzir essa variância.
-
-### Descrição
-
-A ideia principal das **variáveis antitéticas** é gerar pares de amostras $X_i$ e $Y_i$ que sejam correlacionadas negativamente. Se tivermos uma segunda amostra $Y_1, ..., Y_n$, não necessariamente independente de $X$, com
-$$
-E[Y] = E[X] = \theta
-$$
-e
-$$
-V[Y] = V[X] = \sigma^2,
-$$
+**Variáveis antitéticas** visam reduzir essa variância.
+Para tanto, a ideia principal é gerar pares de amostras $X_i$ e $Y_i$ que sejam correlacionadas negativamente. Concretamente, se tivermos uma segunda amostra $Y_1, ..., Y_n$ i.i.d entre sim
+e com $E[Y] = E[X] = \theta$ e $V[Y] = V[X] = \sigma^2$, mas não necessariamente independente da sequência  $X_i$,
 então podemos definir um novo estimador:
 $$
 \hat{\theta}_A = \frac{1}{2n} \sum_{i=1}^{n} (X_i + Y_i)
 $$
 cuja
-esperança é
+esperança é justamente
 $$
-\text{E}(\hat{\theta}_A)=\theta $$
-e variância é
+\text{E}(\hat{\theta}_A)=\theta.$$
+Além disso, sua variância é
 $$
 \text{Var}(\hat{\theta}_A) = \frac{1}{4n^2} \sum_{i=1}^{n} \left( \text{Var}(X) + \text{Var}(Y) + 2\text{Cov}(X,Y) \right)
 $$
@@ -45,11 +36,11 @@ ou, simplificando,
 $$
 \text{Var}(\hat{\theta}_A) = \frac{\text{Var}(X)}{n} \left( \frac{1 + \rho}{2} \right)
 $$
-onde $\rho = \text{Corr}(X, Y)$. Se $\rho < 0$, então $\text{Var}(\hat{\theta}_A) < \text{Var}(\hat{\theta})$, tornando o estimador **mais eficiente**.
+onde $\rho = \text{Corr}(X, Y)$. Assim, se $\rho < 0$, então $\text{Var}(\hat{\theta}_A) < \text{Var}(\hat{\theta})$, tornando este estimador **mais eficiente** que o estimador de Monte Carlo usual com uma amostra de tamanho $2n$.
 
 ### Algoritmo
 
-Uma maneira de gerar variáveis negativamente correlacionadas é a partir
+Uma maneira (mas não a única!) de gerar variáveis negativamente correlacionadas é a partir
 de distribuições uniformes. Para isso, vamos assumir que 
 $X \sim h(U)$, para algum $h$ conhecido, em que $U \sim U(0,1)$. Sabemos, pelo método
 da transformação inversa, que sempre é possível encontrar $h$ com essa propriedade.
@@ -76,18 +67,14 @@ $$
 \hat{\theta}_A = \frac{1}{2n} \sum_{i=1}^{n} (g(X_i) + g(Y_i))
 $$
 
----
 
 ### Exemplo: Aproximação de uma Integral
 
 Queremos estimar a seguinte integral:
-
 $$
 I = \int_0^\infty \log(1 + x^2) e^{-x}\, dx
 $$
-
 Sabemos que podemos reescrever essa integral como uma esperança matemática:
-
 $$
 I = E[\log(1 + X^2)], \quad X \sim \textrm{Exp}(1)
 $$
@@ -104,7 +91,6 @@ Z_i = \frac{1}{2} \left( \log(1 + X_i^2) + \log(1 + Y_i^2) \right)
 $$
 
 
----
 
 ::: {.panel-tabset group="language"}
 # R
@@ -324,36 +310,36 @@ Isso demonstra como o uso de variáveis de controle pode reduzir drasticamente a
 ## Técnica 3: Uso de Condicionamento
 
 ### Motivação
-Queremos estimar $\theta = \mathbb{E}[X]$. Considere uma variável $Y$ para a qual sabemos simular $\mathbb{E}[X \mid Y]$. Podemos usar a seguinte propriedade da expectativa condicional:
+Queremos estimar $\theta = \mathbb{E}[X]$. Considere que conhecemos uma variável $Y$ da qual sabemos simular, e que sabemos calcular $\mathbb{E}[X \mid Y]$. 
 
+Dada uma amostra $Y_1,\ldots,Y_n$, a técnica do condicionamento
+estima $\theta$ via
+$$\frac{1}{n} \sum_{i=1}^n g(Y_i),$$
+em que $g(Y_i)=E[X_i|Y_i]$.
+
+Este estimador funciona pois, da Teoria das Probabilidades,  
 $$
 \mathbb{E}[\mathbb{E}[X \mid Y]] = \mathbb{E}[X] = \theta.
 $$
+Assim, 
+$$\mathbb{E}\left[\frac{1}{n} \sum_{i=1}^n g(Y_i)\right] =\mathbb{E}\left[g(Y_1)\right]=\mathbb{E}[\mathbb{E}[X \mid Y_1]] =  \theta.$$
 
 Além disso, usando a fórmula da variância condicional, temos:
-
 $$
 \text{Var}(X) = \mathbb{E}[\text{Var}(X \mid Y)] + \text{Var}(\mathbb{E}[X \mid Y]).
 $$
-
 Como consequência:
-
 $$
 \text{Var}(X) \geq \text{Var}(\mathbb{E}[X \mid Y]).
 $$
 
-Isso implica que $\mathbb{E}[X \mid Y]$ pode ser usado como estimador para $\theta$, e ele tem uma variância menor ou igual à de $X$.
-
-Na prática, o algoritmo funciona da seguinte forma:
-
-1. Gere $Y_1,\ldots,Y_n$
-2. Calcule $g(Y_i)=E[X_i|Y_i]$
-3. Retorne $\frac{1}{n} \sum_{i=1}^n g(Y_i)$
-
----
+Isso implica que 
+$$\mathbb{V}\left[\frac{1}{n} \sum_{i=1}^n g(Y_i)\right]\leq \mathbb{V}\left[\frac{1}{n} \sum_{i=1}^n X_i \right],$$
+ou sejam este estimador tem uma variância menor ou igual à do método de Monte Carlo sem condicionamento.
+ 
 
 ### Exemplo 1: Estimando $\pi$
-Voltando à estimativa de $\pi$, considere o seguinte pseudo-algoritmo:
+Considere o seguinte pseudo-algoritmo para estimar $\pi$, visto no capítulo de Monte Carlo:
 
 1. No passo $i$, para $1 \leq i \leq n$:
    - Gere $U_1 \sim \text{Unif}(0, 1)$ e $U_2 \sim \text{Unif}(0, 1)$.
@@ -377,27 +363,21 @@ Voltando à estimativa de $\pi$, considere o seguinte pseudo-algoritmo:
    \hat{\pi}_n = 4\hat{\theta}_n.
    $$
 
-Sabemos que $\mathbb{E}[Z_i] = \pi / 4$. Vamos agora usar $\mathbb{E}[Z_i \mid X]$ para reduzir a variância.
 
-A probabilidade condicional é dada por:
-
+Vamos agora usar $\mathbb{E}[Z_i \mid X]$ para reduzir a variância.
+Esta esperança condicional é dada por
 $$
 \mathbb{E}[Z_i \mid X = x] = \mathbb{P}(X^2 + Y^2 \leq 1 \mid X = x).
 $$
-
-Como $Y^2 \leq 1 - x^2$, obtemos:
-
+Como $Y^2 \leq 1 - x^2$, obtemos
 $$
 \mathbb{E}[Z_i \mid X = x] = \int_{-\sqrt{1-x^2}}^{\sqrt{1-x^2}} \frac{1}{2} \, dy = \sqrt{1 - x^2}.
 $$
-
-Logo:
-
-$$
-\mathbb{E}[\mathbb{E}[Z_i \mid X]] = \mathbb{E}[\sqrt{1 - X^2}] = \pi / 4.
-$$
-
-
+Assim, o estimador de Monte Carlo com condicionamento em $x$ é dado por 
+  $$
+   4 \cdot\frac{1}{n} \sum_{i=1}^n  \sqrt{1 - X_i^2}.
+   $$
+   
 ::: {.panel-tabset group="language"}
 # R
 
@@ -463,15 +443,12 @@ print("Estimativa de pi sem condicionamento:", pi_simple)
 print("Estimativa de pi com condicionamento:", pi_conditioning)
 ```
 :::
-
-
----
+ 
 
 ### Exemplo 2: Estimando $\mathbb{P}(X > 1)$ com Condicionamento
 Seja $Y \sim \text{Exp}(1)$ e suponha que $X \mid Y = y \sim \mathcal{N}(y, 4)$. Desejamos estimar $\mathbb{P}(X > 1)$.
 
-Definimos a variável:
-
+Para isso, definimos a variável:
 $$
 Z_i =
 \begin{cases}
@@ -480,26 +457,23 @@ Z_i =
 \end{cases}
 $$
 
-Assim, temos $\mathbb{E}[\bar{Z}] = \mathbb{P}(X > 1)$ e $\mathbb{E}[\mathbb{E}[Z_i \mid Y]] = \mathbb{P}(X > 1)$.
-
-A probabilidade condicional é:
-
+Por construção, $\mathbb{E}[\mathbb{E}[Z_i \mid Y]] = \mathbb{P}(X > 1)$.
+ Assim, é natural fazer um estimador Monte Carlo com condicionamento em $X$. Para isso, vamos calcular 
+a probabilidade condicional
 $$
 \mathbb{E}[Z_i \mid Y = y] = \mathbb{P}(X_i > 1 \mid Y = y).
 $$
-
-Sabendo que $X \mid Y = y \sim \mathcal{N}(y, 4)$, temos:
-
+Como $X \mid Y = y \sim \mathcal{N}(y, 4)$, 
 $$
 \mathbb{P}(X_i > 1 \mid Y = y) = \mathbb{P}\left(\frac{X_i - y}{2} > \frac{1 - y}{2} \mid Y = y\right).
 $$
-
-Usando a função de distribuição normal padrão $\Phi$, obtemos:
-
+Usando a função de distribuição normal padrão $\Phi$, obtemos
 $$
 \mathbb{E}[Z_i \mid Y = y] = 1 - \Phi\left(\frac{1 - y}{2}\right).
 $$
-
+Assim, o estimador é dado por
+$$\frac{1}{n}1 - \Phi\left(\frac{1 - Y_i}{2}\right),$$
+em que $Y_i \sim Exp(1).$
 
 ::: {.panel-tabset group="language"}
 # R
@@ -574,7 +548,7 @@ print("Estimativa de P(X > 1) com condicionamento:", prob_conditioning)
 
 ## Exercícios
 
-**Exercício 1**. Implemente a técnica das variáveis antitéticas para estimar $E[\sin(X)]$ onde $X \sim U(0, \pi)$. Compare a variância do estimador com o estimador usual.
+**Exercício 1**. Implemente a técnica das variáveis antitéticas para estimar $E[X^2]$ onde $X \sim U(0, \pi)$. Compare a variância do estimador com o estimador usual.
 
 **Exercício 2**. Considere a integral:
 
@@ -590,3 +564,44 @@ $$
 
 (a) Aproxime o valor de $\mathbb{P}(X > 1)$ usando o método do condicionamento.  
 (b) Proponha uma melhoria no método do condicionamento utilizando variáveis antitéticas. Compare as variâncias dos estimadores obtidos nos dois métodos.
+
+
+
+**Exercício 4**. Seja $X\mid B\sim N(\mu_B,1)$ com $B\sim\text{Bern}(p)$ e $\mu_1=2$, $\mu_0=-1$. Estime $\theta=\mathbb P(X>1)$.
+
+(a) MC direto.
+(b) Condicionamento em $B$.
+(c) Explore o ganho variando $p\in{0.1,0.5,0.9}$.
+(d) Compare também com antitética usando pares $(B,1-B)$ de probabilidade pareada (quando possível).
+
+
+**Exercício 5**
+Seja $U\sim \mathrm{Unif}(0,1)$ e $\theta=\mathbb E[U^p]$ com $p\in\{1,2,3,4\}$.
+
+(a) Calcule $\theta$ analiticamente.
+(b) Mostre que $\hat\theta_A=\tfrac1{2n}\sum_{i=1}^n\big(U_i^p+(1-U_i)^p\big)$ é não viesado.
+(c) Derive $\mathrm{Var}(\hat\theta)$ e $\mathrm{Var}(\hat\theta_A)$ usando $\mathbb E[U^{2p}]$ e $\mathbb E[U^p(1-U)^p]$ (dica: Beta).
+(d) Compare variâncias teóricas e empíricas.
+
+**Exercício 6**
+Seja $U\sim\mathrm{Unif}(0,1)$.
+
+(a) Estime $\mathbb E[\sin(\pi U)]$ por Monte Carlo simples e por antitética $(U,1-U)$.
+(b) Compare fatores de eficiência. Usar variáveis antitéticas ajudou?
+
+
+**Exercício 7**
+Seja $X=-\log U$ e $Y=-\log(1-U)$ com $U\sim\mathrm{Unif}(0,1)$.
+
+(a) Mostre que $X,Y\stackrel{d}{=}\mathrm{Exp}(1)$.
+(b) Argumente que $h(u)=-\log u$ é monótona e conclua o sinal de $\mathrm{Corr}(X,Y)$.
+(c) Estime $\mathbb E[\min(X,Y)]$ por Monte Carlo e antitética; compare variâncias.
+
+
+**Exercício 8**
+Seja $X=Y+\varepsilon$ com $Y\sim\mathrm{Unif}(0,1)$ e $\varepsilon\sim N(0,\sigma^2)$ independentes.
+
+(a) Calcule $\mathrm{Var}(X)$, $\mathbb E[X\mid Y]=Y$ e $\mathrm{Var}(\mathbb E[X\mid Y])=\mathrm{Var}(Y)$.
+(b) Verifique empiricamente que $\mathrm{Var}(X)=\mathbb E[\mathrm{Var}(X\mid Y)]+\mathrm{Var}(\mathbb E[X\mid Y])=\sigma^2+\tfrac{1}{12}$.
+(c) Explique como isso justifica a redução de variância por condicionamento.
+
