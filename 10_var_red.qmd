@@ -18,8 +18,8 @@ $$
 $$
 
 **Variáveis antitéticas** visam reduzir essa variância.
-Para tanto, a ideia principal é gerar pares de amostras $X_i$ e $Y_i$ que sejam correlacionadas negativamente. Concretamente, se tivermos uma segunda amostra $Y_1, ..., Y_n$ i.i.d entre sim
-e com $E[Y] = E[X] = \theta$ e $V[Y] = V[X] = \sigma^2$, mas não necessariamente independente da sequência  $X_i$,
+Para tanto, a ideia principal é gerar pares de amostras $X_i$ e $Y_i$ que sejam correlacionadas negativamente. Concretamente, se tivermos uma segunda amostra $Y_1, ..., Y_n$ i.i.d entre si,
+ com $E[Y] = E[X] = \theta$ e $V[Y] = V[X] = \sigma^2$, com $Corr(X_i,Y_j)=\rho I(i=j)$ (portanto  não necessariamente independente da sequência  $X_i$),
 então podemos definir um novo estimador:
 $$
 \hat{\theta}_A = \frac{1}{2n} \sum_{i=1}^{n} (X_i + Y_i)
@@ -34,16 +34,16 @@ $$
 $$
 ou, simplificando,
 $$
-\text{Var}(\hat{\theta}_A) = \frac{\text{Var}(X)}{n} \left( \frac{1 + \rho}{2} \right)
+\text{Var}(\hat{\theta}_A) = \frac{\text{Var}(X)}{n} \left( \frac{1 + \rho}{2} \right).
 $$
-onde $\rho = \text{Corr}(X, Y)$. Assim, se $\rho < 0$, então $\text{Var}(\hat{\theta}_A) < \text{Var}(\hat{\theta})$, tornando este estimador **mais eficiente** que o estimador de Monte Carlo usual com uma amostra de tamanho $2n$.
+Assim, se $\rho < 0$, então $\text{Var}(\hat{\theta}_A) < \text{Var}(\hat{\theta})$, tornando este estimador **mais eficiente** que o estimador de Monte Carlo usual com uma amostra de tamanho $2n$.
 
 ### Algoritmo
 
 Uma maneira (mas não a única!) de gerar variáveis negativamente correlacionadas é a partir
 de distribuições uniformes. Para isso, vamos assumir que 
 $X \sim h(U)$, para algum $h$ conhecido, em que $U \sim U(0,1)$. Sabemos, pelo método
-da transformação inversa, que sempre é possível encontrar $h$ com essa propriedade.
+da transformação inversa, que sempre é possível encontrar $h$ com essa propriedade (embora nem sempre seja simples!).
 
 A ideia chave é então usar que $1-U$ também tem distribuição $U(0,1)$.
 Assim  $h(1-U)$ tem a mesma distribuição de $X$ e, em particular, a mesma média $\theta$.
@@ -107,7 +107,7 @@ y <- -log(1 - u)
 # Cálculo das estimativas
 theta.hatx <- log(1 + x^2)
 theta.haty <- log(1 + y^2)
-theta.hatz <- (theta.hatx + theta.haty) / 2
+theta.hatz <- c(theta.hatx, theta.haty)
 
 # Média das estimativas
 mean_values <- c(mean(theta.hatx), mean(theta.haty), mean(theta.hatz))
@@ -131,7 +131,7 @@ y = -np.log(1 - u)
 # Cálculo das estimativas
 theta_hatx = np.log(1 + x**2)
 theta_haty = np.log(1 + y**2)
-theta_hatz = (theta_hatx + theta_haty) / 2
+theta_hatz = np.concatenate((theta_hatx, theta_haty))
 
 # Média das estimativas
 mean_values = [np.mean(theta_hatx), np.mean(theta_haty), np.mean(theta_hatz)]
@@ -367,11 +367,7 @@ Considere o seguinte pseudo-algoritmo para estimar $\pi$, visto no capítulo de 
 Vamos agora usar $\mathbb{E}[Z_i \mid X]$ para reduzir a variância.
 Esta esperança condicional é dada por
 $$
-\mathbb{E}[Z_i \mid X = x] = \mathbb{P}(X^2 + Y^2 \leq 1 \mid X = x).
-$$
-Como $Y^2 \leq 1 - x^2$, obtemos
-$$
-\mathbb{E}[Z_i \mid X = x] = \int_{-\sqrt{1-x^2}}^{\sqrt{1-x^2}} \frac{1}{2} \, dy = \sqrt{1 - x^2}.
+\mathbb{E}[Z_i \mid X = x] = \mathbb{P}(X^2 + Y^2 \leq 1 \mid X = x)= \int_{-\sqrt{1-x^2}}^{\sqrt{1-x^2}} \frac{1}{2} \, dy = \sqrt{1 - x^2}.
 $$
 Assim, o estimador de Monte Carlo com condicionamento em $x$ é dado por 
   $$
@@ -384,31 +380,36 @@ Assim, o estimador de Monte Carlo com condicionamento em $x$ é dado por
 ```{r}
 set.seed(42)  # Para reprodutibilidade
 
-# Função para estimar pi sem condicionamento
+# Estima pi e o erro padrão - sem condicionamento
 estimate_pi_simple <- function(n) {
   U1 <- runif(n, -1, 1)
   U2 <- runif(n, -1, 1)
-  Z <- ifelse(U1^2 + U2^2 <= 1, 1, 0)
-  return(4 * mean(Z))
+  Z  <- ifelse(U1^2 + U2^2 <= 1, 1, 0)
+  p_hat <- mean(Z)
+  pi_hat <- 4 * p_hat
+  se <- 4 * sqrt(p_hat * (1 - p_hat) / n)  # EP por binomial
+  list(estimate = pi_hat, se = se)
 }
 
-# Função para estimar pi com condicionamento
+# Estima pi e o erro padrão - com condicionamento em X
 estimate_pi_conditioning <- function(n) {
-  X <- runif(n, -1, 1)  # Gera X uniformemente em [-1,1]
-  g_Y <- sqrt(1 - X^2)  # Esperança condicional E[Z | X]
-  return(4 * mean(g_Y))
+  X <- runif(n, -1, 1)
+  g  <- sqrt(1 - X^2)              # E[Z | X]
+  pi_hat <- 4 * mean(g)
+  se <- 4 * sd(g) / sqrt(n)        # EP via amostra de g
+  list(estimate = pi_hat, se = se)
 }
 
 # Número de simulações
-n <- 100000
+n <- 10000
 
 # Estimativas
-pi_simple <- estimate_pi_simple(n)
-pi_conditioning <- estimate_pi_conditioning(n)
+res_simple <- estimate_pi_simple(n)
+res_cond   <- estimate_pi_conditioning(n)
 
 # Resultados
-cat("Estimativa de pi sem condicionamento:", pi_simple, "\n")
-cat("Estimativa de pi com condicionamento:", pi_conditioning, "\n")
+cat("Sem condicionamento:  est =", res_simple$estimate, " | EP =", res_simple$se, "\n")
+cat("Com condicionamento:  est =", res_cond$estimate,   " | EP =", res_cond$se,   "\n")
 ```
 
 
@@ -418,29 +419,34 @@ import numpy as np
 
 np.random.seed(42)  # Para reprodutibilidade
 
-# Função para estimar pi sem condicionamento
+# Estima pi e o erro padrão - sem condicionamento
 def estimate_pi_simple(n):
     U1 = np.random.uniform(-1, 1, n)
     U2 = np.random.uniform(-1, 1, n)
     Z = (U1**2 + U2**2 <= 1).astype(int)
-    return 4 * np.mean(Z)
+    p_hat = Z.mean()
+    pi_hat = 4 * p_hat
+    se = 4 * np.sqrt(p_hat * (1 - p_hat) / n)  # EP por binomial
+    return pi_hat, se
 
-# Função para estimar pi com condicionamento
+# Estima pi e o erro padrão - com condicionamento em X
 def estimate_pi_conditioning(n):
-    X = np.random.uniform(-1, 1, n)  # Gera X uniformemente em [-1,1]
-    g_Y = np.sqrt(1 - X**2)  # Esperança condicional E[Z | X]
-    return 4 * np.mean(g_Y)
+    X = np.random.uniform(-1, 1, n)
+    g = np.sqrt(1 - X**2)           # E[Z | X]
+    pi_hat = 4 * g.mean()
+    se = 4 * g.std(ddof=1) / np.sqrt(n)  # EP via amostra de g
+    return pi_hat, se
 
 # Número de simulações
-n = 100000
+n = 10000
 
 # Estimativas
-pi_simple = estimate_pi_simple(n)
-pi_conditioning = estimate_pi_conditioning(n)
+pi_simple, se_simple = estimate_pi_simple(n)
+pi_conditioning, se_conditioning = estimate_pi_conditioning(n)
 
 # Resultados
-print("Estimativa de pi sem condicionamento:", pi_simple)
-print("Estimativa de pi com condicionamento:", pi_conditioning)
+print(f"Sem condicionamento:  est = {pi_simple}  | EP = {se_simple}")
+print(f"Com condicionamento:  est = {pi_conditioning}  | EP = {se_conditioning}")
 ```
 :::
  
@@ -481,31 +487,35 @@ em que $Y_i \sim Exp(1).$
 ```{r}
 set.seed(42)  # Para reprodutibilidade
 
-# Função para estimar P(X > 1) sem condicionamento
+# Estima P(X > 1) e o EP - sem condicionamento (Bernoulli)
 estimate_prob_simple <- function(n) {
-  Y <- rexp(n, rate = 1)  # Y ~ Exp(1)
-  X <- rnorm(n, mean = Y, sd = 2)  # X | Y ~ N(Y, 4)
-  Z <- ifelse(X > 1, 1, 0)
-  return(mean(Z))
+  Y <- rexp(n, rate = 1)                   # Y ~ Exp(1)
+  X <- rnorm(n, mean = Y, sd = 2)          # X | Y ~ N(Y, 4)
+  Z <- ifelse(X > 1, 1, 0)                  # Indicador
+  p_hat <- mean(Z)
+  se <- sqrt(p_hat * (1 - p_hat) / n)      # EP do mean(Z)
+  list(estimate = p_hat, se = se)
 }
 
-# Função para estimar P(X > 1) com condicionamento
+# Estima P(X > 1) e o EP - com condicionamento (g_i = E[Z|Y_i])
 estimate_prob_conditioning <- function(n) {
-  Y <- rexp(n, rate = 1)  # Y ~ Exp(1)
-  g_Y <- 1 - pnorm((1 - Y) / 2)  # E[Z | Y] usando a CDF da normal
-  return(mean(g_Y))
+  Y <- rexp(n, rate = 1)
+  g  <- 1 - pnorm((1 - Y) / 2)             # E[Z | Y]
+  est <- mean(g)
+  se  <- sd(g) / sqrt(n)                   # EP via amostra de g
+  list(estimate = est, se = se)
 }
 
 # Número de simulações
 n <- 100000
 
 # Estimativas
-prob_simple <- estimate_prob_simple(n)
-prob_conditioning <- estimate_prob_conditioning(n)
+res_simple <- estimate_prob_simple(n)
+res_cond   <- estimate_prob_conditioning(n)
 
 # Resultados
-cat("Estimativa de P(X > 1) sem condicionamento:", prob_simple, "\n")
-cat("Estimativa de P(X > 1) com condicionamento:", prob_conditioning, "\n")
+cat("Sem condicionamento:  est =", res_simple$estimate, " | EP =", res_simple$se, "\n")
+cat("Com condicionamento:  est =", res_cond$estimate,   " | EP =", res_cond$se,   "\n")
 ```
 
 
@@ -516,29 +526,33 @@ from scipy.stats import norm
 
 np.random.seed(42)  # Para reprodutibilidade
 
-# Função para estimar P(X > 1) sem condicionamento
+# Estima P(X > 1) e o EP - sem condicionamento (Bernoulli)
 def estimate_prob_simple(n):
-    Y = np.random.exponential(1, n)  # Y ~ Exp(1)
-    X = np.random.normal(Y, 2, n)  # X | Y ~ N(Y, 4)
+    Y = np.random.exponential(1, n)       # Y ~ Exp(1)
+    X = np.random.normal(Y, 2, n)         # X | Y ~ N(Y, 4)
     Z = (X > 1).astype(int)
-    return np.mean(Z)
+    p_hat = Z.mean()
+    se = np.sqrt(p_hat * (1 - p_hat) / n) # EP do mean(Z)
+    return p_hat, se
 
-# Função para estimar P(X > 1) com condicionamento
+# Estima P(X > 1) e o EP - com condicionamento (g_i = E[Z|Y_i])
 def estimate_prob_conditioning(n):
-    Y = np.random.exponential(1, n)  # Y ~ Exp(1)
-    g_Y = 1 - norm.cdf((1 - Y) / 2)  # E[Z | Y] usando a CDF da normal
-    return np.mean(g_Y)
+    Y = np.random.exponential(1, n)
+    g = 1 - norm.cdf((1 - Y) / 2)         # E[Z | Y]
+    est = g.mean()
+    se = g.std(ddof=1) / np.sqrt(n)       # EP via amostra de g
+    return est, se
 
 # Número de simulações
 n = 100000
 
 # Estimativas
-prob_simple = estimate_prob_simple(n)
-prob_conditioning = estimate_prob_conditioning(n)
+prob_simple, se_simple = estimate_prob_simple(n)
+prob_conditioning, se_conditioning = estimate_prob_conditioning(n)
 
 # Resultados
-print("Estimativa de P(X > 1) sem condicionamento:", prob_simple)
-print("Estimativa de P(X > 1) com condicionamento:", prob_conditioning)
+print(f"Sem condicionamento:  est = {prob_simple}  | EP = {se_simple}")
+print(f"Com condicionamento:  est = {prob_conditioning}  | EP = {se_conditioning}")
 ```
 :::
 

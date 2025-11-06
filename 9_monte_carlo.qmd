@@ -160,7 +160,112 @@ plt.show()
 
 Esse gráfico mostra a evolução da estimativa à medida que o número de variáveis aleatórias $n$ aumenta, comparando com o valor real da integral.
 
-## Exemplo 2: Aproximando uma Probabilidade 
+
+## Exemplo 2: Estimando um Integral
+
+Queremos estimar
+$$
+\theta=\int_{0}^{\infty} e^{-x^2}dx,
+$$
+cujo valor exato é $\theta=\sqrt{\pi}/2$.
+Para isso, usaremos $X\sim\mathrm{Exp}(1)$, que tem densidade $f_X(x)=e^{-x}$ para $x\ge 0$.
+Note que
+$$
+\theta=\int_{0}^{\infty} e^{-x^2}dx
+=\int_{0}^{\infty} e^{-(x^2-x)}e^{-x}dx
+=\mathbb{E}\left[e^{-(X^2-X)}\right].
+$$
+Logo, o estimador de Monte Carlo é
+$$
+\widehat{\theta}=\frac{1}{n}\sum_{i=1}^n e^{-(X_i^2-X_i)},\qquad X_i\stackrel{iid}{\sim}\mathrm{Exp}(1).
+$$
+
+
+::: {.panel-tabset group="language"}
+
+# R
+
+```{r}
+set.seed(58)
+n <- 1000
+x <- rexp(n, rate = 1)
+
+theta_hat <- mean(exp(-(x^2 - x)))
+cat("Estimativa de theta_hat:", theta_hat, "\n")
+
+valor_real <- sqrt(pi)/2
+cat("Valor real:", valor_real, "\n")
+```
+
+# Python
+
+```{python}
+import numpy as np
+
+np.random.seed(58)
+n = 1000
+x = np.random.exponential(scale=1.0, size=n)
+
+theta_hat = np.mean(np.exp(-(x**2 - x)))
+print("Estimativa de theta_hat:", theta_hat)
+
+valor_real = np.sqrt(np.pi)/2
+print("Valor real:", valor_real)
+```
+
+:::
+
+### Convergência com $n$
+
+::: {.panel-tabset group="language"}
+
+# R
+
+```{r}
+set.seed(58)
+N <- 1:2000
+theta_hat_seq <- numeric(length(N))
+x <- numeric(length(N))
+
+for (i in seq_along(N)) {
+  x[i] <- rexp(1, rate = 1)
+  theta_hat_seq[i] <- mean(exp(-(x[1:i]^2 - x[1:i])))
+}
+
+plot(N, theta_hat_seq, type = "l", xlab = "n", ylab = expression(hat(theta)[n]),
+     main = expression(Aproximacao~de~theta))
+abline(h = sqrt(pi)/2, col = "red", lty = 2)
+```
+
+# Python
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(58)
+N = np.arange(1, 2001)
+theta_hat_seq = np.zeros_like(N, dtype=float)
+x = np.array([])
+
+for i in range(len(N)):
+    x = np.append(x, np.random.exponential(scale=1.0))
+    theta_hat_seq[i] = np.mean(np.exp(-(x**2 - x)))
+
+plt.plot(N, theta_hat_seq)
+plt.axhline(y=np.sqrt(np.pi)/2, linestyle='--')
+plt.xlabel('n')
+plt.ylabel(r'$\hat{\theta}_n$')
+plt.title(r'Aproximação de $\theta$')
+plt.show()
+```
+
+:::
+
+
+Esse gráfico mostra a evolução da estimativa à medida que o número de variáveis aleatórias $n$ aumenta, comparando com o valor real da integral.
+
+## Exemplo 3: Aproximando uma Probabilidade 
 
 Seja $X \sim Gama(2,3)$. Queremos aproximar o valor de $\mathbb{P}(X \geq 0.4)$ usando o método de Monte Carlo.  Note que
 $$\theta:= \mathbb{P}(X \geq 0.4) = \int g(x)f(x)dx,$$
@@ -223,7 +328,7 @@ print("Valor real (CDF):", valor_real)
 :::
  
 
-## Exemplo 3: Aproximando o valor de $\pi$
+## Exemplo 4: Aproximando o valor de $\pi$
 
 
 
