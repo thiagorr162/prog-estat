@@ -1,8 +1,34 @@
 # Breve Introdução ao R
 
 Aqui faremos uma breve introdução ao R.
-Para uma introdução mais delhada, veja [https://curso-r.com/material/](https://curso-r.com/material/)
+Para uma introdução mais detalhada, veja [https://curso-r.com/material/](https://curso-r.com/material/)
 e [https://r4ds.had.co.nz/](https://r4ds.had.co.nz/).
+
+## Onde escrever seu código
+
+O R propriamente dito é só o motor que executa os comandos; na prática, escrevemos o
+código em um editor que conversa com esse motor. Ou seja, são dois programas
+diferentes: primeiro instale o R (<https://cran.r-project.org>), depois um dos
+ambientes abaixo. Todos são gratuitos e rodam em Windows, macOS e Linux.
+
+- **RStudio** (<https://posit.co/download/rstudio-desktop/>): a IDE clássica para R e
+  a mais usada em cursos de Estatística. Reúne na mesma janela o console, a lista de
+  variáveis criadas, os gráficos e a ajuda.
+- **Positron** (<https://positron.posit.co>): uma IDE mais recente, feita pela Posit —
+  a mesma empresa do RStudio — sobre a base do VS Code. Tem painéis parecidos com os
+  do RStudio, mas trabalha com R e Python no mesmo programa, o que é conveniente aqui:
+  todos os exemplos deste livro aparecem nas duas linguagens.
+- **VS Code** (<https://code.visualstudio.com>): editor de uso geral, muito popular
+  fora da Estatística. Para programar em R nele, instale a extensão *R* e, dentro do
+  R, o pacote `languageserver`. É a opção que exige mais configuração inicial.
+
+Se você não tem preferência, comece pelo RStudio (é o caminho mais curto) ou pelo
+Positron (se quiser um único programa para os capítulos em R e os em Python).
+
+Vale notar que nenhuma dessas escolhas muda o que o código faz: o R é o mesmo nos
+três, e todo o código deste livro roda igual em qualquer um deles. Os três também
+abrem os arquivos `.qmd` (Quarto) em que este livro foi escrito — RStudio e Positron
+já vêm com suporte a Quarto, e no VS Code basta instalar a extensão *Quarto*.
 
 ## Variáveis Numéricas
 
@@ -10,7 +36,7 @@ Aqui vão alguns exemplos para começarmos a entender como o R funciona. Inicial
 
 ```{r}
 #| code-fold: false
- 
+
 2 * 7
 
 0 / 0
@@ -22,10 +48,16 @@ log(1)
 exp(1)
 ```
 
+Repare em duas saídas especiais: `0/0` devolve `NaN` (de *not a number*, uma conta
+sem resultado definido) e `10^1000` devolve `Inf`, porque o resultado é grande demais
+para ser representado. O R não interrompe a execução nesses casos — ele segue em
+frente carregando esses valores, então vale ficar atento quando eles aparecem.
+
 Para entender o que uma função faz, você pode digitar o símbolo de interrogação seguido do nome da função, por exemplo:
 
 ```{r}
 #| code-fold: false
+#| eval: false
 
 ?exp
 ```
@@ -49,20 +81,28 @@ Podemos também armazenar resultados de contas em variáveis. Por exemplo:
 
 ```{r}
 #| code-fold: false
-x = 2 + 3
+x <- 2 + 3
 x
 
-y = 2 * x
+y <- 2 * x
 y
 
 print(y)
 ```
 
+::: {.callout-note title="`<-` ou `=`?"}
+O R aceita os dois símbolos para atribuir um valor a uma variável: `x <- 2` e
+`x = 2` fazem a mesma coisa. Por convenção, usa-se `<-` para atribuição e reserva-se
+o `=` para nomear argumentos de funções, como em `seq(from = 1, to = 10)`. É essa
+convenção que seguiremos no livro todo. No RStudio e no Positron, o atalho `alt + -`
+escreve `<-` de uma vez.
+:::
+
 Números grandes são impressos usando notação científica:
 
 ```{r}
 #| code-fold: false
-y = 2 * 10^10
+y <- 2 * 10^10
 print(y)
 ```
 
@@ -116,10 +156,10 @@ Alguns operadores lógicos definidos no R são mostrados na tabela abaixo:
 
 1 <= 3
 
-x = 1 > 3
+x <- 1 > 3
 print(x)
 
-x = 1; y = 3
+x <- 1; y <- 3
 x < y
 
 (x == 1) & (y == 3)
@@ -127,7 +167,7 @@ x < y
 (x == 1) & (y != 3)
 
 !TRUE
-x = TRUE; y = FALSE
+x <- TRUE; y <- FALSE
 x | y
 ```
 
@@ -135,7 +175,7 @@ O número um tem o valor verdadeiro, e o número zero tem o valor falso:
 
 ```{r}
 #| code-fold: false
-x = 1; y = 0
+x <- 1; y <- 0
 x | y
 ```
 
@@ -153,8 +193,8 @@ Para declarar cadeias de caracteres, usamos aspas no R:
 
 ```{r}
 #| code-fold: false
-x = "Rafael"
-y = "Izbicki"
+x <- "Rafael"
+y <- "Izbicki"
 ```
 
 Várias operações podem ser feitas com esses objetos. Um exemplo é a função `paste`:
@@ -172,7 +212,7 @@ Usualmente declaramos vetores usando o operador `c` (concatenação):
 
 ```{r}
 #| code-fold: false
-x = c(2, 5, 7, 1)
+x <- c(2, 5, 7, 1)
 x
 ```
 
@@ -181,21 +221,23 @@ Para acessar seus componentes, fazemos:
 ```{r}
 #| code-fold: false
 x[2]
-# [1] 5
 
-x = x[c(2, 3)]
-x[2:3]
+x[c(2, 3)]
 
 x[-c(2, 3)]
 ```
 
-As operações `x[c(2, 3)]` e `x[-c(2, 3)]` são chamadas de *subsetting*; subsetting é a seleção de um subconjunto de um objeto. Veremos mais à frente outras maneiras de fazermos isso.
+As operações `x[c(2, 3)]` e `x[-c(2, 3)]` são chamadas de *subsetting*; subsetting é a seleção de um subconjunto de um objeto. O índice positivo indica quais elementos manter, e o negativo indica quais descartar. Veremos mais à frente outras maneiras de fazermos isso.
+
+::: {.callout-warning title="Atenção: no R os índices começam em 1"}
+O primeiro elemento de um vetor é `x[1]`, não `x[0]`. Se você também usa Python, cuidado: lá a contagem começa em 0.
+:::
 
 Podemos mudar alguns dos valores deste vetor usando:
 
 ```{r}
 #| code-fold: false
-x[2:3] = 0
+x[2:3] <- 0
 x
 ```
 
@@ -203,10 +245,10 @@ Operações aritméticas podem ser facilmente feitas para cada elemento de um ve
 
 ```{r}
 #| code-fold: false
-x = x - 1
+x <- x - 1
 x
 
-x = 2 * x
+x <- 2 * x
 x
 ```
 
@@ -214,10 +256,10 @@ Uma função útil para criar vetores é a `seq`:
 
 ```{r}
 #| code-fold: false
-x = seq(from = 1, to = 100, by = 2)
+x <- seq(from = 1, to = 100, by = 2)
 x
 
-y = seq(from = 1, to = 100, length = 5)
+y <- seq(from = 1, to = 100, length = 5)
 y
 ```
 
@@ -234,22 +276,25 @@ Podemos usar as operações lógicas em vetores lógicos:
 
 ```{r}
 #| code-fold: false
-x = c(TRUE, TRUE, FALSE, FALSE)
-y = c(TRUE, FALSE, TRUE, FALSE)
+x <- c(TRUE, TRUE, FALSE, FALSE)
+y <- c(TRUE, FALSE, TRUE, FALSE)
 
 x | y
 
 x & y
 ```
 
-Operadores lógicos também podem ser usados para fazer *subsetting*:
+Operadores lógicos também podem ser usados para fazer *subsetting*. A ideia é que
+`x[condicao]` seleciona os elementos de `x` nas posições em que `condicao` vale `TRUE`:
 
 ```{r}
 #| code-fold: false
-x[x > 5] = 0
+x <- c(2, 8, 0, 15)
+
+x[x > 5] <- 0  # zera os elementos maiores que 5
 x
 
-x[!(x <= 0)] = -1
+x[!(x <= 0)] <- -1  # troca por -1 os elementos que não são menores ou iguais a 0
 x
 ```
 
@@ -257,7 +302,7 @@ Podemos ter vetores de caracteres:
 
 ```{r}
 #| code-fold: false
-x = c("a", "c", "fgh")
+x <- c("a", "c", "fgh")
 x[-c(2, 3)]
 
 paste(x, "add")
@@ -287,7 +332,7 @@ order(c(5, 10, 0, 20))
 Para declarar funções em R, fazemos:
 
 ```r
-minhaFuncao <- function(argumento1, argumento2) {
+minha_funcao <- function(argumento1, argumento2) {
   # corpo da função
 }
 ```
@@ -300,7 +345,6 @@ potencia <- function(x, y) {
   return(x^y)
 }
 potencia(2, 3)
-# [1] 8
 ```
 
 Note que `x` e `y` podem ser vetores:
@@ -345,12 +389,12 @@ Para calcular o fatorial de um número `n`, podemos usar um laço `while`:
 #| code-fold: false
 n <- 4
 i <- 1
-nFatorial <- 1
+n_fatorial <- 1
 while(i <= n) {
-  nFatorial <- nFatorial * i
+  n_fatorial <- n_fatorial * i
   i <- i + 1
 }
-nFatorial
+n_fatorial
 ```
 
 Ou podemos usar um laço `for`:
@@ -358,11 +402,11 @@ Ou podemos usar um laço `for`:
 ```{r}
 #| code-fold: false
 n <- 4
-nFatorial <- 1
+n_fatorial <- 1
 for(i in 1:n) {
-  nFatorial <- nFatorial * i
+  n_fatorial <- n_fatorial * i
 }
-nFatorial
+n_fatorial
 ```
 
 Lembre-se de que laços podem ser lentos no R, especialmente se o tamanho do objeto não for previamente declarado. Vamos comparar o tempo de execução de diferentes abordagens usando a função `system.time`. Para isso, vamos calcular a soma acumulada de um vetor.
@@ -377,10 +421,10 @@ x <- 1:100000
 ```{r}
 #| code-fold: false
 aux <- function(x) {
-  somaAcumulada <- NULL
-  somaAcumulada[1] <- x[1]
+  soma_acumulada <- NULL
+  soma_acumulada[1] <- x[1]
   for(i in 2:length(x)) {
-    somaAcumulada[i] <- somaAcumulada[i - 1] + x[i]
+    soma_acumulada[i] <- soma_acumulada[i - 1] + x[i]
   }
 }
 system.time(aux(x))[1]
@@ -391,10 +435,10 @@ system.time(aux(x))[1]
 ```{r}
 #| code-fold: false
 aux <- function(x) {
-  somaAcumulada <- rep(NA, length(x))
-  somaAcumulada[1] <- x[1]
+  soma_acumulada <- rep(NA, length(x))
+  soma_acumulada[1] <- x[1]
   for(i in 2:length(x)) {
-    somaAcumulada[i] <- somaAcumulada[i - 1] + x[i]
+    soma_acumulada[i] <- soma_acumulada[i - 1] + x[i]
   }
 }
 system.time(aux(x))[1]
@@ -430,7 +474,7 @@ Exemplo:
 
 ```{r}
 #| code-fold: false
-testaX <- function(x) {
+testa_x <- function(x) {
   if (!is.numeric(x)) {
     print("x não é um número")
   } else if (x > 0) {
@@ -441,11 +485,11 @@ testaX <- function(x) {
     print("x é nulo")
   }
 }
-testaX(5)
+testa_x(5)
 
-testaX(-5)
+testa_x(-5)
 
-testaX("5")
+testa_x("5")
 ```
 
 ## Listas
@@ -454,25 +498,26 @@ Listas são como vetores, mas podem conter componentes de diferentes tipos (incl
 
 ```{r}
 #| code-fold: false
-minhaLista <- list("um", TRUE, 3, c("q", "u", "a", "t", "r", "o"), "cinco")
-minhaLista[[3]]
+minha_lista <- list("um", TRUE, 3, c("q", "u", "a", "t", "r", "o"), "cinco")
+minha_lista[[3]]
 ```
 
 Você também pode atribuir nomes aos elementos de uma lista:
 
 ```{r}
 #| code-fold: false
-minhaLista <- list(primeiro = "um", segundo = TRUE, terceiro = 3, 
-                   quarto = c("q", "u", "a", "t", "r", "o"), quinto = "cinco")
-minhaLista$quinto
+minha_lista <- list(primeiro = "um", segundo = TRUE, terceiro = 3,
+                    quarto = c("q", "u", "a", "t", "r", "o"), quinto = "cinco")
+minha_lista$quinto
 ```
 
 Listas são frequentemente usadas para retornar várias saídas de uma função. Por exemplo, ao ajustar um modelo de regressão linear, os resultados são armazenados em uma lista:
 
 ```{r}
 #| code-fold: false
+set.seed(42)  # fixa a semente para que os números sorteados sejam sempre os mesmos
 x <- rnorm(100)
-y <- 1 + 2*x + rnorm(length(x), 0.1)
+y <- 1 + 2*x + rnorm(length(x), sd = 0.1)
 ajuste <- lm(y ~ x)
 typeof(ajuste)
 ```
@@ -503,7 +548,7 @@ Você também pode inicializar uma lista vazia:
 
 ```{r}
 #| code-fold: false
-minhaLista <- list()
+minha_lista <- list()
 ```
 
 
@@ -562,8 +607,9 @@ table(x, y)
 
 Podemos utilizar subsetting para trabalhar com subconjuntos de interesse. Por exemplo, suponha que `dados` é um banco de dados com informações de alunos e queremos selecionar os alunos com idade menor que 20, altura maior que 1,70 e que estejam no primeiro ou segundo ano.
 
-```{r,eval = FALSE}
+```{r}
 #| code-fold: false
+#| eval: false
 dados[dados$idade < 20 & dados$altura > 1.70 & dados$ano %in% c("Primeiro", "Segundo"), ]
 ```
 
@@ -573,6 +619,7 @@ As funções da família `apply` (como `apply`, `lapply`, `sapply`) são úteis 
 
 ```{r}
 #| code-fold: false
+set.seed(42)
 dados <- data.frame(altura = rnorm(100, 1.7, 0.2), salario = rnorm(100, 3000, 500))
 dados$peso <- dados$altura * 35 + rnorm(100, 0, 10)
 ```
@@ -600,20 +647,19 @@ Usando funções anônimas, podemos calcular várias estatísticas descritivas a
 ```{r}
 #| code-fold: false
 estatisticas <- apply(dados, 2, function(x) {
-  listaResultados <- list()
-  listaResultados$media <- mean(x)
-  listaResultados$mediaAparada <- mean(x, trim = 0.1)
-  listaResultados$mediana <- median(x)
-  listaResultados$maximo <- max(x)
-  return(listaResultados)
+  lista_resultados <- list()
+  lista_resultados$media <- mean(x)
+  lista_resultados$media_aparada <- mean(x, trim = 0.1)
+  lista_resultados$mediana <- median(x)
+  lista_resultados$maximo <- max(x)
+  return(lista_resultados)
 })
 
 estatisticas$altura
 ```
 
 
-## O operador `%>%` (pipe)
-\label{sec::pipe}
+## O operador `%>%` (pipe) {#sec-pipe}
 
 O operador pipe foi uma das grandes revoluções recentes do R, tornando o código mais legível. Esse operador está definido no pacote `magrittr`, e vários outros pacotes, como o `dplyr`, fazem uso dele (veja a próxima seção).
 
@@ -633,12 +679,13 @@ Isso é equivalente a:
 sqrt(sum(x))
 ```
 
-Mas a leitura com pipe é mais clara. No RStudio, você pode inserir o pipe com o atalho `ctrl + shift + m`.
+Mas a leitura com pipe é mais clara. No RStudio e no Positron, você pode inserir o pipe com o atalho `ctrl + shift + m`.
 
 O pipe envia o valor à esquerda apenas para o primeiro argumento da função à direita. Para utilizar o valor da esquerda em outro argumento, utilize o `"."`:
 
 ```{r}
 #| code-fold: false
+set.seed(42)
 y <- rnorm(10)
 y %>% plot(x = 1:length(y), y = ., pch = 18)
 ```
@@ -654,11 +701,11 @@ library(hflights)
 data(hflights)
 ```
 
-Primeiro, converta os dados para o formato `tbl_df`, uma variação mais amigável do `data.frame`:
+Primeiro, converta os dados para o formato `tibble`, uma variação mais amigável do `data.frame`:
 
 ```{r}
 #| code-fold: false
-flights <- tbl_df(hflights)
+flights <- as_tibble(hflights)
 ```
 
 ### Filter
@@ -727,37 +774,41 @@ A função `summarise` calcula estatísticas resumo. Para calcular o atraso méd
 flights %>% group_by(Dest) %>% summarise(avg_delay = mean(ArrDelay, na.rm = TRUE))
 ```
 
-A função `summarise_each` aplica uma função a várias colunas ao mesmo tempo. Para calcular a média de `Cancelled` e `Diverted` por companhia aérea:
+A função `across`, usada dentro de `summarise`, aplica uma função a várias colunas ao mesmo tempo. Para calcular a média de `Cancelled` e `Diverted` por companhia aérea:
 
 ```{r}
 #| code-fold: false
-flights %>% group_by(UniqueCarrier) %>% summarise_each(funs(mean), Cancelled, Diverted)
+flights %>% group_by(UniqueCarrier) %>% summarise(across(c(Cancelled, Diverted), mean))
 ```
 
 Também podemos aplicar várias funções a uma mesma coluna:
 
 ```{r}
 #| code-fold: false
-flights %>% group_by(UniqueCarrier) %>% summarise_each(funs(mean, var), Cancelled, Diverted)
+flights %>% group_by(UniqueCarrier) %>%
+  summarise(across(c(Cancelled, Diverted), list(media = mean, variancia = var)))
 ```
 
-Além disso, podemos usar o operador `"."` para aplicar funções com múltiplos argumentos:
+Além disso, podemos usar funções anônimas (com `~` e `.x`) para passar argumentos extras:
 
 ```{r}
 #| code-fold: false
-flights %>% group_by(UniqueCarrier) %>% summarise_each(funs(min(., na.rm = TRUE), max(., na.rm = TRUE)), matches("Delay"))
+flights %>% group_by(UniqueCarrier) %>%
+  summarise(across(matches("Delay"),
+                   list(min = ~min(.x, na.rm = TRUE), max = ~max(.x, na.rm = TRUE))))
 ```
 
 Por fim, podemos realizar agrupamentos múltiplos:
 
 ```{r}
 #| code-fold: false
-flights %>% group_by(UniqueCarrier, DayOfWeek) %>% summarise_each(funs(min(., na.rm = TRUE), max(., na.rm = TRUE)), matches("Delay"))
+flights %>% group_by(UniqueCarrier, DayOfWeek) %>%
+  summarise(across(matches("Delay"),
+                   list(min = ~min(.x, na.rm = TRUE), max = ~max(.x, na.rm = TRUE))),
+            .groups = "drop")
 ```
 
 
-
-Aqui está a seção sobre o **pacote `ggplot2`** e **`tidyr`** atualizada, mantendo a clareza e estrutura para fins didáticos:
 
 ## O pacote `ggplot2`
 
@@ -883,13 +934,13 @@ O pacote `tidyr` facilita a transformação e organização de dados no R. Para 
 
 ```{r}
 #| code-fold: false
-dados.originais <- data.frame(
+dados_originais <- data.frame(
   paciente = c("João", "Marcos", "Antonio"),
   pressao.antes = c(67, 80, 64),
   pressao.durante = c(54, 70, 60),
   pressao.depois = c(56, 90, 50)
 )
-dados.originais
+dados_originais
 ```
 
 Para reorganizar esses dados em um formato "long", usando `pivot_longer`:
@@ -897,49 +948,48 @@ Para reorganizar esses dados em um formato "long", usando `pivot_longer`:
 ```{r}
 #| code-fold: false
 library(tidyr)
-dados.novo.formato <- dados.originais %>%
+dados_novo_formato <- dados_originais %>%
   pivot_longer(cols = pressao.antes:pressao.depois,
                names_to = "instante",
                values_to = "pressao.arterial")
-dados.novo.formato
+dados_novo_formato
 ```
 
 
 A função `pivot_wider` é usada para converter dados de formato "long" (longo) para "wide" (largo), espalhando uma variável por várias colunas. Vamos começar com um conjunto de dados em formato "long" e então reorganizá-los para o formato "wide".
 
-Considere o conjunto de dados `dados.novo.formato` que organizamos anteriormente:
+Considere o conjunto de dados `dados_novo_formato` que organizamos anteriormente:
 
 ```{r}
 #| code-fold: false
-dados.novo.formato <- data.frame(
+dados_novo_formato <- data.frame(
   paciente = c("João", "Marcos", "Antonio", "João", "Marcos", "Antonio", "João", "Marcos", "Antonio"),
   instante = c("pressao.antes", "pressao.antes", "pressao.antes", "pressao.durante", "pressao.durante", "pressao.durante", "pressao.depois", "pressao.depois", "pressao.depois"),
   pressao.arterial = c(67, 80, 64, 54, 70, 60, 56, 90, 50)
 )
-dados.novo.formato
+dados_novo_formato
 ```
 
 Agora, vamos usar `pivot_wider` para transformar esses dados de volta ao formato "wide":
 
 ```{r}
 #| code-fold: false
-dados.wide <- dados.novo.formato %>%
+dados_wide <- dados_novo_formato %>%
   pivot_wider(names_from = instante, values_from = pressao.arterial)
-dados.wide
+dados_wide
 ```
 
 Temos os seguintes argumentos: 
+
 - `names_from` especifica a coluna cujos valores serão usados para criar novos nomes de colunas (neste caso, a variável `instante`).
 - `values_from` especifica a coluna cujos valores serão preenchidos nas novas colunas criadas (neste caso, a variável `pressao.arterial`).
 
 
 
 
-Aqui está um exemplo de como o pacote `tidyr` pode ser usado para manipular os dados antes de visualizá-los com gráficos no `ggplot2`.
-
 ### Exemplo: Manipulação e Visualização com `pivot_longer` e `ggplot2`
 
-O pacote tidyr é particularmente últil dentro do ggplot2.
+O pacote `tidyr` é particularmente útil em conjunto com o `ggplot2`.
 Vamos continuar com o exemplo dos dados de pressão arterial. Suponha que você queira visualizar as variações da pressão arterial dos pacientes em diferentes instantes.
 
 Primeiro, vamos reorganizar os dados usando `pivot_longer` para colocar os dados no formato "long", que é mais adequado para gráficos com o `ggplot2`:
@@ -950,34 +1000,34 @@ library(tidyr)
 library(ggplot2)
 
 # Dados originais no formato "wide"
-dados.originais <- data.frame(
+dados_originais <- data.frame(
   paciente = c("João", "Marcos", "Antonio"),
   pressao.antes = c(67, 80, 64),
   pressao.durante = c(54, 70, 60),
   pressao.depois = c(56, 90, 50)
 )
-dados.originais
+dados_originais
 ```
 
-Para usá-los no ggplot, vamos os reorganizar no formato "long":
+Para usá-los no ggplot, vamos reorganizá-los no formato "long":
 
 ```{r}
 #| code-fold: false
-dados.long <- dados.originais %>%
+dados_long <- dados_originais %>%
   pivot_longer(cols = pressao.antes:pressao.depois,
                names_to = "instante",
                values_to = "pressao.arterial")
-dados.long
+dados_long
 ```
 
-Agora, vamos criar um gráfico de linhas que mostra as mudanças na pressão arterial ao longo do tempo para cada paciente. Note que estamos reordenando o eixo x para levar em conta o carater
+Agora, vamos criar um gráfico de linhas que mostra as mudanças na pressão arterial ao longo do tempo para cada paciente. Note que estamos reordenando o eixo x para levar em conta o caráter
 temporal do problema.
 
 ```{r}
 #| code-fold: false
-ggplot(dados.long, aes(x = factor(instante, levels = c("pressao.antes", "pressao.durante", "pressao.depois")),
+ggplot(dados_long, aes(x = factor(instante, levels = c("pressao.antes", "pressao.durante", "pressao.depois")),
                        y = pressao.arterial, group = paciente, color = paciente)) +
-  geom_line(size = 1) +
+  geom_line(linewidth = 1) +
   geom_point(size = 3) +
   labs(title = "Variação da Pressão Arterial dos Pacientes",
        x = "Instante",
@@ -1031,14 +1081,10 @@ Se você quiser salvar o conjunto de dados em seu computador após manipulaçõe
 write_csv(dados_titanic, "titanic_local.csv")
 ```
 
-Aqui está o conjunto de exercícios no formato solicitado:
-
----
-
 ## Exercícios
 
-<span style="color:#2C92B2;">**Exercício 1**</span>.  
-Execute as seguintes operações no R e interprete os resultados:
+<span style="color:#2C92B2;">**Exercício 1**</span>. Execute as seguintes operações no R e interprete os resultados:
+
 - $5 + 9$
 - $\frac{0}{0}$
 - $10^{5}$
@@ -1047,63 +1093,55 @@ Utilize a função `log` para calcular o logaritmo natural de 10 e depois o loga
 
 Descubra a função que calcula a raiz quadrada de um número utilizando o símbolo de interrogação (`?`), e aplique-a ao número 144.
 
- 
 
-<span style="color:#2C92B2;">**Exercício 2**</span>.  
-Armazene o resultado de $15 \times 7$ em uma variável chamada `resultado`. Use `resultado` para calcular o valor de $2 \times resultado$.
+
+<span style="color:#2C92B2;">**Exercício 2**</span>. Armazene o resultado de $15 \times 7$ em uma variável chamada `resultado`. Use `resultado` para calcular o valor de $2 \times resultado$.
 
 Liste todas as variáveis no ambiente do R usando a função `ls()`. Exclua a variável `resultado` e verifique novamente as variáveis presentes.
 
- 
 
-<span style="color:#2C92B2;">**Exercício 3**</span>.  
-Crie um vetor `v` contendo os números 4, 8, 15, 16, 23, 42. Use subsetting para selecionar:
+
+<span style="color:#2C92B2;">**Exercício 3**</span>. Crie um vetor `v` contendo os números 4, 8, 15, 16, 23, 42. Use subsetting para selecionar:
+
 - O segundo e o quarto elemento.
 - Todos os elementos exceto o terceiro.
 - Os elementos que são maiores que 10.
 
 Multiplique cada elemento do vetor `v` por 2 e armazene o resultado em um novo vetor `v2`.
 
- 
-<span style="color:#2C92B2;">**Exercício 4**</span>.  
-Verifique se 8 é maior que 5 e se 8 é igual a 10.
+
+<span style="color:#2C92B2;">**Exercício 4**</span>. Verifique se 8 é maior que 5 e se 8 é igual a 10.
 
 Crie dois vetores lógicos `a = c(TRUE, FALSE, TRUE)` e `b = c(FALSE, TRUE, FALSE)`. Aplique os operadores `&`, `|` e `xor()` nesses vetores.
 
- 
-<span style="color:#2C92B2;">**Exercício 5**</span>.  
-Escreva uma função `soma_quadrados` que receba dois números como argumentos e retorne a soma de seus quadrados. Teste sua função com os números 3 e 4.
+
+<span style="color:#2C92B2;">**Exercício 5**</span>. Escreva uma função `soma_quadrados` que receba dois números como argumentos e retorne a soma de seus quadrados. Teste sua função com os números 3 e 4.
 
 Modifique a função `soma_quadrados` para que o segundo argumento tenha um valor padrão de 2. Teste a função chamando-a com apenas um argumento.
- 
 
-<span style="color:#2C92B2;">**Exercício 6**</span>.  
-Escreva um laço `for` que calcule a soma dos números de 1 a 100.
+
+<span style="color:#2C92B2;">**Exercício 6**</span>. Escreva um laço `for` que calcule a soma dos números de 1 a 100.
 
 Crie um laço `while` que multiplique os números de 1 a 6 e retorne o resultado.
- 
 
-<span style="color:#2C92B2;">**Exercício 7**</span>.  
-Crie duas variáveis com o seu primeiro e último nome. Use a função `paste()` para juntar as duas variáveis em uma frase que diga "Meu nome completo é [nome completo]".
+
+<span style="color:#2C92B2;">**Exercício 7**</span>. Crie duas variáveis com o seu primeiro e último nome. Use a função `paste()` para juntar as duas variáveis em uma frase que diga "Meu nome completo é [nome completo]".
 
 Altere o separador na função `paste()` para um traço `-` e junte novamente as variáveis.
- 
 
-<span style="color:#2C92B2;">**Exercício 8**</span>.  
-Carregue o pacote `dplyr` e use o dataset `mtcars`. Selecione apenas as colunas `mpg`, `cyl`, e `hp`.
+
+<span style="color:#2C92B2;">**Exercício 8**</span>. Carregue o pacote `dplyr` e use o dataset `mtcars`. Selecione apenas as colunas `mpg`, `cyl`, e `hp`.
 
 Filtre as observações onde `mpg` é maior que 20 e `hp` é menor que 150.
 
 Ordene o dataset filtrado pela coluna `mpg` em ordem decrescente.
- 
 
-<span style="color:#2C92B2;">**Exercício 9**</span>.  
-Usando o dataset `mtcars`, crie um gráfico de dispersão (`geom_point`) que mostre a relação entre `hp` (horsepower) e `mpg` (milhas por galão).
+
+<span style="color:#2C92B2;">**Exercício 9**</span>. Usando o dataset `mtcars`, crie um gráfico de dispersão (`geom_point`) que mostre a relação entre `hp` (horsepower) e `mpg` (milhas por galão).
 
 No gráfico anterior, mapeie a variável `cyl` para a cor dos pontos.
 
-<span style="color:#2C92B2;">**Exercício 10**</span>. 
-Utilize a base pública de dados de voos da [nycflights13](https://cran.r-project.org/web/packages/nycflights13/index.html) para responder às perguntas abaixo.
+<span style="color:#2C92B2;">**Exercício 10**</span>. Utilize a base pública de dados de voos da [nycflights13](https://cran.r-project.org/web/packages/nycflights13/index.html) para responder às perguntas abaixo.
 
 1. Carregue o pacote `nycflights13` e explore o dataset `flights`. Visualize as primeiras 6 linhas da base.
 

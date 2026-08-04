@@ -4,23 +4,50 @@ jupyter: python3
 ---
 
 Aqui faremos uma breve introdução ao Python. Para uma introdução mais detalhada, você pode explorar:
+
 - [Documentação Oficial do Python](https://docs.python.org/3/)
 - [Real Python](https://realpython.com/)
 
+## Onde escrever seu código
 
-## Variáveis e Tipos de Dados 
+Assim como no R, o Python é o motor que executa os comandos, e escrevemos o código em
+um editor separado. Uma forma prática de instalar o Python já com as bibliotecas que
+usaremos (NumPy, Pandas, Matplotlib, entre outras) é a distribuição
+[Anaconda](https://www.anaconda.com/download). Para escrever o código, as opções
+gratuitas mais comuns são:
+
+- **VS Code** (<https://code.visualstudio.com>): o editor de código de uso geral mais
+  usado hoje. Instale a extensão *Python*, da Microsoft; a extensão *Jupyter* permite
+  ainda rodar o código em células, como em um notebook.
+- **Positron** (<https://positron.posit.co>): uma IDE feita pela Posit — a mesma
+  empresa do RStudio — sobre a base do VS Code, mas voltada especificamente para
+  análise de dados. Traz painéis de console, variáveis, gráficos e ajuda, e trata
+  Python e R como linguagens de primeira classe, o que é conveniente neste curso, em
+  que todo exemplo aparece nas duas.
+- **Jupyter Notebook / JupyterLab** (<https://jupyter.org>): o formato de *notebook*,
+  em que texto e código convivem em células executadas uma a uma. É bastante usado em
+  aulas e em análises exploratórias.
+- **Google Colab** (<https://colab.research.google.com>): notebooks Jupyter que rodam
+  no navegador, sem instalar nada no seu computador. Uma saída útil caso a instalação
+  local dê trabalho.
+
+Se você não tem preferência, o Positron é uma boa escolha para este curso, porque o
+mesmo programa serve para os capítulos em Python e para os em R. Nenhuma dessas
+escolhas muda o que o código faz: ele roda igual em qualquer uma delas.
+
+## Variáveis e Tipos de Dados
 
 Em Python, variáveis são usadas para armazenar informações que podem ser manipuladas ao longo do código. Existem diferentes tipos de dados que podem ser atribuídos a uma variável. Vamos explorar os principais tipos básicos em Python: `int`, `float`, `str`, `bool`, e `None`.
 
 ```{python}
-## Exemplo de variáveis e tipos de dados
-nome = "Thiago"              ## String
-idade = 35                   ## Inteiro (int)
-saldo_bancario = 1023.75      ## Float
-estudante = True              ## Booleano (bool)
-endereco = None               ## None, indicando ausência de valor
+# Exemplo de variáveis e tipos de dados
+nome = "Thiago"           # String (str)
+idade = 35                # Inteiro (int)
+saldo_bancario = 1023.75  # Número com casas decimais (float)
+estudante = True          # Booleano (bool)
+endereco = None           # None, indicando ausência de valor
 
-## Usando o método .format() para formatar a string
+# Usando o método .format() para formatar a string
 print("Nome: {} (Tipo: {})".format(nome, type(nome)))
 print("Idade: {} (Tipo: {})".format(idade, type(idade)))
 print("Saldo Bancário: {} (Tipo: {})".format(saldo_bancario, type(saldo_bancario)))
@@ -35,7 +62,7 @@ Introduzidas na versão Python 3.6, as f-strings (ou "formatted string literals"
 A sintaxe das f-strings utiliza a letra f antes da string e permite a inclusão de expressões dentro de chaves {}. Essas expressões são avaliadas em tempo de execução, e seus resultados são inseridos na string.
 
 ```{python}
-## Usando f-strings para formatar a string
+# Usando f-strings para formatar a string
 print(f"Nome: {nome} (Tipo: {type(nome)})")
 print(f"Idade: {idade} (Tipo: {type(idade)})")
 print(f"Saldo Bancário: {saldo_bancario} (Tipo: {type(saldo_bancario)})")
@@ -66,8 +93,8 @@ Em Python, as variáveis são usadas para armazenar resultados de cálculos ou o
 Quando você atribui um valor ou resultado de uma operação a uma variável, o Python guarda esse valor na memória e o associa ao nome que você escolheu para a variável. Isso permite que você reutilize o valor sempre que necessário.
 
 ```{python}
-resultado = 5 + 3  ## Armazenando a soma de 5 e 3 em uma variável
-print(resultado)    ## Resultado: 8
+resultado = 5 + 3  # Armazenando a soma de 5 e 3 em uma variável
+print(resultado)    # Resultado: 8
 ```
 
 ```{python}
@@ -84,7 +111,7 @@ y
 
 Python, assim como R, possui operadores lógicos para comparar valores e trabalhar com variáveis booleanas. Abaixo estão alguns dos principais operadores lógicos usados em Python:
 
-| ##  | Operador      | Descrição                                   |
+| #  | Operador      | Descrição                                   |
 |----|---------------|---------------------------------------------|
 | 1  | `x < y`       | x é menor que y?                            |
 | 2  | `x <= y`      | x é menor ou igual a y?                     |
@@ -100,54 +127,59 @@ Python, assim como R, possui operadores lógicos para comparar valores e trabalh
 ```{python}
 a = 5
 b = 10
-print(a < b)  ## True
-print(a == b)  ## False
+print(a < b)  # True
+print(a == b)  # False
 ```
 
 ```{python}
 x = True
-print(not x)  ## False
+print(not x)  # False
 ```
 
 ```{python}
 x = False
 y = True
-print(x or y)  ## True
+print(x or y)  # True
 ```
 
 ```{python}
 x = True
 y = False
-print(x and y)  ## False
+print(x and y)  # False
 ```
 
 ```{python}
 x = True
 y = False
-print(x ^ y)  ## True (apenas um dos dois é verdadeiro)
+print(x ^ y)  # True (apenas um dos dois é verdadeiro)
 ```
 
-### Cuidado!
-Em Python, o operador ^ não é usado para exponenciação. Em vez disso, ele é o operador bitwise XOR (ou exclusivo) para manipulação de bits.
+::: {.callout-warning title="Atenção: `^` não é exponenciação em Python"}
+Em Python, o operador `^` **não** é usado para exponenciação — ele é o XOR bit a bit
+(ou exclusivo). Para elevar um número a uma potência, use `**`: escreve-se `5 ** 3`,
+e não `5 ^ 3`. O erro é traiçoeiro porque `5 ^ 3` não dá erro nenhum: devolve
+silenciosamente 6, que é o XOR dos dois números. No R, ao contrário, `^` é mesmo a
+exponenciação.
+:::
 
-O operador XOR (ou exclusivo) compara os bits de dois números. Ele retorna 1 quando os bits são diferentes e 0 quando os bits são iguais.
+O operador XOR compara os bits de dois números. Ele retorna 1 quando os bits são diferentes e 0 quando os bits são iguais.
 
 ```{python}
-a = 5   ## Em binário: 101
-b = 3   ## Em binário: 011
+a = 5   # Em binário: 101
+b = 3   # Em binário: 011
 
-resultado = a ** b  ## Faz XOR bit a bit
+resultado = a ** b  # Faz a exponenciação 5^3, e NÃO o XOR
 
-print(resultado)  ## Saída: 6 (Em binário: 110)
+print(resultado)  # Saída: 125
 ```
 
 ```{python}
-a = 5   ## Em binário: 101
-b = 3   ## Em binário: 011
+a = 5   # Em binário: 101
+b = 3   # Em binário: 011
 
-resultado = a ^ b  ## Faz XOR bit a bit
+resultado = a ^ b  # Faz XOR bit a bit
 
-print(resultado)  ## Saída: 6 (Em binário: 110)
+print(resultado)  # Saída: 6 (Em binário: 110)
 ```
 
 ## Caracteres/Strings em Python
@@ -157,7 +189,7 @@ Em Python, uma string é uma sequência de caracteres que pode ser usada para ar
 As strings em Python podem ser definidas de diferentes maneiras, usando aspas simples (') ou aspas duplas (").
 
 ```{python}
-## Definindo strings
+# Definindo strings
 nome = 'Thiago'
 cidade = "São Carlos"
 ```
@@ -165,38 +197,50 @@ cidade = "São Carlos"
 - Concatenar Strings: Você pode unir duas ou mais strings usando o operador +.
 
 ```{python}
-## Concatenação
+# Concatenação
 nome_completo = "Thiago" + " " + "Rodrigo"
-print(nome_completo)  ## Resultado: Thiago Rodrigo
+print(nome_completo)  # Resultado: Thiago Rodrigo
 ```
 
 - Repetir Strings: Você pode repetir uma string múltiplas vezes usando o operador *.
 
 ```{python}
 repeticao = "Oi! " * 3
-print(repeticao)  ## Resultado: Oi! Oi! Oi! 
+print(repeticao)  # Resultado: Oi! Oi! Oi!
 ```
 
 - Acessar Caracteres por Índice: As strings em Python são indexadas, e você pode acessar um caractere específico usando o índice (começando em 0).
 
 ```{python}
 nome = "Thiago"
-print(nome[0])  ## Resultado: T
-print(nome[-1])  ## Resultado: o (último caractere)
+print(nome[0])  # Resultado: T
+print(nome[-1])  # Resultado: o (último caractere)
 ```
 
 - Fatiar Strings (Slicing): Você pode pegar uma parte da string usando fatias (substrings).
 
 ```{python}
 nome = "Thiago"
-print(nome[0:3])  ## Resultado: Thi (caracteres do índice 0 ao 2)
+print(nome[0:3])  # Resultado: Thi (caracteres do índice 0 ao 2)
 ```
+
+::: {.callout-warning title="Atenção: índices em Python e em R"}
+Duas diferenças que costumam confundir quem usa as duas linguagens:
+
+- em Python a contagem começa em **0** (o primeiro caractere é `nome[0]`), enquanto
+  no R começa em **1** (`nome[1]`);
+- em Python a fatia `nome[0:3]` **não inclui** a posição 3: ela devolve os índices
+  0, 1 e 2. No R, `x[1:3]` inclui as três posições.
+
+O índice negativo também significa coisas diferentes: em Python `nome[-1]` é o
+*último* elemento; no R, `x[-1]` quer dizer "todos menos o primeiro".
+:::
 
 - Comprimento de Strings: Para saber quantos caracteres uma string tem, use a função len().
 
 ```{python}
 nome = "Thiago"
-print(len(nome))  ## Resultado: 6
+print(len(nome))  # Resultado: 6
 ```
 
 ### Métodos Úteis para Strings
@@ -205,15 +249,15 @@ print(len(nome))  ## Resultado: 6
 
 ```{python}
 nome = "Thiago"
-print(nome.lower())  ## Resultado: thiago
-print(nome.upper())  ## Resultado: THIAGO
+print(nome.lower())  # Resultado: thiago
+print(nome.upper())  # Resultado: THIAGO
 ```
 
 - strip(): Remove espaços em branco no início e no final da string.
 
 ```{python}
 frase = "   Olá!   "
-print(frase.strip())  ## Resultado: Olá!
+print(frase.strip())  # Resultado: Olá!
 ```
 
 - replace(): Substitui parte de uma string por outra.
@@ -221,7 +265,7 @@ print(frase.strip())  ## Resultado: Olá!
 ```{python}
 frase = "Eu gosto de R"
 nova_frase = frase.replace("R", "Python")
-print(nova_frase)  ## Resultado: Eu gosto de programação
+print(nova_frase)  # Resultado: Eu gosto de Python
 ```
 
 - split(): Divide uma string em uma lista, utilizando um delimitador (por padrão, espaço).
@@ -229,7 +273,7 @@ print(nova_frase)  ## Resultado: Eu gosto de programação
 ```{python}
 frase = "Eu gosto de Python"
 palavras = frase.split()
-print(palavras)  ## Resultado: ['Eu', 'gosto', 'de', 'Python']
+print(palavras)  # Resultado: ['Eu', 'gosto', 'de', 'Python']
 ```
 
 - join(): Une uma lista de strings em uma única string, usando um delimitador.
@@ -237,7 +281,7 @@ print(palavras)  ## Resultado: ['Eu', 'gosto', 'de', 'Python']
 ```{python}
 lista = ['Thiago', 'Rodrigo', 'Ramos']
 nome_completo = " ".join(lista)
-print(nome_completo)  ## Resultado: Thiago Rodrigo Ramos
+print(nome_completo)  # Resultado: Thiago Rodrigo Ramos
 ```
 
 ## Listas
@@ -251,20 +295,20 @@ Características principais:
 - Acesso por índice: os elementos podem ser acessados pelo índice, começando por 0.
 
 ```{python}
-## Criando uma lista
+# Criando uma lista
 frutas = ['maçã', 'banana', 'laranja']
 
-## Acessando elementos
-print(frutas[1])  ## banana
+# Acessando elementos
+print(frutas[1])  # banana
 
-## Modificando a lista
-frutas.append('uva')  ## Adiciona 'uva' ao final
-frutas[0] = 'kiwi'    ## Substitui 'maçã' por 'kiwi'
+# Modificando a lista
+frutas.append('uva')  # Adiciona 'uva' ao final
+frutas[0] = 'kiwi'    # Substitui 'maçã' por 'kiwi'
 
-## Removendo um elemento
+# Removendo um elemento
 frutas.remove('banana')
 
-print(frutas)  ## ['kiwi', 'laranja', 'uva']
+print(frutas)  # ['kiwi', 'laranja', 'uva']
 ```
 
 ## Tuplas 
@@ -277,22 +321,25 @@ Características principais:
 - Acesso por índice: assim como nas listas, os elementos podem ser acessados por índices, começando do 0.
 
 ```{python}
-## Criando uma tupla
+# Criando uma tupla
 coordenadas = (10, 20)
 
-## Acessando elementos
-print(coordenadas[0])  ## 10
+# Acessando elementos
+print(coordenadas[0])  # 10
 
 
-## Tuplas podem armazenar diferentes tipos de dados
+# Tuplas podem armazenar diferentes tipos de dados
 dados = ('Thiago', 30, True)
 
-print(dados)  ## ('Thiago', 30, True)
+print(dados)  # ('Thiago', 30, True)
 ```
 
-```{python}
-### Tentando modificar a tupla (resultará em erro)
-## coordenadas[0] = 15  # TypeError: 'tuple' object does not support item assignment
+Tentar modificar uma tupla resulta em erro. O código abaixo não é executado no livro
+justamente porque interromperia a execução — experimente rodá-lo no seu computador:
+
+```python
+coordenadas[0] = 15
+# TypeError: 'tuple' object does not support item assignment
 ```
 
 ## Dicionários
@@ -302,30 +349,30 @@ Os dicionários em Python são coleções não ordenadas de pares chave-valor. E
 Características principais:
 
 - Mutáveis: você pode adicionar, remover ou modificar pares chave-valor.
-- Não ordenados: a ordem dos elementos não é garantida nas versões anteriores ao Python 3.7.
+- Ordem de inserção: a partir do Python 3.7, os elementos são percorridos na ordem em que foram inseridos (em versões anteriores essa ordem não era garantida). Ainda assim, o acesso é sempre feito pela chave, e não pela posição.
 - Acesso por chave: os valores são acessados por suas chaves, que podem ser de tipos imutáveis (como strings ou números).
 
 ```{python}
-## Criando um dicionário
+# Criando um dicionário
 estudante = {
     'nome': 'Ana',
     'idade': 22,
     'curso': 'Estatística'
 }
 
-## Acessando valores
-print(estudante['nome'])  ## Ana
+# Acessando valores
+print(estudante['nome'])  # Ana
 
-## Modificando o dicionário
-estudante['idade'] = 23  ## Atualiza o valor da chave 'idade'
+# Modificando o dicionário
+estudante['idade'] = 23  # Atualiza o valor da chave 'idade'
 
-## Adicionando um novo par chave-valor
+# Adicionando um novo par chave-valor
 estudante['matricula'] = 12345
 
-## Removendo um elemento
+# Removendo um elemento
 del estudante['curso']
 
-print(estudante)  ## {'nome': 'Ana', 'idade': 23, 'matricula': 12345}
+print(estudante)  # {'nome': 'Ana', 'idade': 23, 'matricula': 12345}
 ```
 
 ## Funções em Python
@@ -342,8 +389,8 @@ def saudacao(nome):
     """Exibe uma saudação personalizada."""
     print(f"Olá, {nome}!")
 
-## Chamando a função
-saudacao("Thiago")  ## Olá, Thiago!
+# Chamando a função
+saudacao("Thiago")  # Olá, Thiago!
 ```
 
 ### Return
@@ -355,7 +402,7 @@ def soma(a, b):
     return a + b
 
 resultado = soma(3, 5)
-print(resultado)  ## 8
+print(resultado)  # 8
 ```
 
 ### Parâmetros Opcionais e Valores Padrão
@@ -367,8 +414,8 @@ def saudacao(nome="amigo"):
     """Exibe uma saudação personalizada, com um nome padrão."""
     print(f"Olá, {nome}!")
 
-saudacao()         ## Olá, amigo!
-saudacao("Rafael")  ## Olá, Rafael!
+saudacao()         # Olá, amigo!
+saudacao("Rafael")  # Olá, Rafael!
 ```
 
 ### Lambda
@@ -376,9 +423,9 @@ saudacao("Rafael")  ## Olá, Rafael!
 Python também oferece funções anônimas (ou funções lambda), que são funções curtas e sem nome. Elas são úteis quando você precisa de uma função simples e temporária.
 
 ```{python}
-## Função lambda para multiplicar dois números
+# Função lambda para multiplicar dois números
 multiplicar = lambda x, y: x * y
-print(multiplicar(3, 4))  ## 12
+print(multiplicar(3, 4))  # 12
 ```
 
 ## Loops
@@ -390,14 +437,14 @@ Os loops são estruturas fundamentais de programação que permitem executar um 
 O loop for é usado para iterar sobre uma sequência (como uma lista, tupla, string ou range) e executar um bloco de código para cada item dessa sequência. É especialmente útil quando o número de iterações é conhecido ou quando você deseja percorrer uma estrutura de dados.
 
 ```{python}
-## Iterando sobre uma lista
+# Iterando sobre uma lista
 frutas = ['maçã', 'banana', 'laranja']
 for fruta in frutas:
     print(fruta)
 ```
 
 ```{python}
-## Iterando de 0 a 4
+# Iterando de 0 a 4
 for i in range(5):
     print(i)
 ```
@@ -413,7 +460,7 @@ for i, fruta in enumerate(frutas):
 O loop while executa um bloco de código repetidamente enquanto uma condição for verdadeira. Ele é útil quando o número de iterações não é conhecido antecipadamente e depende de uma condição dinâmica.
 
 ```{python}
-## Loop enquanto o valor de x for menor que 5
+# Loop enquanto o valor de x for menor que 5
 x = 0
 while x < 5:
     print(x)
@@ -429,14 +476,14 @@ while x < 5:
 ```{python}
 for i in range(10):
     if i == 5:
-        break  ## Interrompe o loop quando i é igual a 5
+        break  # Interrompe o loop quando i é igual a 5
     print(i)
 ```
 
 ```{python}
 for i in range(5):
     if i == 3:
-        continue  ## Pula a iteração quando i é igual a 3
+        continue  # Pula a iteração quando i é igual a 3
     print(i)
 ```
 
@@ -514,49 +561,49 @@ Principais características:
 ```{python}
 import numpy as np
 
-## Criando um array NumPy
+# Criando um array NumPy
 array = np.array([1, 2, 3, 4, 5])
 
-## Operações elementares
-print(array * 2)  ## Multiplicação por escalar: [2 4 6 8 10]
+# Operações elementares
+print(array * 2)  # Multiplicação por escalar: [2 4 6 8 10]
 
-## Matrizes e operações matriciais
+# Matrizes e operações matriciais
 matriz = np.array([[1, 2], [3, 4]])
-print(np.dot(matriz, matriz))  ## Multiplicação de matrizes
+print(np.dot(matriz, matriz))  # Multiplicação de matrizes
 ```
 
 ```{python}
 dados = np.array([1, 2, 3, 4, 5])
 media = np.mean(dados)
-print(media)  ## Saída: 3.0
+print(media)  # Saída: 3.0
 ```
 
 ```{python}
 mediana = np.median(dados)
-print(mediana)  ## Saída: 3.0
+print(mediana)  # Saída: 3.0
 ```
 
 ```{python}
 variancia = np.var(dados)
-print(variancia)  ## Saída: 2.0
+print(variancia)  # Saída: 2.0
 ```
 
 ```{python}
 desvio_padrao = np.std(dados)
-print(desvio_padrao)  ## Saída: 1.4142135623730951
+print(desvio_padrao)  # Saída: 1.4142135623730951
 ```
 
 ```{python}
 minimo = np.min(dados)
 maximo = np.max(dados)
-print(minimo, maximo)  ## Saída: 1 5
+print(minimo, maximo)  # Saída: 1 5
 ```
 
 ```{python}
 p25 = np.percentile(dados, 25)
 p50 = np.percentile(dados, 50)
 p75 = np.percentile(dados, 75)
-print(p25, p50, p75)  ## Saída: 2.0 3.0 4.0
+print(p25, p50, p75)  # Saída: 2.0 3.0 4.0
 ```
 
 ### Pandas
@@ -570,12 +617,12 @@ Uma Series é uma coluna de dados unidimensional, semelhante a um array de NumPy
 ```{python}
 import pandas as pd
 
-## Criando uma Series
+# Criando uma Series
 s = pd.Series([1, 2, 3, 4, 5], index=['a', 'b', 'c', 'd', 'e'])
 print(s)
 
-## Acessando elementos por índice
-print(s['b'])  ## Saída: 2
+# Acessando elementos por índice
+print(s['b'])  # Saída: 2
 ```
 
 #### DataFrame
@@ -583,7 +630,7 @@ print(s['b'])  ## Saída: 2
 O DataFrame é a estrutura de dados mais importante do Pandas. Ele é uma tabela bidimensional (semelhante a uma planilha ou tabela SQL) com rótulos para as linhas e colunas. Cada coluna de um DataFrame é uma Series, e as colunas podem ter diferentes tipos de dados.
 
 ```{python}
-## Criando um DataFrame a partir de um dicionário
+# Criando um DataFrame a partir de um dicionário
 dados = {
     'Nome': ['Ana', 'Pedro', 'João'],
     'Idade': [23, 34, 19],
@@ -602,43 +649,64 @@ print(df)
 5. Tratamento de Dados Faltantes
 
 ```{python}
-## Selecionando uma única coluna
+# Selecionando uma única coluna
 print(df['Nome'])
 ```
 
 ```{python}
-## Selecionando múltiplas colunas
+# Selecionando múltiplas colunas
 print(df[['Nome', 'Cidade']])
 ```
 
 ```{python}
-## Filtrando o DataFrame para mostrar apenas pessoas com mais de 20 anos
+# Filtrando o DataFrame para mostrar apenas pessoas com mais de 20 anos
 filtro = df[df['Idade'] > 20]
 print(filtro)
 ```
 
 ```{python}
-## Alterando o valor de uma célula
+# Alterando o valor de uma célula
 df.loc[0, 'Idade'] = 24
-## Alterando uma coluna inteira
+# Alterando uma coluna inteira
 df['Idade'] = df['Idade'] + 1
 ```
 
 ```{python}
-## Agrupando por 'Cidade' e calculando a média de 'Idade'
+# Agrupando por 'Cidade' e calculando a média de 'Idade'
 agrupado = df.groupby('Cidade')['Idade'].mean()
 print(agrupado)
 ```
 
+Para ver o tratamento de dados faltantes funcionando, vamos criar uma cópia do
+DataFrame em que uma das idades é desconhecida. Em Pandas, um valor faltante é
+representado por `np.nan`:
+
 ```{python}
-## Verificando valores faltantes
-print(df.isnull().sum())
+import numpy as np
 
-## Removendo linhas com dados faltantes
-df_limpo = df.dropna()
+# Cópia do DataFrame com uma idade faltante
+df_faltantes = df.copy()
+df_faltantes.loc[1, 'Idade'] = np.nan
+print(df_faltantes)
+```
 
-## Preenchendo valores faltantes
-df['Idade'].fillna(df['Idade'].mean())
+```{python}
+# Contando quantos valores faltantes há em cada coluna
+print(df_faltantes.isnull().sum())
+```
+
+```{python}
+# Removendo as linhas que têm algum dado faltante
+df_limpo = df_faltantes.dropna()
+print(df_limpo)
+```
+
+```{python}
+# Preenchendo os valores faltantes com a média da coluna.
+# Atenção: fillna devolve uma nova coluna, então é preciso atribuir o resultado
+# de volta ao DataFrame — só chamar fillna não altera df_faltantes.
+df_faltantes['Idade'] = df_faltantes['Idade'].fillna(df_faltantes['Idade'].mean())
+print(df_faltantes)
 ```
 
 #### Estatísticas e Operações com Dados
@@ -646,12 +714,12 @@ df['Idade'].fillna(df['Idade'].mean())
 Pandas facilita o cálculo de estatísticas descritivas, como média, desvio padrão, contagem, entre outras.
 
 ```{python}
-## Estatísticas descritivas
+# Estatísticas descritivas
 print(df.describe())
 ```
 
 ```{python}
-## Soma, contagem e média de colunas específicas
+# Soma, contagem e média de colunas específicas
 print(df['Idade'].sum())
 print(df['Idade'].count())
 print(df['Idade'].mean())
@@ -666,19 +734,19 @@ A maneira mais comum de usar Matplotlib é através do submódulo pyplot, que fo
 ```{python}
 import matplotlib.pyplot as plt
 
-## Dados
+# Dados
 x = [0, 1, 2, 3, 4]
 y = [0, 1, 4, 9, 16]
 
-## Criando um gráfico de linha
+# Criando um gráfico de linha
 plt.plot(x, y)
 
-## Adicionando título e rótulos aos eixos
+# Adicionando título e rótulos aos eixos
 plt.title('Gráfico de Quadrados')
 plt.xlabel('Eixo X')
 plt.ylabel('Eixo Y')
 
-## Exibindo o gráfico
+# Exibindo o gráfico
 plt.show()
 ```
 
@@ -718,6 +786,7 @@ plt.show()
 ```{python}
 import numpy as np
 
+np.random.seed(42)  # fixa a semente para que o gráfico seja sempre o mesmo
 dados = np.random.randn(1000)
 plt.hist(dados, bins=30, color='skyblue', edgecolor='black')
 plt.title('Histograma de Dados Aleatórios')
@@ -739,7 +808,7 @@ plt.show()
 ##### Alterando Cores e Estilos de Linha
 
 ```{python}
-plt.plot(x, y, color='red', linestyle='--', marker='o')  ## Linha vermelha com marcador
+plt.plot(x, y, color='red', linestyle='--', marker='o')  # Linha vermelha com marcador
 plt.title('Gráfico Customizado')
 plt.show()
 ```
@@ -760,7 +829,7 @@ plt.show()
 plt.plot(x, y, label='Quadrados')
 plt.plot(x, [i**3 for i in x], label='Cubos')
 plt.title('Gráfico com Legenda')
-plt.legend()  ## Adiciona legenda
+plt.legend()  # Adiciona legenda
 plt.show()
 ```
 
@@ -777,14 +846,14 @@ plt.show()
 ##### Subplot
 
 ```{python}
-## Criando uma figura com dois gráficos lado a lado
+# Criando uma figura com dois gráficos lado a lado
 plt.figure(figsize=(10, 4))
 
-plt.subplot(1, 2, 1)  ## 1 linha, 2 colunas, 1º gráfico
+plt.subplot(1, 2, 1)  # 1 linha, 2 colunas, 1º gráfico
 plt.plot(x, y)
 plt.title('Gráfico de Linha')
 
-plt.subplot(1, 2, 2)  ## 1 linha, 2 colunas, 2º gráfico
+plt.subplot(1, 2, 2)  # 1 linha, 2 colunas, 2º gráfico
 plt.bar(categorias, valores)
 plt.title('Gráfico de Barras')
 
@@ -797,14 +866,14 @@ plt.show()
 ```{python}
 import pandas as pd
 
-## Criando um DataFrame
+# Criando um DataFrame
 dados = {
     'Dia': [1, 2, 3, 4, 5],
     'Vendas': [200, 300, 250, 400, 350]
 }
 df = pd.DataFrame(dados)
 
-## Plotando os dados
+# Plotando os dados
 df.plot(x='Dia', y='Vendas', kind='line')
 plt.title('Vendas ao Longo dos Dias')
 plt.show()
@@ -812,47 +881,40 @@ plt.show()
 
 ## Exercícios
 
-### Exercício 1.
-Execute as seguintes operações no Python e interprete os resultados:
+<span style="color:#2C92B2;">**Exercício 1**</span>. Execute as seguintes operações no Python e interprete os resultados:
 
 - Use a função `math.log()` para calcular o logaritmo natural de 10 e depois o logaritmo na base 10 de 1000.
 - Descubra a função que calcula a raiz quadrada de um número utilizando a função `help()`, e aplique-a ao número 144.
 
-### Exercício 2.
-Armazene o resultado de `2 * 7` em uma variável chamada `resultado`. Use `resultado` para calcular o valor de `resultado ** 2`.
+<span style="color:#2C92B2;">**Exercício 2**</span>. Armazene o resultado de `2 * 7` em uma variável chamada `resultado`. Use `resultado` para calcular o valor de `resultado ** 2`.
 
 Liste todas as variáveis no ambiente do Python usando a função `globals()`. Exclua a variável `resultado` usando `del` e verifique novamente as variáveis presentes.
 
-### Exercício 3.
-Crie um vetor NumPy `v` contendo os números 4, 8, 15, 16, 23, 42. Use subsetting para selecionar:
+<span style="color:#2C92B2;">**Exercício 3**</span>. Crie um vetor NumPy `v` contendo os números 4, 8, 15, 16, 23, 42. Use subsetting para selecionar:
+
 - O segundo e o quarto elemento.
 - Todos os elementos exceto o terceiro.
 - Os elementos que são maiores que 10.
 
 Multiplique cada elemento do vetor NumPy `v` por 2 e armazene o resultado em um novo vetor `v2`.
 
-### Exercício 4.
-Verifique se `8 > 5` e se `8 == 10`.
+<span style="color:#2C92B2;">**Exercício 4**</span>. Verifique se `8 > 5` e se `8 == 10`.
 
 Crie dois vetores NumPy lógicos `a = np.array([True, False, True])` e `b = np.array([False, True, False])`. Aplique os operadores `&`, `|` e `np.logical_xor()` nesses vetores.
 
-### Exercício 5.
-Escreva uma função `soma_quadrados` que receba dois números como argumentos e retorne a soma de seus quadrados. Teste sua função com os números 3 e 4.
+<span style="color:#2C92B2;">**Exercício 5**</span>. Escreva uma função `soma_quadrados` que receba dois números como argumentos e retorne a soma de seus quadrados. Teste sua função com os números 3 e 4.
 
 Modifique a função `soma_quadrados` para que o segundo argumento tenha um valor padrão de 2. Teste a função chamando-a com apenas um argumento.
 
-### Exercício 6.
-Escreva um laço `for` que calcule a soma dos números de 1 a 100.
+<span style="color:#2C92B2;">**Exercício 6**</span>. Escreva um laço `for` que calcule a soma dos números de 1 a 100.
 
 Crie um laço `while` que multiplique os números de 1 a 6 e retorne o resultado.
 
-### Exercício 7.
-Crie duas variáveis com o seu primeiro e último nome. Use a função `f-string` para juntar as duas variáveis em uma frase que diga “Meu nome completo é [nome completo]”.
+<span style="color:#2C92B2;">**Exercício 7**</span>. Crie duas variáveis com o seu primeiro e último nome. Use uma f-string para juntar as duas variáveis em uma frase que diga “Meu nome completo é [nome completo]”.
 
 Altere o separador para um traço `-` e junte novamente as variáveis.
 
-### Exercício 8.
-Crie um DataFrame com os dados fictícios a seguir utilizando `pandas`:
+<span style="color:#2C92B2;">**Exercício 8**</span>. Crie um DataFrame com os dados fictícios a seguir utilizando `pandas`:
 
 | Nome  | Idade | Cidade      |
 |-------|-------|-------------|
@@ -864,13 +926,11 @@ Filtre as observações onde a idade é maior que 20.
 
 Ordene o DataFrame pela coluna `Idade` em ordem decrescente.
 
-### Exercício 9.
-Usando o DataFrame criado no exercício anterior, crie um gráfico de barras (`plt.bar`) que mostre a idade de cada pessoa.
+<span style="color:#2C92B2;">**Exercício 9**</span>. Usando o DataFrame criado no exercício anterior, crie um gráfico de barras (`plt.bar`) que mostre a idade de cada pessoa.
 
 No gráfico anterior, mude a cor de cada barra.
 
-### Exercício 10.
-Crie um DataFrame com os dados de temperatura de uma semana:
+<span style="color:#2C92B2;">**Exercício 10**</span>. Crie um DataFrame com os dados de temperatura de uma semana:
 
 | Dia   | Temperatura (°C) |
 |-------|------------------|
@@ -887,5 +947,4 @@ Agora, responda às perguntas abaixo:
 1. Filtre todos os dias em que a temperatura foi maior que 21°C.
 2. Calcule a média das temperaturas da semana.
 3. Crie um gráfico de linha (`plt.plot`) que mostre a variação da temperatura ao longo da semana.
-
 

@@ -1,41 +1,40 @@
-# Geração de Números Aleatórios e Aplicação em Estatística
+# Por que Simular?
 
-## Objetivo da Aula
+Boa parte das perguntas interessantes em probabilidade não tem resposta em fórmula fechada. Qual a chance de um álbum de figurinhas ficar completo com 800 pacotes? Quanto vale uma integral que nenhuma técnica de cálculo resolve? Qual a distribuição de probabilidades associada a uma estatística complicada?
 
-Nesta aula, vamos introduzir o conceito de números pseudoaleatórios e como eles podem ser usados para resolver problemas estatísticos por meio de simulação. Vamos abordar a importância da aleatoriedade em estatísticas e em algoritmos de Monte Carlo.
+Existe uma saída que funciona em todos esses casos e exige pouco mais do que saber programar: **repetir o experimento muitas vezes no computador e olhar para o que acontece**. É disso que trata este curso.
 
-## Conteúdo Teórico
+Este capítulo passa por quatro exemplos que mostram a ideia em funcionamento: estimar $\pi$ contando pontos, simular um dado viciado com uma função pronta, refazer esse mesmo sorteio usando apenas números uniformes e, por fim, ver a aleatoriedade agindo dentro de um algoritmo de aprendizado de máquina. Nenhum deles será justificado aqui — o resto do livro é a justificativa. O que interessa agora é chegar até a pergunta levantada no terceiro exemplo, que organiza todos os capítulos seguintes.
 
-A geração de números aleatórios é essencial em várias áreas da estatística e da ciência de dados. Esses números são utilizados em simulações estocásticas, amostragem e para resolver problemas que envolvem incerteza. Contudo, em computadores, os números "aleatórios" gerados são na verdade pseudoaleatórios, pois seguem uma sequência previsível, gerada por um algoritmo determinístico.
+## Estimando $\pi$ com pontos aleatórios
 
-Os números pseudoaleatórios são amplamente usados em algoritmos de Monte Carlo, que dependem da simulação repetida de processos aleatórios para estimar soluções para problemas matemáticos e estatísticos.
+Considere um quadrado de lado 2 centrado na origem e o círculo de raio 1 inscrito nele. O quadrado tem área $4$ e o círculo tem área $\pi$. Se sorteamos pontos uniformemente dentro do quadrado, a proporção que cai dentro do círculo deve ficar perto de $\pi/4$.
 
-## Exemplo de Problema
-
-Vamos resolver o problema de estimar o valor de π (Pi) usando um método de Monte Carlo. A ideia é simular a área de um quarto de círculo inscrito em um quadrado. Gerando pontos aleatórios dentro do quadrado, podemos calcular a proporção desses pontos que também caem dentro do círculo e usar essa proporção para estimar o valor de Pi.
-
-**Como fazer isso?**
+Ou seja: para estimar $\pi$, basta sortear pontos e contar.
 
 ::: {.panel-tabset group="language"}
 # R
 
 ```{r}
+set.seed(42)
+
 # Definindo o número de pontos a serem gerados
-n_pontos <- 1000
+n_pontos <- 5000
 
-# Gerando pontos aleatórios (x, y) no intervalo [0, 1]
-x <- runif(n_pontos, 0, 1)
-y <- runif(n_pontos, 0, 1)
+# Gerando pontos aleatórios (x, y) no quadrado [-1, 1] x [-1, 1]
+x <- runif(n_pontos, -1, 1)
+y <- runif(n_pontos, -1, 1)
 
-# Calculando a distância de cada ponto à origem
-distancia <- sqrt(x^2 + y^2)
+# Verificando quais pontos caem dentro do círculo de raio 1
+dentro_circulo <- x^2 + y^2 <= 1
 
-# Contando quantos pontos estão dentro do quarto de círculo (distância <= 1)
-dentro_circulo <- distancia <= 1
-pi_estimado <- 4 * sum(dentro_circulo) / n_pontos
+# A proporção de pontos dentro do círculo estima pi/4
+pi_estimado <- 4 * mean(dentro_circulo)
 
 # Exibindo o valor estimado de Pi
-cat("Valor estimado de π:", pi_estimado, "\n")
+# (sprintf("%.4f", x) formata x com exatamente 4 casas decimais)
+cat("Valor estimado de π:", sprintf("%.4f", pi_estimado), "\n")
+cat("Valor verdadeiro   :", sprintf("%.4f", pi), "\n")
 
 # Visualizando a distribuição dos pontos
 library(ggplot2)
@@ -43,12 +42,15 @@ library(ggplot2)
 dados <- data.frame(x = x, y = y, dentro_circulo = dentro_circulo)
 
 ggplot(dados, aes(x = x, y = y, color = dentro_circulo)) +
-  geom_point(size = 1) +
-  scale_color_manual(values = c("red", "blue")) +
-  ggtitle(paste0("Estimativa de π usando Monte Carlo\nValor estimado: ", round(pi_estimado, 5))) +
+  geom_point(size = 0.6) +
+  scale_color_manual(values = c("FALSE" = "red", "TRUE" = "blue"),
+                     labels = c("FALSE" = "fora do círculo",
+                                "TRUE" = "dentro do círculo")) +
+  ggtitle(paste0("Estimativa de π usando simulação\nValor estimado: ",
+                 sprintf("%.4f", pi_estimado))) +
   theme_minimal() +
   coord_equal() +
-  labs(x = "x", y = "y")
+  labs(x = "x", y = "y", color = NULL)
 ```
 
 # Python
@@ -57,43 +59,59 @@ ggplot(dados, aes(x = x, y = y, color = dentro_circulo)) +
 import numpy as np
 import matplotlib.pyplot as plt
 
+np.random.seed(42)
+
 # Definindo o número de pontos a serem gerados
-n_pontos = 1000
+n_pontos = 5000
 
-# Gerando pontos aleatórios (x, y) no intervalo [0, 1]
-x = np.random.uniform(0, 1, n_pontos)
-y = np.random.uniform(0, 1, n_pontos)
+# Gerando pontos aleatórios (x, y) no quadrado [-1, 1] x [-1, 1]
+x = np.random.uniform(-1, 1, n_pontos)
+y = np.random.uniform(-1, 1, n_pontos)
 
-# Calculando a distância de cada ponto à origem
-distancia = np.sqrt(x**2 + y**2)
+# Verificando quais pontos caem dentro do círculo de raio 1
+dentro_circulo = x**2 + y**2 <= 1
 
-# Contando quantos pontos estão dentro do quarto de círculo (distância <= 1)
-dentro_circulo = distancia <= 1
-pi_estimado = 4 * np.sum(dentro_circulo) / n_pontos
+# A proporção de pontos dentro do círculo estima pi/4
+pi_estimado = 4 * np.mean(dentro_circulo)
 
 # Exibindo o valor estimado de Pi
-print(f"Valor estimado de π: {pi_estimado}")
+print(f"Valor estimado de π: {pi_estimado:.4f}")
+print(f"Valor verdadeiro   : {np.pi:.4f}")
 
 # Visualizando a distribuição dos pontos
-plt.figure(figsize=(6,6))
-plt.scatter(x, y, c=dentro_circulo, cmap='coolwarm', s=1)
-plt.title(f'Estimativa de π usando Monte Carlo\nValor estimado: {pi_estimado}')
+# (usamos as mesmas cores da versão em R: azul dentro, vermelho fora)
+plt.figure(figsize=(8, 6))
+plt.scatter(x[dentro_circulo], y[dentro_circulo],
+            color='blue', s=1, label='dentro do círculo')
+plt.scatter(x[~dentro_circulo], y[~dentro_circulo],
+            color='red', s=1, label='fora do círculo')
+plt.title(f'Estimativa de π usando simulação\nValor estimado: {pi_estimado:.4f}')
 plt.xlabel('x')
 plt.ylabel('y')
+# legenda fora do gráfico, para não cobrir os pontos
+plt.legend(loc='center left', bbox_to_anchor=(1.02, 0.5), markerscale=6)
+plt.gca().set_aspect('equal')
+plt.tight_layout()
 plt.show()
 ```
 :::
 
-## Exemplo: Simulação de um Jogo de Dados com Dado "Viciado"
+::: {.callout-note title="Por que isso funciona?"}
+Por enquanto o argumento é só geométrico: proporção de pontos $\approx$ proporção de áreas. A justificativa formal — por que essa proporção converge para $\pi/4$, e com que precisão para cada $n$ — é o assunto do capítulo sobre o Método de Monte Carlo.
+:::
 
-Imagine que estamos jogando um jogo em que o dado é "viciado" e não segue uma distribuição uniforme, ou seja, alguns números têm uma chance maior de serem sorteados. Por exemplo, o número 6 pode ter uma probabilidade maior, e os outros números, menores.
+## Simulando um dado viciado
 
-Isso nos permite mostrar como alterar a probabilidade de ocorrência de eventos em uma distribuição discreta.
+Agora um experimento em que a resposta não vem da geometria, e sim de um sorteio com probabilidades desiguais. Imagine um dado em que as faces não são igualmente prováveis: as faces 5 e 6 saem com probabilidade $0{,}25$ cada, enquanto a face 1 sai com probabilidade $0{,}05$.
+
+Tanto o R quanto o Python têm uma função pronta que sorteia de uma lista de valores com probabilidades dadas. Vamos usá-la para lançar esse dado 10 000 vezes e comparar as frequências obtidas com as probabilidades verdadeiras.
 
 ::: {.panel-tabset group="language"}
 # R
 
 ```{r}
+set.seed(123)
+
 # Definindo as faces do dado e as probabilidades
 faces <- 1:6
 probabilidades <- c(0.05, 0.1, 0.15, 0.2, 0.25, 0.25)  # Probabilidades associadas às faces do dado
@@ -103,30 +121,32 @@ cat("Soma das probabilidades:", sum(probabilidades), "\n")
 
 # Simulando 10000 lançamentos de um dado viciado
 n_lancamentos <- 10000
-set.seed(123)  # Definindo seed para reprodutibilidade
 resultados <- sample(faces, size = n_lancamentos, replace = TRUE, prob = probabilidades)
 
-# Contando as frequências de cada face
-frequencias <- table(resultados) / n_lancamentos
+# Calculando a frequência relativa de cada face
+frequencias <- sapply(faces, function(face) mean(resultados == face))
 
-# Exibindo os resultados da simulação
-cat("Frequências de cada face após", n_lancamentos, "lançamentos:\n")
-for (face in faces) {
-  cat("Face", face, ":", frequencias[as.character(face)], "vezes\n")
-}
+# Comparando o que saiu na simulação com o que era esperado
+comparacao <- data.frame(
+  face = faces,
+  probabilidade = probabilidades,
+  frequencia = frequencias
+)
+print(comparacao, row.names = FALSE)
 
 # Visualizando os resultados em um gráfico de barras
 library(ggplot2)
 
-dados <- data.frame(faces = as.factor(faces), frequencias = as.numeric(frequencias))
+dados <- data.frame(faces = as.factor(faces), frequencias = frequencias)
 
 ggplot(dados, aes(x = faces, y = frequencias)) +
   geom_bar(stat = "identity", fill = "lightcoral", color = "black") +
-  ggtitle(paste0("Simulação de Lançamentos de um Dado Viciado\n", n_lancamentos, " lançamentos")) +
-  xlab("Face do Dado") +
-  ylab("Frequência de Ocorrência") +
+  geom_point(aes(y = probabilidades), color = "blue", size = 3) +
+  ggtitle(paste0("Simulação de lançamentos de um dado viciado\n",
+                 n_lancamentos, " lançamentos (em azul, as probabilidades verdadeiras)")) +
+  xlab("Face do dado") +
+  ylab("Frequência relativa") +
   theme_minimal() +
-  geom_text(aes(label = round(frequencias, 4)), vjust = -0.5) +
   theme(panel.grid.major = element_line(color = "grey80"))
 ```
 
@@ -136,6 +156,8 @@ ggplot(dados, aes(x = faces, y = frequencias)) +
 import numpy as np
 import matplotlib.pyplot as plt
 
+np.random.seed(123)
+
 # Definindo as faces do dado e as probabilidades
 faces = [1, 2, 3, 4, 5, 6]
 probabilidades = [0.05, 0.1, 0.15, 0.2, 0.25, 0.25]  # Probabilidades associadas às faces do dado
@@ -144,37 +166,66 @@ probabilidades = [0.05, 0.1, 0.15, 0.2, 0.25, 0.25]  # Probabilidades associadas
 print(f"Soma das probabilidades: {sum(probabilidades)}")
 
 # Simulando 10000 lançamentos de um dado viciado
+# (o sorteio é com reposição, que é o padrão de np.random.choice)
 n_lancamentos = 10000
 resultados = np.random.choice(faces, size=n_lancamentos, p=probabilidades)
 
-# Contando as frequências de cada face
-frequencias = [np.sum(resultados == face) / n_lancamentos for face in faces]
+# Calculando a frequência relativa de cada face
+frequencias = [np.mean(resultados == face) for face in faces]
 
-# Exibindo os resultados da simulação
-print(f"Frequências de cada face após {n_lancamentos} lançamentos:")
-for face, freq in zip(faces, frequencias):
-    print(f"Face {face}: {freq} vezes")
+# Comparando o que saiu na simulação com o que era esperado
+print(" face | probabilidade | frequência")
+for face, p, freq in zip(faces, probabilidades, frequencias):
+    print(f"{face:5d} | {p:13.4f} | {freq:10.4f}")
 
 # Visualizando os resultados em um gráfico de barras
-plt.figure(figsize=(8,6))
+plt.figure(figsize=(8, 6))
 plt.bar(faces, frequencias, color='lightcoral', edgecolor='black')
-plt.title(f'Simulação de Lançamentos de um Dado Viciado\n{n_lancamentos} lançamentos')
-plt.xlabel('Face do Dado')
-plt.ylabel('Frequência de Ocorrência')
-plt.grid(True)
+plt.scatter(faces, probabilidades, color='blue', s=40, zorder=3)
+plt.title(f'Simulação de lançamentos de um dado viciado\n'
+          f'{n_lancamentos} lançamentos (em azul, as probabilidades verdadeiras)')
+plt.xlabel('Face do dado')
+plt.ylabel('Frequência relativa')
+plt.grid(True, axis='y')
 plt.show()
 ```
 :::
 
-## Conseguimos repetir o experimento anterior utilizando apenas uma uniforme?
+## E se tivéssemos apenas uma uniforme?
 
-Podemos utilizar uma única distribuição uniforme para simular o lançamento de um dado viciado. Ao dividir o intervalo [0, 1] em partes proporcionais às probabilidades das faces do dado, podemos mapear cada número aleatório gerado a uma das faces, de acordo com o intervalo no qual o número cai. Abaixo está um exemplo de como realizar essa simulação.
+A função `sample` do R e a `np.random.choice` do Python resolveram o problema, mas elas são caixas-pretas: alguém já implementou o sorteio para nós. Vale perguntar o que existe dentro dessas caixas.
 
+Acontece que basta saber gerar um número uniforme em $[0,1)$. A ideia é dividir o intervalo $[0,1]$ em pedaços com comprimentos iguais às probabilidades das faces:
+
+$$
+\underbrace{[0;\ 0{,}05)}_{\text{face }1}\quad
+\underbrace{[0{,}05;\ 0{,}15)}_{\text{face }2}\quad
+\underbrace{[0{,}15;\ 0{,}30)}_{\text{face }3}\quad \ldots
+$$
+
+Sorteamos $u$ uniforme e devolvemos a face cujo pedaço contém $u$. Como $u$ é uniforme, a chance de cair em cada pedaço é exatamente o comprimento dele — isto é, a probabilidade daquela face.
+
+Escrito passo a passo, o procedimento é o seguinte.
+
+::: {.callout-tip title="Pseudo-algoritmo: sorteio pelos intervalos"}
+Entradas: os valores possíveis $x_1, \ldots, x_k$ e suas probabilidades $p_1, \ldots, p_k$.
+
+1. Gere $u \sim \text{Unif}(0,1)$.
+2. Faça $\text{limite\_inferior} \leftarrow 0$.
+3. Para $i = 1, 2, \ldots, k$:
+   a. Faça $\text{limite\_superior} \leftarrow \text{limite\_inferior} + p_i$;
+   b. Se $\text{limite\_inferior} \leq u < \text{limite\_superior}$, devolva $x_i$ e pare;
+   c. Caso contrário, faça $\text{limite\_inferior} \leftarrow \text{limite\_superior}$.
+:::
+
+O código abaixo é a tradução direta desse pseudo-algoritmo — cada passo vira uma linha.
 
 ::: {.panel-tabset group="language"}
 # R
 
 ```{r}
+set.seed(456)
+
 # Definindo as faces do dado e as probabilidades associadas (não uniformes)
 faces <- 1:6
 probabilidades <- c(0.05, 0.1, 0.15, 0.2, 0.25, 0.25)  # Probabilidades associadas às faces do dado
@@ -183,7 +234,7 @@ probabilidades <- c(0.05, 0.1, 0.15, 0.2, 0.25, 0.25)  # Probabilidades associad
 gerar_amostra_por_intervalos <- function(probabilidades, faces) {
   u <- runif(1)  # Gerando um número aleatório uniforme
   limite_inferior <- 0  # Limite inferior do intervalo
-  
+
   # Percorrendo as probabilidades e verificando em qual intervalo o número cai
   for (i in seq_along(probabilidades)) {
     limite_superior <- limite_inferior + probabilidades[i]  # Definindo o limite superior do intervalo
@@ -196,39 +247,30 @@ gerar_amostra_por_intervalos <- function(probabilidades, faces) {
 
 # Simulando lançamentos do dado viciado utilizando a verificação dos intervalos
 n_lancamentos <- 10000
-set.seed(123)  # Definindo seed para reprodutibilidade
 resultados <- replicate(n_lancamentos, gerar_amostra_por_intervalos(probabilidades, faces))
 
-# Contando as frequências de cada face
-frequencias <- sapply(faces, function(face) sum(resultados == face) / n_lancamentos)
+# Calculando a frequência relativa de cada face
+frequencias <- sapply(faces, function(face) mean(resultados == face))
 
-# Exibindo os resultados da simulação
-cat("Frequências de cada face após", n_lancamentos, "lançamentos:\n")
-for (i in seq_along(faces)) {
-  cat("Face", faces[i], ":", frequencias[i], "vezes\n")
-}
+# Comparando com as probabilidades verdadeiras
+comparacao <- data.frame(
+  face = faces,
+  probabilidade = probabilidades,
+  frequencia = frequencias
+)
+print(comparacao, row.names = FALSE)
 
-# Visualizando os resultados em gráficos
-
+# Visualizando os resultados
 library(ggplot2)
 
-# Gráfico das probabilidades ajustadas
-dados_probabilidades <- data.frame(faces = as.factor(faces), probabilidades = probabilidades)
-ggplot(dados_probabilidades, aes(x = faces, y = probabilidades)) +
-  geom_bar(stat = "identity", fill = "skyblue", color = "black") +
-  ggtitle("Probabilidades Ajustadas para o Dado Viciado") +
-  xlab("Face do Dado") +
-  ylab("Probabilidade") +
-  theme_minimal() +
-  theme(panel.grid.major = element_line(color = "grey80"))
+dados <- data.frame(faces = as.factor(faces), frequencias = frequencias)
 
-# Gráfico das frequências obtidas
-dados_frequencias <- data.frame(faces = as.factor(faces), frequencias = frequencias)
-ggplot(dados_frequencias, aes(x = faces, y = frequencias)) +
+ggplot(dados, aes(x = faces, y = frequencias)) +
   geom_bar(stat = "identity", fill = "lightcoral", color = "black") +
-  ggtitle(paste0("Simulação de Lançamentos de um Dado Viciado\n", n_lancamentos, " lançamentos")) +
-  xlab("Face do Dado") +
-  ylab("Frequência de Ocorrência") +
+  geom_point(aes(y = probabilidades), color = "blue", size = 3) +
+  ggtitle("Dado viciado simulado usando apenas uma uniforme") +
+  xlab("Face do dado") +
+  ylab("Frequência relativa") +
   theme_minimal() +
   theme(panel.grid.major = element_line(color = "grey80"))
 ```
@@ -239,6 +281,8 @@ ggplot(dados_frequencias, aes(x = faces, y = frequencias)) +
 import numpy as np
 import matplotlib.pyplot as plt
 
+np.random.seed(456)
+
 # Definindo as faces do dado e as probabilidades associadas (não uniformes)
 faces = [1, 2, 3, 4, 5, 6]
 probabilidades = [0.05, 0.1, 0.15, 0.2, 0.25, 0.25]  # Probabilidades associadas às faces do dado
@@ -247,7 +291,7 @@ probabilidades = [0.05, 0.1, 0.15, 0.2, 0.25, 0.25]  # Probabilidades associadas
 def gerar_amostra_por_intervalos(probabilidades, faces):
     u = np.random.uniform(0, 1)  # Gerando um número aleatório uniforme
     limite_inferior = 0  # Limite inferior do intervalo
-    
+
     # Percorrendo as probabilidades e verificando em qual intervalo o número cai
     for i, p in enumerate(probabilidades):
         limite_superior = limite_inferior + p  # Definindo o limite superior do intervalo
@@ -257,96 +301,169 @@ def gerar_amostra_por_intervalos(probabilidades, faces):
 
 # Simulando lançamentos do dado viciado utilizando a verificação dos intervalos
 n_lancamentos = 10000
-resultados = [gerar_amostra_por_intervalos(probabilidades, faces) for _ in range(n_lancamentos)]
+resultados = np.array([gerar_amostra_por_intervalos(probabilidades, faces)
+                       for _ in range(n_lancamentos)])
 
-# Contando as frequências de cada face
-frequencias = [np.sum(np.array(resultados) == face) / n_lancamentos for face in faces]
+# Calculando a frequência relativa de cada face
+frequencias = [np.mean(resultados == face) for face in faces]
 
-# Exibindo os resultados da simulação
-print(f"Frequências de cada face após {n_lancamentos} lançamentos:")
-for face, freq in zip(faces, frequencias):
-    print(f"Face {face}: {freq} vezes")
+# Comparando com as probabilidades verdadeiras
+print(" face | probabilidade | frequência")
+for face, p, freq in zip(faces, probabilidades, frequencias):
+    print(f"{face:5d} | {p:13.4f} | {freq:10.4f}")
 
-# Gráfico das probabilidades ajustadas
-plt.figure(figsize=(8,6))
-plt.bar(faces, probabilidades, color='skyblue', edgecolor='black')
-plt.title('Probabilidades Ajustadas para o Dado Viciado')
-plt.xlabel('Face do Dado')
-plt.ylabel('Probabilidade')
-plt.grid(True)
-plt.show()
-
-# Gráfico das frequências obtidas
-plt.figure(figsize=(8,6))
+# Visualizando os resultados
+plt.figure(figsize=(8, 6))
 plt.bar(faces, frequencias, color='lightcoral', edgecolor='black')
-plt.title(f'Simulação de Lançamentos de um Dado Viciado\n{n_lancamentos} lançamentos')
-plt.xlabel('Face do Dado')
-plt.ylabel('Frequência de Ocorrência')
-plt.grid(True)
+plt.scatter(faces, probabilidades, color='blue', s=40, zorder=3)
+plt.title('Dado viciado simulado usando apenas uma uniforme')
+plt.xlabel('Face do dado')
+plt.ylabel('Frequência relativa')
+plt.grid(True, axis='y')
 plt.show()
 ```
 :::
 
-**Ou seja, se conseguimos simular uma distribuição uniforme, conseguimos simular uma distribuição discreta. Isso vale de forma mais geral?**
+::: {.callout-note title="Você acabou de implementar um método"}
+O procedimento acima tem nome: é a **técnica da inversão**, que estudaremos em detalhe nos capítulos sobre variáveis discretas e contínuas. Lá ele aparece escrito em termos da função de distribuição acumulada, mas a ideia é exatamente esta — cortar o intervalo $[0,1]$ em pedaços e ver onde $u$ caiu.
+:::
 
-## Importância da Geração de Números Aleatórios em Algoritmos de Machine Learning
+::: {.callout-important title="A pergunta que organiza o curso"}
+Se sabemos simular uma $\text{Unif}(0,1)$, sabemos simular qualquer distribuição discreta.
 
-A geração de números aleatórios também desempenha um papel crucial em vários algoritmos de Machine Learning. Muitos algoritmos utilizam aleatoriedade em diferentes etapas do processo de modelagem, como na inicialização de pesos, na amostragem de dados e na divisão de conjuntos de treino e teste. Esses elementos aleatórios influenciam diretamente o desempenho e os resultados dos modelos.
+Isso vale de forma mais geral? Dá para gerar uma exponencial, uma normal, uma distribuição sem fórmula fechada para a acumulada — tudo a partir de números uniformes?
 
-### Exemplo: Algoritmo de Random Forest
+A resposta é **sim**, e os próximos capítulos são as diferentes maneiras de fazer isso.
+:::
 
-O Random Forest é um algoritmo de aprendizado supervisionado que utiliza números aleatórios em várias etapas do processo. Ele consiste em construir múltiplas árvores de decisão de forma aleatória, e cada árvore é gerada a partir de um subconjunto aleatório de dados de treino e de variáveis (features). A aleatoriedade ajuda a reduzir o overfitting e a melhorar a robustez do modelo.
+## Aleatoriedade também aparece em aprendizado de máquina
 
-Abaixo está um exemplo de como o Random Forest utiliza aleatoriedade na escolha dos subconjuntos de dados:
+Simulação não serve apenas para responder perguntas de probabilidade: vários algoritmos de aprendizado de máquina usam números aleatórios internamente. O Random Forest é um bom exemplo — ele constrói muitas árvores de decisão, cada uma treinada sobre um subconjunto sorteado das observações e das variáveis.
+
+Isso tem uma consequência prática que costuma pegar quem está começando: **rodar o mesmo código duas vezes pode dar respostas diferentes**. Para ver o tamanho do efeito, vamos repetir exatamente o mesmo procedimento — dividir o conjunto `iris` em treino e teste, ajustar um Random Forest e medir a acurácia — mudando apenas a semente do gerador de números aleatórios.
 
 ::: {.panel-tabset group="language"}
 # R
 
 ```{r}
-# Carregando o dataset Iris e definindo as variáveis preditoras e resposta
-data(iris)
-X <- iris[, 1:4]
-y <- iris[, 5]
-
-# Dividindo os dados de forma aleatória em treino e teste
-set.seed(42)
-index <- sample(1:nrow(iris), 0.7 * nrow(iris))
-X_train <- X[index, ]
-X_test <- X[-index, ]
-y_train <- y[index]
-y_test <- y[-index]
-
-# Treinando o modelo Random Forest
 library(randomForest)
-modelo <- randomForest(X_train, as.factor(y_train), ntree=100, seed=42)
+library(ggplot2)
 
-# Avaliando o modelo no conjunto de teste
-predicoes <- predict(modelo, X_test)
-accuracy <- sum(predicoes == y_test) / length(y_test)
-cat("Acurácia do modelo:", accuracy, "\n")
+data(iris)
+
+# Mesmo procedimento, mudando apenas a semente
+acuracia_para_semente <- function(semente) {
+  set.seed(semente)
+
+  # Divisão aleatória em treino (70%) e teste (30%)
+  indice <- sample(nrow(iris), 0.7 * nrow(iris))
+  treino <- iris[indice, ]
+  teste  <- iris[-indice, ]
+
+  # Random Forest: as árvores também são construídas de forma aleatória
+  modelo <- randomForest(Species ~ ., data = treino, ntree = 100)
+
+  # Proporção de acertos no conjunto de teste
+  mean(predict(modelo, teste) == teste$Species)
+}
+
+acuracias <- sapply(1:20, acuracia_para_semente)
+
+cat("Menor acurácia :", sprintf("%.4f", min(acuracias)), "\n")
+cat("Maior acurácia :", sprintf("%.4f", max(acuracias)), "\n")
+cat("Acurácia média :", sprintf("%.4f", mean(acuracias)), "\n")
+
+dados <- data.frame(semente = 1:20, acuracia = acuracias)
+
+ggplot(dados, aes(x = semente, y = acuracia)) +
+  geom_point(size = 2) +
+  geom_hline(yintercept = mean(acuracias), color = "red", linetype = "dashed") +
+  labs(title = "A mesma análise, 20 sementes diferentes",
+       x = "Semente", y = "Acurácia no conjunto de teste") +
+  theme_minimal()
 ```
 
 # Python
 
 ```{python}
+import numpy as np
+import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 
-# Carregando o dataset Iris
 iris = load_iris()
-X = iris.data
-y = iris.target
 
-# Dividindo os dados de forma aleatória em treino e teste
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+# Mesmo procedimento, mudando apenas a semente
+def acuracia_para_semente(semente):
+    # Divisão aleatória em treino (70%) e teste (30%)
+    X_treino, X_teste, y_treino, y_teste = train_test_split(
+        iris.data, iris.target, test_size=0.3, random_state=semente)
 
-# Treinando o modelo Random Forest
-clf = RandomForestClassifier(n_estimators=100, random_state=42)
-clf.fit(X_train, y_train)
+    # Random Forest: as árvores também são construídas de forma aleatória
+    modelo = RandomForestClassifier(n_estimators=100, random_state=semente)
+    modelo.fit(X_treino, y_treino)
 
-# Avaliando o modelo no conjunto de teste
-accuracy = clf.score(X_test, y_test)
-print(f"Acurácia do modelo: {accuracy:.2f}")
+    # Proporção de acertos no conjunto de teste
+    return modelo.score(X_teste, y_teste)
+
+sementes = np.arange(1, 21)
+acuracias = np.array([acuracia_para_semente(s) for s in sementes])
+
+print(f"Menor acurácia : {acuracias.min():.4f}")
+print(f"Maior acurácia : {acuracias.max():.4f}")
+print(f"Acurácia média : {acuracias.mean():.4f}")
+
+plt.figure(figsize=(8, 5))
+plt.scatter(sementes, acuracias, s=30)
+plt.axhline(acuracias.mean(), color='red', linestyle='--')
+plt.title('A mesma análise, 20 sementes diferentes')
+plt.xlabel('Semente')
+plt.ylabel('Acurácia no conjunto de teste')
+plt.grid(True)
+plt.show()
 ```
 :::
+
+A acurácia varia mais de 10 pontos percentuais entre a pior e a melhor semente — e nada mudou no código além do número usado para inicializar o gerador. Reportar o resultado de uma única rodada, sem dizer qual semente foi usada, é reportar um número que ninguém consegue reproduzir.
+
+::: {.callout-warning title="Sempre fixe a semente"}
+`set.seed()` no R e `np.random.seed()` no Python fixam o ponto de partida do gerador, de modo que a mesma sequência de números "aleatórios" é produzida a cada execução. Todos os trechos de código deste livro fixam a semente por esse motivo: você deve conseguir rodar o código e obter exatamente os números impressos aqui.
+
+Isso não torna o resultado mais correto — apenas reproduzível. Quando o resultado depende demais da semente, como no exemplo acima, o certo é repetir a análise várias vezes e reportar a variabilidade.
+:::
+
+## O caminho daqui em diante
+
+Os exemplos deste capítulo assumiram que sabemos gerar números uniformes em $[0,1)$ e que a proporção observada se aproxima da probabilidade verdadeira. Os próximos capítulos tratam exatamente dessas duas lacunas:
+
+- **Números pseudoaleatórios**: como um computador, que é determinístico, produz algo que se comporta como uma $\text{Unif}(0,1)$.
+- **Inversão**, **rejeição**, **transformações e misturas**, **Box-Muller**: as técnicas que transformam uniformes em qualquer outra distribuição.
+- **Método de Monte Carlo**: por que a média de valores simulados aproxima uma esperança, e como quantificar o erro dessa aproximação com intervalos de confiança.
+- **Redução de variância** e **amostragem por importância**: como obter a mesma precisão com menos simulações.
+
+## Exercícios
+
+Todos os exercícios abaixo consistem em modificar algum dos códigos deste capítulo.
+
+<span style="color:#2C92B2;">**Exercício 1**</span>. No código que estima $\pi$, troque o número de pontos por $n = 100$, $1\,000$, $10\,000$ e $100\,000$.
+
+(a) Anote a estimativa obtida em cada caso e faça um gráfico da estimativa em função de $n$.
+
+(b) Quantos pontos foram necessários para acertar a primeira casa decimal de $\pi$? E a segunda?
+
+<span style="color:#2C92B2;">**Exercício 2**</span>. Rode duas vezes seguidas o trecho que simula o dado viciado, primeiro apagando a linha `set.seed`/`np.random.seed` e depois com ela de volta. Explique o que muda em cada caso e por que fixar a semente importa quando você envia seu código para outra pessoa.
+
+<span style="color:#2C92B2;">**Exercício 3**</span>. Adapte a função `gerar_amostra_por_intervalos` para uma variável aleatória que assume os valores $10, 20, 30$ com probabilidades $0{,}5$, $0{,}2$ e $0{,}3$.
+
+(a) Gere uma amostra de tamanho 5 000 e compare as frequências obtidas com as probabilidades verdadeiras.
+
+(b) O que acontece se as probabilidades fornecidas não somarem 1? Teste e explique.
+
+<span style="color:#2C92B2;">**Exercício 4**</span>. O código da primeira seção estima a área do círculo, contando quantos pontos satisfazem $x^2 + y^2 \leq 1$. Troque essa condição por
+$$
+|x|^3 + |y|^3 \leq 0{,}5
+$$
+e estime a área dessa região (lembre-se de que a área do quadrado é 4). Refaça também o gráfico dos pontos, para ver o formato dela.
+
+Diferentemente do círculo, essa região não tem área dada por uma fórmula em funções elementares — mas o código para estimá-la é exatamente o mesmo.

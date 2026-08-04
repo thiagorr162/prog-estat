@@ -194,7 +194,7 @@ for b in range(B):
     theta_hatz[b] = np.mean((np.log(1 + x**2) + np.log(1 + y**2)) / 2)
 
 # Cálculo das variâncias das estimativas
-var_values = [np.var(theta_hatx), np.var(theta_haty), np.var(theta_hatz)]
+var_values = [np.var(theta_hatx, ddof=1), np.var(theta_haty, ddof=1), np.var(theta_hatz, ddof=1)]
 print("Variâncias das estimativas:")
 print(var_values)
 ```
@@ -280,12 +280,12 @@ $$
 Considere $X = e^U$, onde $U \sim \text{Unif}(0, 1)$. Vamos usar $Y = U$ como variável de controle. Sabemos que $\mathbb{E}[U] = 0.5$ e $\textrm{Var}(U)=1/12$. Calculamos:
 
 $$
-\text{Cov}(e^U, U) = \mathbb{E}[e^U U] - \mathbb{E}[U]\mathbb{E}[e^U] = \int_0^1 xe^xdx - \frac{e-1}{2}..
+\text{Cov}(e^U, U) = \mathbb{E}[e^U U] - \mathbb{E}[U]\mathbb{E}[e^U] = \int_0^1 xe^xdx - \frac{e-1}{2}.
 $$
 
 
 
-Fazendo substituição na primeira integral com $u=x, v=e^x,$, encontramos:
+Integrando por partes a primeira integral, com $u=x$ e $dv=e^x dx$, encontramos:
 
 $$
 \text{Cov}(e^U, U) = 0.14086.
@@ -300,7 +300,7 @@ $$
 A redução de variância é:
 
 $$
-1 - \frac{0.0039}{0.2420} = 0.9838 \quad \text{(98.38%)}.
+1 - \frac{0.0039}{0.2420} = 0.9838 \quad \text{(98,38\%)}.
 $$
 
 Isso demonstra como o uso de variáveis de controle pode reduzir drasticamente a variância na estimativa.
@@ -335,7 +335,7 @@ $$
 
 Isso implica que 
 $$\mathbb{V}\left[\frac{1}{n} \sum_{i=1}^n g(Y_i)\right]\leq \mathbb{V}\left[\frac{1}{n} \sum_{i=1}^n X_i \right],$$
-ou sejam este estimador tem uma variância menor ou igual à do método de Monte Carlo sem condicionamento.
+ou seja, este estimador tem uma variância menor ou igual à do método de Monte Carlo sem condicionamento.
  
 
 ### Exemplo 1: Estimando $\pi$
@@ -464,7 +464,7 @@ Z_i =
 $$
 
 Por construção, $\mathbb{E}[\mathbb{E}[Z_i \mid Y]] = \mathbb{P}(X > 1)$.
- Assim, é natural fazer um estimador Monte Carlo com condicionamento em $X$. Para isso, vamos calcular 
+Assim, é natural fazer um estimador Monte Carlo com condicionamento em $Y$. Para isso, vamos calcular
 a probabilidade condicional
 $$
 \mathbb{E}[Z_i \mid Y = y] = \mathbb{P}(X_i > 1 \mid Y = y).
@@ -478,7 +478,7 @@ $$
 \mathbb{E}[Z_i \mid Y = y] = 1 - \Phi\left(\frac{1 - y}{2}\right).
 $$
 Assim, o estimador é dado por
-$$\frac{1}{n}1 - \Phi\left(\frac{1 - Y_i}{2}\right),$$
+$$\frac{1}{n}\sum_{i=1}^n \left[1 - \Phi\left(\frac{1 - Y_i}{2}\right)\right],$$
 em que $Y_i \sim Exp(1).$
 
 ::: {.panel-tabset group="language"}
@@ -558,13 +558,13 @@ print(f"Com condicionamento:  est = {prob_conditioning}  | EP = {se_conditioning
 
 
 
----
+***
 
 ## Exercícios
 
-**Exercício 1**. Implemente a técnica das variáveis antitéticas para estimar $E[X^2]$ onde $X \sim U(0, \pi)$. Compare a variância do estimador com o estimador usual.
+<span style="color:#2C92B2;">**Exercício 1**</span>. Implemente a técnica das variáveis antitéticas para estimar $E[X^2]$ onde $X \sim U(0, \pi)$. Compare a variância do estimador com o estimador usual.
 
-**Exercício 2**. Considere a integral:
+<span style="color:#2C92B2;">**Exercício 2**</span>. Considere a integral:
 
 $$
 \theta = \int_{0}^{\pi/4} \int_{0}^{\pi/4} x^2 y^2 \sin(x + y) \log(x + y) \, dx \, dy.
@@ -574,14 +574,14 @@ $$
 (b) Aproxime a integral utilizando $X^2 Y^2$ como variável de controle.  
 (c) Compare a variância dos estimadores obtidos nos itens (a) e (b).
 
-**Exercício 3**. Seja $Y \sim \text{Exp}(1)$ e $X \mid Y = y \sim \mathcal{N}(y, 4)$. Desejamos estimar $\mathbb{P}(X > 1)$.
+<span style="color:#2C92B2;">**Exercício 3**</span>. Seja $Y \sim \text{Exp}(1)$ e $X \mid Y = y \sim \mathcal{N}(y, 4)$. Desejamos estimar $\mathbb{P}(X > 1)$.
 
 (a) Aproxime o valor de $\mathbb{P}(X > 1)$ usando o método do condicionamento.  
 (b) Proponha uma melhoria no método do condicionamento utilizando variáveis antitéticas. Compare as variâncias dos estimadores obtidos nos dois métodos.
 
 
 
-**Exercício 4**. Seja $X\mid B\sim N(\mu_B,1)$ com $B\sim\text{Bern}(p)$ e $\mu_1=2$, $\mu_0=-1$. Estime $\theta=\mathbb P(X>1)$.
+<span style="color:#2C92B2;">**Exercício 4**</span>. Seja $X\mid B\sim N(\mu_B,1)$ com $B\sim\text{Bern}(p)$ e $\mu_1=2$, $\mu_0=-1$. Estime $\theta=\mathbb P(X>1)$.
 
 (a) MC direto.
 (b) Condicionamento em $B$.
@@ -589,22 +589,14 @@ $$
 (d) Compare também com antitética usando pares $(B,1-B)$ de probabilidade pareada (quando possível).
 
 
-**Exercício 5**
-Seja $U\sim \mathrm{Unif}(0,1)$ e $\theta=\mathbb E[U^p]$ com $p\in\{1,2,3,4\}$.
-
-(a) Calcule $\theta$ analiticamente.
-(b) Mostre que $\hat\theta_A=\tfrac1{2n}\sum_{i=1}^n\big(U_i^p+(1-U_i)^p\big)$ é não viesado.
-(c) Derive $\mathrm{Var}(\hat\theta)$ e $\mathrm{Var}(\hat\theta_A)$ usando $\mathbb E[U^{2p}]$ e $\mathbb E[U^p(1-U)^p]$ (dica: Beta).
-(d) Compare variâncias teóricas e empíricas.
-
-**Exercício 6**
+<span style="color:#2C92B2;">**Exercício 5**</span>.
 Seja $U\sim\mathrm{Unif}(0,1)$.
 
 (a) Estime $\mathbb E[\sin(\pi U)]$ por Monte Carlo simples e por antitética $(U,1-U)$.
 (b) Compare fatores de eficiência. Usar variáveis antitéticas ajudou?
 
 
-**Exercício 7**
+<span style="color:#2C92B2;">**Exercício 6**</span>.
 Seja $X=-\log U$ e $Y=-\log(1-U)$ com $U\sim\mathrm{Unif}(0,1)$.
 
 (a) Mostre que $X,Y\stackrel{d}{=}\mathrm{Exp}(1)$.
@@ -612,10 +604,18 @@ Seja $X=-\log U$ e $Y=-\log(1-U)$ com $U\sim\mathrm{Unif}(0,1)$.
 (c) Estime $\mathbb E[\min(X,Y)]$ por Monte Carlo e antitética; compare variâncias.
 
 
-**Exercício 8**
+<span style="color:#2C92B2;">**Exercício 7**</span>.
 Seja $X=Y+\varepsilon$ com $Y\sim\mathrm{Unif}(0,1)$ e $\varepsilon\sim N(0,\sigma^2)$ independentes.
 
 (a) Calcule $\mathrm{Var}(X)$, $\mathbb E[X\mid Y]=Y$ e $\mathrm{Var}(\mathbb E[X\mid Y])=\mathrm{Var}(Y)$.
 (b) Verifique empiricamente que $\mathrm{Var}(X)=\mathbb E[\mathrm{Var}(X\mid Y)]+\mathrm{Var}(\mathbb E[X\mid Y])=\sigma^2+\tfrac{1}{12}$.
 (c) Explique como isso justifica a redução de variância por condicionamento.
 
+
+<span style="color:#2C92B2;">**Exercício 8**</span>. (Desafio)
+Seja $U\sim \mathrm{Unif}(0,1)$ e $\theta=\mathbb E[U^p]$ com $p\in\{1,2,3,4\}$.
+
+(a) Calcule $\theta$ analiticamente.
+(b) Mostre que $\hat\theta_A=\tfrac1{2n}\sum_{i=1}^n\big(U_i^p+(1-U_i)^p\big)$ é não viesado.
+(c) Derive $\mathrm{Var}(\hat\theta)$ e $\mathrm{Var}(\hat\theta_A)$ usando $\mathbb E[U^{2p}]$ e $\mathbb E[U^p(1-U)^p]$ (dica: Beta).
+(d) Compare variâncias teóricas e empíricas.
