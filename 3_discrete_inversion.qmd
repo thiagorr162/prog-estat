@@ -39,8 +39,8 @@ $\inf$ na definição acima.
 
 Uma consequência prática: vale que $F^{-1}(F(x_i)) = x_i$ para os pontos $x_i$ do
 suporte, mas **não** para um $x$ qualquer. Por exemplo, se $X$ só assume os
-valores $0$ e $1$, então $F(0.7) = F(0)$, e portanto $F^{-1}(F(0.7)) = 0$, que é
-diferente de $0.7$.
+valores $0$ e $1$, então $F(0{,}7) = F(0)$, e portanto $F^{-1}(F(0{,}7)) = 0$, que
+é diferente de $0{,}7$.
 :::
 
 
@@ -1140,7 +1140,8 @@ $$
 Verifique, enumerando os caminhos que levam a cada valor, que o algoritmo devolve
 exatamente essas probabilidades. Por exemplo, o valor $3$ pode sair da coluna
 $i = 3$ (quando $U \leq 0{,}6$) ou da coluna $i = 1$ (quando $U > 0{,}4$, pois
-$a_1 = 3$), o que dá $\frac{1}{4}(0{,}6) + \frac{1}{4}(0{,}4) = 0{,}3$.
+$a_1 = 3$), o que dá
+$\frac{1}{4}(0{,}6) + \frac{1}{4}(1 - 0{,}4) = 0{,}15 + 0{,}15 = 0{,}3$.
 
 (b) Implemente o algoritmo com essa tabela, gere 20 000 valores e compare as
 frequências obtidas com as probabilidades verdadeiras.

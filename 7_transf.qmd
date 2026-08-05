@@ -1401,7 +1401,7 @@ $M = \max(U_1, \dots, U_n)$.
 inversão, que $M$ tem a mesma distribuição de $U^{1/n}$, com
 $U \sim \text{Unif}(0,1)$.
 
-(b) Gere $B = 10.000$ valores de $M$ com $n = 10$ pelos dois caminhos — tomando
+(b) Gere $B = 10\,000$ valores de $M$ com $n = 10$ pelos dois caminhos — tomando
 o máximo de $10$ uniformes, e aplicando $U^{1/n}$ a um único uniforme — e
 compare os histogramas.
 

@@ -36,7 +36,7 @@ $$
 
 Escrevendo $p = \mathbb{E}[h(Z)]$ com $h(z) = I(z > 4{,}5)$, o estimador de Monte
 Carlo do Capítulo 9 é simplesmente a proporção de valores simulados que superam
-$4{,}5$. Vamos aplicá-lo com $B = 100.000$ simulações.
+$4{,}5$. Vamos aplicá-lo com $B = 100\,000$ simulações.
 
 ::: {.panel-tabset group="language"}
 # R
@@ -538,7 +538,7 @@ mostra("IS, lambda = 4,5", is_45["est"], is_45["ep"])
 
 A coluna `EP/est` é o erro relativo, e é onde a história aparece. As duas
 propostas produzem estimativas corretas, mas com $\lambda = 4{,}5$ o erro relativo
-é cerca de dez vezes menor que com $\lambda = 1$ — ou seja, cem vezes menos
+é mais de dez vezes menor que com $\lambda = 1$ — ou seja, mais de cem vezes menos
 variância, apenas por trocar um parâmetro da mesma família. Ambas são
 incomparavelmente melhores que o Monte Carlo usual, que com as mesmas $10^5$
 simulações acerta no máximo a ordem de grandeza, quando acerta.
@@ -601,9 +601,9 @@ print("TAE com lambda = 4,5:", round(tae(is_45["pesos"]), 1), "de", B)
 ```
 :::
 
-O diagnóstico reproduz o que já sabíamos do erro padrão: com $\lambda = 1$ a
-amostra efetiva é uma fração pequena de $B$, enquanto com $\lambda = 4{,}5$ ela é
-quase $B$ inteiro.
+O diagnóstico reproduz o que já sabíamos do erro padrão: com $\lambda = 1$ pouco
+mais de um terço das simulações é efetivamente aproveitado, enquanto com
+$\lambda = 4{,}5$ a amostra efetiva é quase $B$ inteiro.
 
 ::: {.callout-warning title="Atenção: o TAE não detecta buracos no suporte"}
 O TAE só enxerga os pontos que foram sorteados. Se $g$ ignora completamente uma

@@ -979,7 +979,7 @@ $$
 (c) Escreva um pseudo-algoritmo para simular um valor de $X$ pelo método da
 inversão.
 
-(d) Implemente o algoritmo em R e Python e gere $B=10.000$ valores.
+(d) Implemente o algoritmo em R e Python e gere $B = 10\,000$ valores.
 
 (e) Compare o histograma dos valores simulados com a densidade teórica.
 

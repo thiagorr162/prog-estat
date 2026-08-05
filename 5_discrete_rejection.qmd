@@ -71,14 +71,14 @@ valores:
 
 | $j$   | 1    | 2    | 3    | 4    | 5    | 6    | 7    | 8    | 9    | 10   |
 |-------|------|------|------|------|------|------|------|------|------|------|
-| $p_j$ | 0.11 | 0.12 | 0.09 | 0.08 | 0.12 | 0.10 | 0.09 | 0.09 | 0.10 | 0.10 |
+| $p_j$ | 0,11 | 0,12 | 0,09 | 0,08 | 0,12 | 0,10 | 0,09 | 0,09 | 0,10 | 0,10 |
 
 Precisamos de uma constante $c$ com $p_j / q_j \leq c$ para todo $j$. Como
 $q_j = 1/10$ para todos os valores, a razão $p_j/q_j = 10\,p_j$ é máxima onde
 $p_j$ é máximo, isto é, em $j = 2$ e $j = 5$. Logo,
 
 $$
-c = \max_j \frac{p_j}{q_j} = 10 \times 0.12 = 1.2.
+c = \max_j \frac{p_j}{q_j} = 10 \times 0{,}12 = 1{,}2.
 $$
 
 O gráfico a seguir ilustra o que o algoritmo faz. Para cada $j$, a haste preta vai
@@ -368,8 +368,8 @@ rejeitado. Isso não ajuda na prática (se soubéssemos simular de $p$, não
 precisaríamos do método), mas indica a direção certa: **quanto mais parecida a
 proposta for com o alvo, menor o $c$ e mais eficiente o algoritmo**.
 
-No exemplo acima, $c = 1.2$: aceitamos cerca de $1/1.2 \approx 83\%$ das
-propostas, e gastamos em média $1.2$ propostas por valor gerado. Isso é excelente,
+No exemplo acima, $c = 1{,}2$: aceitamos cerca de $1/1{,}2 \approx 83\%$ das
+propostas, e gastamos em média $1{,}2$ propostas por valor gerado. Isso é excelente,
 e não é coincidência: o alvo é quase uniforme, então a proposta uniforme é quase
 igual a ele.
 
@@ -378,7 +378,7 @@ $\{1, 2, \ldots, 100\}$. Ela cobre o suporte do alvo, então o método continua
 correto, mas agora $q_j = 1/100$ e
 
 $$
-c = \max_j \frac{p_j}{q_j} = 100 \times 0.12 = 12,
+c = \max_j \frac{p_j}{q_j} = 100 \times 0{,}12 = 12,
 $$
 
 de modo que apenas $1/12 \approx 8\%$ das propostas seriam aceitas: o mesmo
@@ -420,13 +420,13 @@ $$
 e use como proposta a uniforme discreta em $\{0, 1, \ldots, 10\}$.
 
 (a) Mostre que a menor constante possível é
-$c = 11 \max_{j} p_j$, e calcule seu valor para $p = 0.5$ e para $p = 0.05$.
+$c = 11 \max_{j} p_j$, e calcule seu valor para $p = 0{,}5$ e para $p = 0{,}05$.
 
 (b) Para cada um dos dois valores de $p$, implemente o método e gere 5000
 amostras, registrando a taxa de aceitação observada. Confira que ela bate com
 $1/c$.
 
-(c) A proposta uniforme é muito pior para $p = 0.05$ do que para $p = 0.5$.
+(c) A proposta uniforme é muito pior para $p = 0{,}05$ do que para $p = 0{,}5$.
 Explique o motivo comparando o formato das duas distribuições alvo com o da
 proposta.
 
@@ -435,7 +435,7 @@ o que aconteceria com a distribuição gerada se, em R, você escrevesse `p_j[y]
 vez de `p_j[y + 1]`.
 
 <span style="color:#2C92B2;">**Exercício 3**</span>. Seja
-$W \sim \text{Binomial}(20, 0.3)$ e considere a distribuição alvo dada por $W$
+$W \sim \text{Binomial}(20;\ 0{,}3)$ e considere a distribuição alvo dada por $W$
 **condicionada** a $W \geq 10$, isto é,
 
 $$
@@ -443,7 +443,7 @@ p_j = \frac{\mathbb{P}(W = j)}{\mathbb{P}(W \geq 10)}, \quad j = 10, 11, \ldots,
 $$
 
 e $p_j = 0$ para $j < 10$. Como distribuição proposta, use a própria
-$\text{Binomial}(20, 0.3)$, ou seja, $q_j = \mathbb{P}(W = j)$ para
+$\text{Binomial}(20;\ 0{,}3)$, ou seja, $q_j = \mathbb{P}(W = j)$ para
 $j = 0, 1, \ldots, 20$.
 
 (a) Mostre que $p_j / q_j = 1/\mathbb{P}(W \geq 10)$ para $j \geq 10$ e que essa
@@ -504,12 +504,12 @@ $$
 p_k = \mathbb{P}(X = k) = \frac{e^{-\lambda}\lambda^k}{k!\,(1 - e^{-\lambda})}.
 $$
 
-Como distribuição proposta $Y$, use uma $\text{Geométrica}(0.25)$ contando o
+Como distribuição proposta $Y$, use uma $\text{Geométrica}(0{,}25)$ contando o
 número de tentativas até o primeiro sucesso, que também tem suporte em
 $\{1, 2, 3, \dots\}$:
 
 $$
-q_k = \mathbb{P}(Y = k) = (1-p)^{k-1}p, \quad p = 0.25.
+q_k = \mathbb{P}(Y = k) = (1-p)^{k-1}p, \quad p = 0{,}25.
 $$
 
 (a) Implemente funções que calculem $p_k$ e $q_k$ para um dado $k$.
@@ -561,7 +561,7 @@ válido.
 (c) Usar um $c$ **maior** que $\max_j p_j/q_j$ não compromete a corretude do
 método, apenas sua eficiência. Justifique reexaminando a demonstração da
 proposição, e verifique empiricamente gerando 5000 valores do exemplo do capítulo
-com $c = 5$ em vez de $c = 1.2$.
+com $c = 5$ em vez de $c = 1{,}2$.
 
 (d) Suponha agora que alguém use, por engano, um $c$ **menor** que
 $\max_j p_j/q_j$, e que o código aceite sempre que $U \leq p_j/(c\,q_j)$ — o que
