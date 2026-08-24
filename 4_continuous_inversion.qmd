@@ -742,185 +742,6 @@ correspondente por inversão. Nenhuma busca numérica é necessária. Esse é o
 misturas. A inversão numérica continua sendo a alternativa quando nenhuma
 estrutura desse tipo está disponível.
 
-## Simulação de transformações de variáveis aleatórias
-
-Agora que já sabemos uma maneira de simular uma v.a. $X$, podemos gerar valores
-de uma transformação dessa variável, ou seja, de $g(X)$: basta aplicar a função
-$g$ a cada valor simulado de $X$. Os dois exemplos a seguir ilustram a ideia;
-ela será retomada com mais cuidado no capítulo sobre transformações e misturas.
-
-### Exemplo 5: Simulando $Y \sim \text{Unif}(1, 2)$
-
-Para gerar valores de $Y \sim \text{Unif}(1, 2)$, usamos o fato de que $Y$ é uma
-simples translação de $U \sim \text{Unif}(0, 1)$:
-
-$$
-Y = U + 1.
-$$
-
-::: {.callout-tip title="Pseudo-algoritmo"}
-1. Gere $U \sim \text{Unif}(0,1)$.
-
-2. Retorne $Y = U + 1$.
-:::
-
-::: {.panel-tabset group="language"}
-# R
-
-```{r}
-library(ggplot2)
-
-set.seed(42)
-
-B <- 1000  # quantos valores queremos gerar
-
-# Passo 1: gerar os uniformes
-U <- runif(B, min = 0, max = 1)
-
-# Passo 2: deslocar em uma unidade para obter Y ~ Unif(1, 2)
-Y <- U + 1
-
-df <- data.frame(Y = Y)
-
-# A densidade teórica é constante e igual a 1 no intervalo (1, 2)
-ggplot(df, aes(x = Y)) +
-  geom_histogram(aes(y = after_stat(density)), bins = 30,
-                 fill = "skyblue", color = "black") +
-  annotate("segment", x = 1, xend = 2, y = 1, yend = 1,
-           color = "red", linewidth = 1) +
-  labs(title = "Valores gerados de Y ~ Unif(1, 2)",
-       x = "Valor de Y", y = "Densidade") +
-  theme_minimal()
-```
-
-# Python
-
-```{python}
-import numpy as np
-import matplotlib.pyplot as plt
-
-np.random.seed(42)
-
-B = 1000  # quantos valores queremos gerar
-
-# Passo 1: gerar os uniformes
-U = np.random.uniform(0, 1, B)
-
-# Passo 2: deslocar em uma unidade para obter Y ~ Unif(1, 2)
-Y = U + 1
-
-# A densidade teórica é constante e igual a 1 no intervalo (1, 2)
-plt.figure(figsize=(10, 6))
-plt.hist(Y, bins=30, color='skyblue', edgecolor='black', density=True)
-plt.hlines(1, 1, 2, colors='red', linewidth=2)
-plt.title('Valores gerados de Y ~ Unif(1, 2)')
-plt.xlabel('Valor de Y')
-plt.ylabel('Densidade')
-plt.grid(True)
-plt.show()
-```
-:::
-
-### Exemplo 6: Simulando $Y \sim \text{Gama}(n, \lambda)$
-
-Aqui a transformação não é aplicada a um único valor, mas a vários: usamos o fato
-de que, se $X_1, \ldots, X_n$ são independentes e $X_i \sim \text{Exp}(\lambda)$,
-então
-
-$$
-Y = \sum_{i=1}^{n} X_i \sim \text{Gama}(n, \lambda).
-$$
-
-Como já sabemos gerar exponenciais por inversão (Exemplo 2), basta gerar $n$
-delas e somar.
-
-::: {.callout-tip title="Pseudo-algoritmo: Gama com parâmetro de forma inteiro"}
-1. Gere $U_1, \dots, U_n \sim \text{Unif}(0,1)$ independentes.
-
-2. Calcule $X_i = -\dfrac{\log(1 - U_i)}{\lambda}$, para $i = 1, \dots, n$.
-
-3. Retorne $Y = X_1 + X_2 + \dots + X_n$.
-:::
-
-Note que esse algoritmo só serve quando o parâmetro de forma $n$ é um **inteiro**
-positivo: a soma de exponenciais tem que ter um número inteiro de parcelas.
-
-Para gerar $B$ valores de $Y$, precisamos de $B \times n$ uniformes. No código
-abaixo, guardamos esses uniformes em uma matriz com $B$ linhas e $n$ colunas:
-cada linha reúne as $n$ exponenciais de um mesmo $Y$, e somar a linha produz um
-valor de $Y$.
-
-::: {.panel-tabset group="language"}
-# R
-
-```{r}
-library(ggplot2)
-
-set.seed(42)
-
-n <- 5       # parâmetro de forma da Gama (número de exponenciais somadas)
-lambda <- 2  # parâmetro da distribuição exponencial
-B <- 1000    # quantos valores de Y queremos gerar
-
-# Passo 1: uma matriz de uniformes com B linhas e n colunas
-U <- matrix(runif(B * n, min = 0, max = 1), nrow = B, ncol = n)
-
-# Passo 2: a inversa da exponencial aplicada a cada entrada da matriz
-X <- -log(1 - U) / lambda
-
-# Passo 3: rowSums soma cada linha, devolvendo um vetor com os B valores de Y
-Y <- rowSums(X)
-
-df <- data.frame(Y = Y)
-
-# dgamma é a densidade da Gama; shape é o parâmetro de forma e rate a taxa
-ggplot(df, aes(x = Y)) +
-  geom_histogram(aes(y = after_stat(density)), bins = 30,
-                 fill = "lightcoral", color = "black") +
-  stat_function(fun = function(y) dgamma(y, shape = n, rate = lambda),
-                color = "red", linewidth = 1) +
-  labs(title = paste0("Valores gerados de Y ~ Gama(", n, ", ", lambda, ")"),
-       x = "Valor de Y", y = "Densidade") +
-  theme_minimal()
-```
-
-# Python
-
-```{python}
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy.stats import gamma
-
-np.random.seed(42)
-
-n = 5      # parâmetro de forma da Gama (número de exponenciais somadas)
-lambd = 2  # parâmetro da distribuição exponencial
-B = 1000   # quantos valores de Y queremos gerar
-
-# Passo 1: uma matriz de uniformes com B linhas e n colunas
-U = np.random.uniform(0, 1, (B, n))
-
-# Passo 2: a inversa da exponencial aplicada a cada entrada da matriz
-X = -np.log(1 - U) / lambd
-
-# Passo 3: soma de cada linha (axis=1), devolvendo os B valores de Y
-Y = np.sum(X, axis=1)
-
-# Malha usada só para desenhar a densidade teórica
-grade = np.linspace(0, max(Y), 200)
-
-# gamma.pdf: a é o parâmetro de forma e scale = 1 / taxa
-plt.figure(figsize=(10, 6))
-plt.hist(Y, bins=30, color='lightcoral', edgecolor='black', density=True)
-plt.plot(grade, gamma.pdf(grade, a=n, scale=1 / lambd), color='red', linewidth=2)
-plt.title(f'Valores gerados de Y ~ Gama({n}, {lambd})')
-plt.xlabel('Valor de Y')
-plt.ylabel('Densidade')
-plt.grid(True)
-plt.show()
-```
-:::
-
 ## Exercícios
 
 <span style="color:#2C92B2;">**Exercício 1**</span>. Utilizando o método da
@@ -934,15 +755,7 @@ Exponencial de parâmetro $\lambda$.
 (b) Compare a distribuição empírica dos valores simulados com a densidade da
 Exponencial $f(x)=\lambda e^{-\lambda x}, x>0$.
 
-<span style="color:#2C92B2;">**Exercício 3**</span>.
-
-(a) Implemente uma função para gerar uma amostra de tamanho $n$ da distribuição
-$\text{Gama}(a,b)$, para $a$ sendo um valor inteiro.
-
-(b) Compare a distribuição empírica dos valores simulados com a densidade da Gama
-$f(x)=\frac{b^a}{\Gamma(a)}x^{a-1}e^{-bx}, x>0$.
-
-<span style="color:#2C92B2;">**Exercício 4**</span>. Seja $X$ uma v.a. com função
+<span style="color:#2C92B2;">**Exercício 3**</span>. Seja $X$ uma v.a. com função
 densidade dada por
 
 $$f(x) = \frac{1}{8}x,\quad 0 < x < 4.$$
@@ -952,7 +765,7 @@ método da inversão.
 
 (b) Compare a distribuição empírica dos valores simulados com a densidade de $X$.
 
-<span style="color:#2C92B2;">**Exercício 5**</span>. Seja $X$ uma v.a. com
+<span style="color:#2C92B2;">**Exercício 4**</span>. Seja $X$ uma v.a. com
 densidade
 
 $$
@@ -986,7 +799,7 @@ inversão.
 (f) Usando a simulação, estime $\mathbb{E}[X]$ e
 $\mathbb{P}(X \leq 1/4)$. Compare com os valores exatos.
 
-<span style="color:#2C92B2;">**Exercício 6**</span>. Sobre as distribuições
+<span style="color:#2C92B2;">**Exercício 5**</span>. Sobre as distribuições
 truncadas do Exemplo 3.
 
 (a) Implemente uma função que receba $B$, $\lambda$, $a$ e $b$ e devolva uma
@@ -1009,7 +822,7 @@ essas funções fazem uma inversão numérica como a do Exemplo 4). Compare a
 variância amostral com $1$ e explique, olhando o histograma, por que ela é bem
 menor.
 
-<span style="color:#2C92B2;">**Exercício 7**</span>. Sobre a inversão numérica do
+<span style="color:#2C92B2;">**Exercício 6**</span>. Sobre a inversão numérica do
 Exemplo 4.
 
 (a) Antes de confiar no método, é boa prática testá-lo num caso de resposta

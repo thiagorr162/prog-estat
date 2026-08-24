@@ -40,12 +40,13 @@ distribuição, então uma amostra de $g(Y)$ é, por definição, uma amostra de
 Toda a dificuldade está em achar $g$ e mostrar essa igualdade em distribuição —
 e é isso que os exemplos deste capítulo fazem.
 
-Vale notar que já usamos o método sem lhe dar nome. A própria inversão é o caso
-particular em que $Y \sim \text{Unif}(0,1)$ e $g = F^{-1}$. E no Capítulo 4
-geramos uma $\text{Unif}(1,2)$ fazendo $g(U) = U + 1$, e uma
-$\text{Gama}(n,\lambda)$ somando $n$ exponenciais.
+Vale notar que já usamos o método sem lhe dar nome: a própria inversão é o caso
+particular em que $Y \sim \text{Unif}(0,1)$ e $g = F^{-1}$. Os dois primeiros
+exemplos deste capítulo são as transformações mais simples que existem — uma
+translação e uma soma — e servem para fixar a ideia antes dos casos mais
+elaborados.
 
-Esse último caso mostra que **$g$ não precisa ser função de uma variável só**:
+O segundo deles mostra que **$g$ não precisa ser função de uma variável só**:
 podemos tomar $Y = (Y_1, \dots, Y_n)$ e $g : \mathbb{R}^n \to \mathbb{R}$, desde
 que saibamos simular todas as coordenadas. Somas, máximos, quocientes e somas de
 quadrados são as transformações mais frequentes nessa forma.
@@ -72,7 +73,180 @@ O passo-chave é o segundo: como $g$ é crescente, o evento $\{g(Y) \leq x\}$ é
 exatamente o evento $\{Y \leq g^{-1}(x)\}$.
 :::
 
-## Exemplo 1: distribuição de Weibull
+## Exemplo 1: simulando $Y \sim \text{Unif}(1, 2)$
+
+Para gerar valores de $Y \sim \text{Unif}(1, 2)$, usamos o fato de que $Y$ é uma
+simples translação de $U \sim \text{Unif}(0, 1)$:
+
+$$
+Y = U + 1.
+$$
+
+::: {.callout-tip title="Pseudo-algoritmo"}
+1. Gere $U \sim \text{Unif}(0,1)$.
+
+2. Retorne $Y = U + 1$.
+:::
+
+::: {.panel-tabset group="language"}
+# R
+
+```{r}
+library(ggplot2)
+
+set.seed(42)
+
+B <- 1000  # quantos valores queremos gerar
+
+# Passo 1: gerar os uniformes
+U <- runif(B, min = 0, max = 1)
+
+# Passo 2: deslocar em uma unidade para obter Y ~ Unif(1, 2)
+Y <- U + 1
+
+df <- data.frame(Y = Y)
+
+# A densidade teórica é constante e igual a 1 no intervalo (1, 2)
+ggplot(df, aes(x = Y)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 30,
+                 fill = "skyblue", color = "black") +
+  annotate("segment", x = 1, xend = 2, y = 1, yend = 1,
+           color = "red", linewidth = 1) +
+  labs(title = "Valores gerados de Y ~ Unif(1, 2)",
+       x = "Valor de Y", y = "Densidade") +
+  theme_minimal()
+```
+
+# Python
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(42)
+
+B = 1000  # quantos valores queremos gerar
+
+# Passo 1: gerar os uniformes
+U = np.random.uniform(0, 1, B)
+
+# Passo 2: deslocar em uma unidade para obter Y ~ Unif(1, 2)
+Y = U + 1
+
+# A densidade teórica é constante e igual a 1 no intervalo (1, 2)
+plt.figure(figsize=(10, 6))
+plt.hist(Y, bins=30, color='skyblue', edgecolor='black', density=True)
+plt.hlines(1, 1, 2, colors='red', linewidth=2)
+plt.title('Valores gerados de Y ~ Unif(1, 2)')
+plt.xlabel('Valor de Y')
+plt.ylabel('Densidade')
+plt.grid(True)
+plt.show()
+```
+:::
+
+## Exemplo 2: simulando $Y \sim \text{Gama}(n, \lambda)$
+
+Aqui a transformação não é aplicada a um único valor, mas a vários: usamos o fato
+de que, se $X_1, \ldots, X_n$ são independentes e $X_i \sim \text{Exp}(\lambda)$,
+então
+
+$$
+Y = \sum_{i=1}^{n} X_i \sim \text{Gama}(n, \lambda).
+$$
+
+Como já sabemos gerar exponenciais por inversão (Exemplo 2 do Capítulo 4),
+basta gerar $n$
+delas e somar.
+
+::: {.callout-tip title="Pseudo-algoritmo: Gama com parâmetro de forma inteiro"}
+1. Gere $U_1, \dots, U_n \sim \text{Unif}(0,1)$ independentes.
+
+2. Calcule $X_i = -\dfrac{\log(1 - U_i)}{\lambda}$, para $i = 1, \dots, n$.
+
+3. Retorne $Y = X_1 + X_2 + \dots + X_n$.
+:::
+
+Note que esse algoritmo só serve quando o parâmetro de forma $n$ é um **inteiro**
+positivo: a soma de exponenciais tem que ter um número inteiro de parcelas.
+
+Para gerar $B$ valores de $Y$, precisamos de $B \times n$ uniformes. No código
+abaixo, guardamos esses uniformes em uma matriz com $B$ linhas e $n$ colunas:
+cada linha reúne as $n$ exponenciais de um mesmo $Y$, e somar a linha produz um
+valor de $Y$.
+
+::: {.panel-tabset group="language"}
+# R
+
+```{r}
+library(ggplot2)
+
+set.seed(42)
+
+n <- 5       # parâmetro de forma da Gama (número de exponenciais somadas)
+lambda <- 2  # parâmetro da distribuição exponencial
+B <- 1000    # quantos valores de Y queremos gerar
+
+# Passo 1: uma matriz de uniformes com B linhas e n colunas
+U <- matrix(runif(B * n, min = 0, max = 1), nrow = B, ncol = n)
+
+# Passo 2: a inversa da exponencial aplicada a cada entrada da matriz
+X <- -log(1 - U) / lambda
+
+# Passo 3: rowSums soma cada linha, devolvendo um vetor com os B valores de Y
+Y <- rowSums(X)
+
+df <- data.frame(Y = Y)
+
+# dgamma é a densidade da Gama; shape é o parâmetro de forma e rate a taxa
+ggplot(df, aes(x = Y)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 30,
+                 fill = "lightcoral", color = "black") +
+  stat_function(fun = function(y) dgamma(y, shape = n, rate = lambda),
+                color = "red", linewidth = 1) +
+  labs(title = paste0("Valores gerados de Y ~ Gama(", n, ", ", lambda, ")"),
+       x = "Valor de Y", y = "Densidade") +
+  theme_minimal()
+```
+
+# Python
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import gamma
+
+np.random.seed(42)
+
+n = 5      # parâmetro de forma da Gama (número de exponenciais somadas)
+lambd = 2  # parâmetro da distribuição exponencial
+B = 1000   # quantos valores de Y queremos gerar
+
+# Passo 1: uma matriz de uniformes com B linhas e n colunas
+U = np.random.uniform(0, 1, (B, n))
+
+# Passo 2: a inversa da exponencial aplicada a cada entrada da matriz
+X = -np.log(1 - U) / lambd
+
+# Passo 3: soma de cada linha (axis=1), devolvendo os B valores de Y
+Y = np.sum(X, axis=1)
+
+# Malha usada só para desenhar a densidade teórica
+grade = np.linspace(0, max(Y), 200)
+
+# gamma.pdf: a é o parâmetro de forma e scale = 1 / taxa
+plt.figure(figsize=(10, 6))
+plt.hist(Y, bins=30, color='lightcoral', edgecolor='black', density=True)
+plt.plot(grade, gamma.pdf(grade, a=n, scale=1 / lambd), color='red', linewidth=2)
+plt.title(f'Valores gerados de Y ~ Gama({n}, {lambd})')
+plt.xlabel('Valor de Y')
+plt.ylabel('Densidade')
+plt.grid(True)
+plt.show()
+```
+:::
+
+## Exemplo 3: distribuição de Weibull
 
 Seja $X$ uma v.a. com distribuição de Weibull com parâmetro de forma $k > 0$ e
 parâmetro de escala $\lambda > 0$, cuja densidade é
@@ -249,10 +423,10 @@ plt.show()
 
 :::
 
-## Exemplo 2: distribuição qui-quadrado
+## Exemplo 4: distribuição qui-quadrado
 
 Este exemplo usa uma transformação de **várias** variáveis, e será a peça que
-falta para o Exemplo 5.
+falta para o Exemplo 7.
 
 Por definição, se $Z_1, \dots, Z_k$ são independentes e $Z_i \sim N(0,1)$, então
 
@@ -273,7 +447,7 @@ o algoritmo é imediato.
 ::: {.callout-note title="Um caminho alternativo"}
 A $\chi^2_k$ é o mesmo que uma $\text{Gama}(k/2, 1/2)$. Quando $k$ é **par**,
 $k/2$ é inteiro e podemos gerá-la somando $k/2$ variáveis
-$\text{Exp}(1/2)$, como no Exemplo 6 do Capítulo 4 — sem precisar de nenhuma
+$\text{Exp}(1/2)$, como no Exemplo 2 — sem precisar de nenhuma
 normal. Em particular, $\chi^2_2 = \text{Exp}(1/2)$, fato que reaparecerá no
 capítulo sobre o método de Box-Muller.
 :::
@@ -350,7 +524,7 @@ plt.show()
 
 :::
 
-## Exemplo 3: um vetor de normais correlacionadas
+## Exemplo 5: um vetor de normais correlacionadas
 
 Nos dois exemplos anteriores, $g$ recebia uma ou várias variáveis e devolvia um
 **número**. Neste exemplo, $g$ devolve um **vetor** — e é essa a construção usada
@@ -626,7 +800,7 @@ $$
 
 Como no caso da transformação, a demonstração é curta e o trabalho de verdade é
 o inverso dela: dada uma densidade $f_X$ que queremos simular, **reconhecer**
-quais $Y$ e $X \mid Y$ a produzem. O Exemplo 5 mostra um caso em que essa
+quais $Y$ e $X \mid Y$ a produzem. O Exemplo 7 mostra um caso em que essa
 decomposição não é nada óbvia.
 
 Quando $Y$ é discreta e assume apenas os valores $1, \dots, m$, a mistura toma a
@@ -658,7 +832,7 @@ $|X|$, sorteamos um sinal $S = \pm 1$ e devolvemos $S \cdot Y$. Aquilo era uma
 mistura de duas componentes com pesos $1/2$ — a normal restrita aos valores
 positivos e a restrita aos negativos.
 
-## Exemplo 4: mistura de duas normais
+## Exemplo 6: mistura de duas normais
 
 O caso mais comum de mistura discreta aparece quando a população estudada tem
 dois grupos com comportamentos diferentes: peças produzidas por duas máquinas,
@@ -793,7 +967,7 @@ componentes, sozinha, se parece com ela. Nenhum método baseado em inverter $F$
 seria confortável aqui; a mistura, ao contrário, praticamente lê o algoritmo na
 própria fórmula da densidade.
 
-## Exemplo 5: distribuição t de Student
+## Exemplo 7: distribuição t de Student
 
 Neste exemplo a mistura é contínua, e a decomposição está longe de ser óbvia:
 partimos de uma densidade complicada e descobrimos que ela esconde uma normal
@@ -861,7 +1035,7 @@ que é a densidade da $t_k$. $\square$
 :::
 
 ::: {.callout-tip title="Pseudo-algoritmo: t de Student com $k$ graus de liberdade"}
-1. Gere $Y \sim \chi^2_k$ (pelo Exemplo 2, somando os quadrados de $k$ normais
+1. Gere $Y \sim \chi^2_k$ (pelo Exemplo 4, somando os quadrados de $k$ normais
    padrão).
 
 2. Gere e devolva $X \sim N(0, k/Y)$, isto é, uma normal de média $0$ e desvio
@@ -901,7 +1075,7 @@ B <- 5000  # quantos valores queremos gerar
 X <- numeric(B)
 
 for (i in 1:B) {
-  # Passo 1: Y ~ qui-quadrado com k graus de liberdade (Exemplo 2)
+  # Passo 1: Y ~ qui-quadrado com k graus de liberdade (Exemplo 4)
   Z <- rnorm(k)
   Y <- sum(Z^2)
 
@@ -946,7 +1120,7 @@ B = 5000   # quantos valores queremos gerar
 X = np.zeros(B)
 
 for i in range(B):
-    # Passo 1: Y ~ qui-quadrado com k graus de liberdade (Exemplo 2)
+    # Passo 1: Y ~ qui-quadrado com k graus de liberdade (Exemplo 4)
     Z = np.random.normal(0, 1, k)
     Y = np.sum(Z**2)
 
@@ -979,7 +1153,7 @@ plt.show()
 
 :::
 
-## Exemplo 6: um modelo hierárquico
+## Exemplo 8: um modelo hierárquico
 
 No exemplo anterior, partimos de uma densidade dada e **descobrimos** a mistura
 escondida nela. Este exemplo percorre o caminho oposto, que é o mais comum na
@@ -1044,7 +1218,7 @@ $$
 \end{aligned}
 $$
 
-A integral que sobrou é a mesma que apareceu no Exemplo 5: para $a > 0$ e
+A integral que sobrou é a mesma que apareceu no Exemplo 7: para $a > 0$ e
 $b > 0$, $\int_0^\infty \ell^{\,a-1} e^{-b\ell} d\ell = \Gamma(a)/b^a$. Com
 $a = n + r$ e $b = 1 + \beta$,
 
@@ -1206,12 +1380,12 @@ de cima para baixo, usando em cada estágio o valor sorteado no anterior.
 ## Exercícios
 
 <span style="color:#2C92B2;">**Exercício 1**</span>. Este exercício explora a
-Weibull do Exemplo 1, cuja f.d.a. é $F(x) = 1 - e^{-(x/\lambda)^k}$ para
+Weibull do Exemplo 3, cuja f.d.a. é $F(x) = 1 - e^{-(x/\lambda)^k}$ para
 $x > 0$.
 
 (a) Mostre que a mediana da Weibull é $\lambda (\log 2)^{1/k}$.
 
-(b) Implemente o pseudo-algoritmo do Exemplo 1 em uma função que receba $B$, $k$
+(b) Implemente o pseudo-algoritmo do Exemplo 3 em uma função que receba $B$, $k$
 e $\lambda$ e devolva uma amostra de tamanho $B$.
 
 (c) Com $\lambda = 2$ fixo, gere amostras de tamanho $B = 5000$ para
@@ -1225,7 +1399,7 @@ obtido em (a).
 $\text{Exp}(1/\lambda)$: sobreponha ao histograma correspondente a densidade da
 exponencial.
 
-<span style="color:#2C92B2;">**Exercício 2**</span>. Continuando o Exemplo 5,
+<span style="color:#2C92B2;">**Exercício 2**</span>. Continuando o Exemplo 7,
 implemente uma função que gere uma amostra de tamanho $B$ de uma $t_k$ pelo
 método da mistura.
 
@@ -1276,7 +1450,17 @@ $X_1 + \cdots + X_j \sim \text{Gama}(j, \lambda)$ e escreva
 $\mathbb{P}(N = j) = \mathbb{P}(S_j \leq 1) - \mathbb{P}(S_{j+1} \leq 1)$, em
 que $S_j = X_1 + \cdots + X_j$.
 
-<span style="color:#2C92B2;">**Exercício 4**</span>. Sejam $G_1$ e $G_2$
+<span style="color:#2C92B2;">**Exercício 4**</span>. O Exemplo 2 gera uma
+$\text{Gama}(n, \lambda)$ com parâmetro de forma inteiro, somando $n$
+exponenciais.
+
+(a) Implemente uma função que receba $B$, $a$ e $b$ e devolva uma amostra de
+tamanho $B$ da distribuição $\text{Gama}(a,b)$, com $a$ inteiro.
+
+(b) Compare a distribuição empírica dos valores simulados com a densidade da Gama
+$f(x)=\frac{b^a}{\Gamma(a)}x^{a-1}e^{-bx}, x>0$.
+
+<span style="color:#2C92B2;">**Exercício 5**</span>. Sejam $G_1$ e $G_2$
 independentes, com $G_1 \sim \text{Gama}(a, 1)$ e $G_2 \sim \text{Gama}(b, 1)$.
 Um resultado clássico afirma que
 
@@ -1288,7 +1472,7 @@ Note que essa é uma transformação de duas variáveis.
 
 (a) Escreva um pseudo-algoritmo para gerar uma $\text{Beta}(2,4)$ usando esse
 resultado. Como $a = 2$ e $b = 4$ são inteiros, cada Gama pode ser gerada
-somando exponenciais (Exemplo 6 do Capítulo 4).
+somando exponenciais (Exemplo 2).
 
 (b) Implemente o algoritmo, gere $B = 5000$ valores e compare o histograma com a
 densidade $f(x) = 20x(1-x)^3$ da $\text{Beta}(2,4)$.
@@ -1300,7 +1484,7 @@ E este aqui? Qual dos dois é mais eficiente?
 (d) O que acontece com este método quando $a$ ou $b$ não são inteiros? E com o
 método da rejeição?
 
-<span style="color:#2C92B2;">**Exercício 5**</span>. O **modelo da normal
+<span style="color:#2C92B2;">**Exercício 6**</span>. O **modelo da normal
 contaminada** é uma mistura muito usada para representar dados com valores
 atípicos: com probabilidade $1 - \epsilon$ a observação vem de uma $N(0,1)$
 ("dados bem comportados") e, com probabilidade $\epsilon$, de uma
@@ -1325,7 +1509,7 @@ $0{,}95 X_1 + 0{,}05 X_2$, com $X_1 \sim N(0,1)$ e $X_2 \sim N(0, 25)$
 independentes. As duas construções produzem a mesma distribuição? (Compare os
 histogramas e releia o aviso da seção sobre misturas.)
 
-<span style="color:#2C92B2;">**Exercício 6**</span>. Em contagens reais é comum
+<span style="color:#2C92B2;">**Exercício 7**</span>. Em contagens reais é comum
 observar zeros demais para uma Poisson: pense no número de cigarros fumados por
 dia em uma amostra da população, em que boa parte das pessoas simplesmente não
 fuma. O modelo **Poisson inflacionada de zeros** trata disso como uma mistura:
@@ -1353,7 +1537,7 @@ $\hat{\lambda} = \bar{X}$ e desenhe as probabilidades da
 $\text{Poisson}(\hat{\lambda})$ sobre o gráfico do item (c). Onde o ajuste
 falha?
 
-<span style="color:#2C92B2;">**Exercício 7**</span>. O Exemplo 6 construiu uma
+<span style="color:#2C92B2;">**Exercício 8**</span>. O Exemplo 8 construiu uma
 contagem a partir de uma **taxa** aleatória. Este exercício faz o mesmo com uma
 **proporção** aleatória. Suponha que cada aluno de uma turma acerte cada uma das
 $m$ questões de uma prova com probabilidade $P$, e que essa probabilidade varie
@@ -1369,7 +1553,7 @@ Use $m = 10$, $a = 2$ e $b = 3$.
 
 (a) Escreva o pseudo-algoritmo para gerar $X$. Explique por que a Beta é uma
 escolha natural para $P$. (Para gerar a Beta você pode usar o método do
-Exercício 4, ou as funções prontas `rbeta` e `np.random.beta`.)
+Exercício 5, ou as funções prontas `rbeta` e `np.random.beta`.)
 
 (b) Implemente-o e gere $B = 5000$ valores. Compare as frequências observadas com
 as probabilidades da distribuição **Beta-Binomial**,
@@ -1393,7 +1577,7 @@ $$
 
 e explique em uma frase de onde vem a parcela extra em relação à Binomial.
 
-<span style="color:#2C92B2;">**Exercício 8**</span>. Sejam
+<span style="color:#2C92B2;">**Exercício 9**</span>. Sejam
 $U_1, \dots, U_n$ independentes e $\text{Unif}(0,1)$, e seja
 $M = \max(U_1, \dots, U_n)$.
 
@@ -1412,11 +1596,11 @@ para $n = 1000$ (com `system.time` em R ou `time.time` em Python) e comente.
 $\min(U_1, \dots, U_n)$ tem a mesma distribuição de $1 - U^{1/n}$.
 
 (e) Mais geralmente, a $j$-ésima menor observação de $n$ uniformes tem
-distribuição $\text{Beta}(j, n - j + 1)$. Use o método do Exercício 4 para gerar
+distribuição $\text{Beta}(j, n - j + 1)$. Use o método do Exercício 5 para gerar
 diretamente a $3^\text{a}$ menor de $10$ uniformes, e compare com o resultado de
 ordenar $10$ uniformes e tomar a terceira.
 
-<span style="color:#2C92B2;">**Exercício 9**</span>. Uma seguradora quer estudar
+<span style="color:#2C92B2;">**Exercício 10**</span>. Uma seguradora quer estudar
 o total pago em sinistros durante um mês. O número de sinistros é
 $N \sim \text{Poisson}(\lambda)$ e, dado $N = n$, os valores individuais
 $X_1, \dots, X_n$ são independentes e $\text{Exp}(1/\mu)$ (isto é, com média
@@ -1445,8 +1629,8 @@ e escreva a densidade de $S$ na região $s > 0$ como uma soma infinita. Sobrepon
 essa densidade (truncando a soma em $n = 30$) ao histograma do item (b),
 lembrando de descartar os valores nulos.
 
-<span style="color:#2C92B2;">**Exercício 10**</span>. Sobre a normal
-multivariada do Exemplo 3.
+<span style="color:#2C92B2;">**Exercício 11**</span>. Sobre a normal
+multivariada do Exemplo 5.
 
 (a) Implemente uma função que receba $B$, o vetor $\mu$ e a matriz $\Sigma$ e
 devolva uma matriz com $B$ linhas e $d$ colunas, em que cada linha é um vetor
@@ -1474,8 +1658,8 @@ Cholesky falha. Qual? Calcule o determinante das duas matrizes de correlação e
 explique o que a falha significa: por que não pode existir um vetor aleatório com
 essas três correlações ao mesmo tempo?
 
-<span style="color:#2C92B2;">**Exercício 11**</span>. (Desafio) O Exemplo 6 do
-Capítulo 4 usa o fato de que a soma de $n$ exponenciais independentes de taxa
+<span style="color:#2C92B2;">**Exercício 12**</span>. (Desafio) O Exemplo 2 usa
+o fato de que a soma de $n$ exponenciais independentes de taxa
 $\lambda$ tem distribuição $\text{Gama}(n, \lambda)$, mas não o demonstra.
 
 (a) Prove esse resultado por indução em $n$. Para o passo indutivo, escreva a
@@ -1492,7 +1676,7 @@ capítulo.
 (c) Explique por que o argumento não diz nada sobre $\text{Gama}(a, \lambda)$
 com $a$ não inteiro, e cite um método deste livro que resolveria esse caso.
 
-<span style="color:#2C92B2;">**Exercício 12**</span>. (Desafio) A distribuição de
+<span style="color:#2C92B2;">**Exercício 13**</span>. (Desafio) A distribuição de
 Laplace (ou dupla exponencial) tem densidade
 
 $$
@@ -1518,6 +1702,6 @@ compare os histogramas com $f$.
 (d) Quantos uniformes cada construção consome por valor gerado? Qual você usaria
 na prática?
 
-(e) Compare a estrutura do item (b) com a do Exemplo 5. Em ambos, $X \mid V$ é
+(e) Compare a estrutura do item (b) com a do Exemplo 7. Em ambos, $X \mid V$ é
 normal de média zero e variância aleatória; o que muda é a distribuição de $V$.
 O que isso sugere sobre a origem das caudas pesadas nas duas distribuições?

@@ -166,8 +166,17 @@ dados <- data.frame(numeros_gerados = numeros_gerados)
 
 # Plotando o histograma dos números gerados
 ggplot(dados, aes(x = numeros_gerados)) +
-  geom_histogram(bins = 20, fill = 'skyblue', color = 'black') +
-  ggtitle('Histograma dos Números Pseudoaleatórios Gerados pelo LCG') +
+  # binwidth com boundary = 0 corta o intervalo em [0; 0,05), [0,05; 0,10), ...
+  # Sem isso, as faixas das pontas sairiam mais estreitas e pareceriam ter
+  # menos valores do que deveriam
+  geom_histogram(binwidth = 0.05, boundary = 0,
+                 fill = 'skyblue', color = 'black') +
+  # Se os valores fossem mesmo Unif(0,1), cada uma das 20 faixas receberia, em
+  # média, 10000/20 = 500 deles: é essa a frequência marcada em vermelho
+  geom_hline(yintercept = length(numeros_gerados) / 20, color = 'red',
+             linetype = 'dashed', linewidth = 1) +
+  ggtitle('Histograma dos Números Pseudoaleatórios Gerados pelo LCG',
+          subtitle = 'Linha vermelha: frequência esperada sob a Unif(0,1).') +
   xlab('Valor') +
   ylab('Frequência') +
   theme_minimal() +
@@ -204,7 +213,11 @@ print([round(u, 6) for u in numeros_gerados[:5]])
 # Plotando o histograma dos números gerados
 plt.figure(figsize=(10, 6))
 plt.hist(numeros_gerados, bins=20, color='skyblue', edgecolor='black')
-plt.title('Histograma dos Números Pseudoaleatórios Gerados pelo LCG')
+# Se os valores fossem mesmo Unif(0,1), cada uma das 20 faixas receberia, em
+# média, 10000/20 = 500 deles: é essa a frequência marcada em vermelho
+plt.axhline(len(numeros_gerados) / 20, color='red', linestyle='--', linewidth=2)
+plt.title('Histograma dos Números Pseudoaleatórios Gerados pelo LCG\n'
+          'Linha vermelha: frequência esperada sob a Unif(0,1).')
 plt.xlabel('Valor')
 plt.ylabel('Frequência')
 plt.grid(True)
@@ -595,8 +608,14 @@ dados <- data.frame(numeros_uniformes = numeros_uniformes)
 
 # Plotando o histograma dos números gerados
 ggplot(dados, aes(x = numeros_uniformes)) +
-  geom_histogram(bins = 20, fill = 'skyblue', color = 'black') +
-  ggtitle('Histograma de Números Uniformes Gerados Usando uma Moeda Honesta') +
+  # Como antes, binwidth com boundary = 0 alinha as faixas em [0; 0,05), ...
+  geom_histogram(binwidth = 0.05, boundary = 0,
+                 fill = 'skyblue', color = 'black') +
+  # Como antes, a linha vermelha marca a frequência esperada em cada faixa
+  geom_hline(yintercept = length(numeros_uniformes) / 20, color = 'red',
+             linetype = 'dashed', linewidth = 1) +
+  ggtitle('Histograma de Números Uniformes Gerados Usando uma Moeda Honesta',
+          subtitle = 'Linha vermelha: frequência esperada sob a Unif(0,1).') +
   xlab('Valor') +
   ylab('Frequência') +
   theme_minimal() +
@@ -632,7 +651,10 @@ numeros_uniformes = [gerar_numero_uniforme() for _ in range(10000)]
 # Plotando o histograma dos números gerados
 plt.figure(figsize=(10, 6))
 plt.hist(numeros_uniformes, bins=20, color='skyblue', edgecolor='black')
-plt.title('Histograma de Números Uniformes Gerados Usando uma Moeda Honesta')
+# Como antes, a linha vermelha marca a frequência esperada em cada faixa
+plt.axhline(len(numeros_uniformes) / 20, color='red', linestyle='--', linewidth=2)
+plt.title('Histograma de Números Uniformes Gerados Usando uma Moeda Honesta\n'
+          'Linha vermelha: frequência esperada sob a Unif(0,1).')
 plt.xlabel('Valor')
 plt.ylabel('Frequência')
 plt.grid(True)

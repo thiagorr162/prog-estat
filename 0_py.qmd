@@ -1,7 +1,8 @@
 ---
-title: Breve introdução ao Python
 jupyter: python3
 ---
+
+# Breve Introdução ao Python {.unnumbered}
 
 Aqui faremos uma breve introdução ao Python. Para uma introdução mais detalhada, você pode explorar:
 

@@ -427,14 +427,22 @@ geometricas <- sapply(uniformes, inversa_cdf_geometrica, p = p)
 # Plotando um histograma das variáveis geométricas geradas
 library(ggplot2)
 
-# binwidth = 1 com boundary = -0.5 deixa uma barra centrada em cada inteiro
+# Função de probabilidade teórica da geométrica: P(X = k) = p (1 - p)^k
+k_teorico <- 0:max(geometricas)
+df_teorico <- data.frame(k = k_teorico, prob = p * (1 - p)^k_teorico)
+
+# binwidth = 1 com boundary = -0.5 deixa uma barra centrada em cada inteiro.
+# Com after_stat(density) a altura de cada barra é a frequência relativa, que
+# pode ser comparada diretamente com a função de probabilidade teórica
 df <- data.frame(geometricas = geometricas)
 ggplot(df, aes(x = geometricas)) +
-  geom_histogram(binwidth = 1, boundary = -0.5, closed = "left",
-                 color = "black", fill = "skyblue") +
+  geom_histogram(aes(y = after_stat(density)), binwidth = 1, boundary = -0.5,
+                 closed = "left", color = "black", fill = "skyblue") +
+  geom_point(data = df_teorico, aes(x = k, y = prob), color = "red", size = 2) +
   labs(title = "Geométricas geradas pela inversa da f.d.a. (p = 0.5)",
+       subtitle = "Pontos vermelhos: função de probabilidade teórica.",
        x = "Número de falhas antes do primeiro sucesso",
-       y = "Frequência") +
+       y = "Frequência relativa") +
   theme_minimal() +
   theme(panel.grid.major = element_blank())
 
@@ -483,15 +491,23 @@ uniformes = np.random.uniform(0, 1, n)
 # devolve uma lista com os 1000 resultados; é uma forma compacta de escrever um for
 geometricas = [inversa_cdf_geometrica(p, u) for u in uniformes]
 
+# Função de probabilidade teórica da geométrica: P(X = k) = p (1 - p)^k
+k_teorico = np.arange(0, max(geometricas) + 1)
+prob_teorica = p * (1 - p)**k_teorico
+
 # Plotando um histograma das variáveis geométricas geradas
-# align='left' com bins inteiros deixa uma barra centrada em cada inteiro
+# align='left' com bins inteiros deixa uma barra centrada em cada inteiro.
+# Com density=True a altura de cada barra é a frequência relativa, que pode ser
+# comparada diretamente com a função de probabilidade teórica
 plt.figure(figsize=(10, 6))
 plt.hist(geometricas,
          bins=range(0, max(geometricas) + 2),  # +2 para incluir o último valor
-         color='skyblue', edgecolor='black', align='left')
-plt.title('Geométricas geradas pela inversa da f.d.a. (p = 0.5)')
+         color='skyblue', edgecolor='black', align='left', density=True)
+plt.plot(k_teorico, prob_teorica, 'o', color='red', markersize=6)
+plt.title('Geométricas geradas pela inversa da f.d.a. (p = 0.5)\n'
+          'Pontos vermelhos: função de probabilidade teórica.')
 plt.xlabel('Número de falhas antes do primeiro sucesso')
-plt.ylabel('Frequência')
+plt.ylabel('Frequência relativa')
 plt.grid(True)
 plt.show()
 
@@ -599,14 +615,25 @@ poisson_vars <- sapply(uniformes, inversa_cdf_poisson_recursiva, lam = lam)
 # Plotando o histograma das variáveis Poisson geradas
 library(ggplot2)
 
-# binwidth = 1 com boundary = -0.5 deixa uma barra centrada em cada inteiro
+# Função de probabilidade teórica da Poisson: P(X = k) = e^{-λ} λ^k / k!
+k_teorico <- 0:max(poisson_vars)
+df_teorico <- data.frame(
+  k = k_teorico,
+  prob = exp(-lam) * lam^k_teorico / factorial(k_teorico)
+)
+
+# binwidth = 1 com boundary = -0.5 deixa uma barra centrada em cada inteiro.
+# Com after_stat(density) a altura de cada barra é a frequência relativa, que
+# pode ser comparada diretamente com a função de probabilidade teórica
 df <- data.frame(poisson_vars = poisson_vars)
 ggplot(df, aes(x = poisson_vars)) +
-  geom_histogram(binwidth = 1, boundary = -0.5, closed = "left",
-                 color = "black", fill = "skyblue") +
+  geom_histogram(aes(y = after_stat(density)), binwidth = 1, boundary = -0.5,
+                 closed = "left", color = "black", fill = "skyblue") +
+  geom_point(data = df_teorico, aes(x = k, y = prob), color = "red", size = 2) +
   labs(title = "Poisson geradas pela fórmula recursiva (λ = 3)",
+       subtitle = "Pontos vermelhos: função de probabilidade teórica.",
        x = "Número de eventos",
-       y = "Frequência") +
+       y = "Frequência relativa") +
   theme_minimal() +
   theme(panel.grid.major = element_blank())
 
@@ -672,15 +699,23 @@ uniformes = np.random.uniform(0, 1, n)
 # devolve uma lista com os 1000 resultados; é uma forma compacta de escrever um for
 poisson_vars = [inversa_cdf_poisson_recursiva(lam, u) for u in uniformes]
 
+# Função de probabilidade teórica da Poisson: P(X = k) = e^{-λ} λ^k / k!
+k_teorico = np.arange(0, max(poisson_vars) + 1)
+prob_teorica = [math.exp(-lam) * lam**k / math.factorial(k) for k in k_teorico]
+
 # Plotando o histograma das variáveis Poisson geradas
-# align='left' com bins inteiros deixa uma barra centrada em cada inteiro
+# align='left' com bins inteiros deixa uma barra centrada em cada inteiro.
+# Com density=True a altura de cada barra é a frequência relativa, que pode ser
+# comparada diretamente com a função de probabilidade teórica
 plt.figure(figsize=(10, 6))
 plt.hist(poisson_vars,
          bins=range(0, max(poisson_vars) + 2),  # +2 para incluir o último valor
-         color='skyblue', edgecolor='black', align='left')
-plt.title('Poisson geradas pela fórmula recursiva (λ = 3)')
+         color='skyblue', edgecolor='black', align='left', density=True)
+plt.plot(k_teorico, prob_teorica, 'o', color='red', markersize=6)
+plt.title('Poisson geradas pela fórmula recursiva (λ = 3)\n'
+          'Pontos vermelhos: função de probabilidade teórica.')
 plt.xlabel('Número de eventos')
-plt.ylabel('Frequência')
+plt.ylabel('Frequência relativa')
 plt.grid(True)
 plt.show()
 

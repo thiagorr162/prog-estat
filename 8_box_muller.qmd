@@ -142,7 +142,7 @@ A distribuição de $R$ tem nome: $\text{Rayleigh}(1)$. E a de $R^2$ tem dois: c
 $R^2 = X^2 + Y^2$ é a soma dos quadrados de duas normais padrão independentes,
 pela definição do Capítulo 7 temos $R^2 \sim \chi^2_2$. A demonstração acima
 mostra que essa $\chi^2_2$ é a mesma coisa que uma $\text{Exp}(1/2)$ — fato que
-também aparece no Exercício 11 do Capítulo 7, por outro caminho.
+também aparece no Exercício 12 do Capítulo 7, por outro caminho.
 
 Não é uma coincidência sem graça: é justamente ela que torna o método viável,
 porque exponenciais nós sabemos gerar por inversão desde o Capítulo 4.
@@ -817,7 +817,7 @@ padrão $\sigma_1, \sigma_2$ quaisquer. Gere $B = 2000$ pares "peso e altura" co
 $\mu = (70, 170)$, $\sigma = (12, 8)$ e $\rho = 0{,}6$, e confira as médias, os
 desvios e a correlação amostrais.
 
-(e) O Exemplo 3 do Capítulo 7 gera vetores normais em dimensão qualquer,
+(e) O Exemplo 5 do Capítulo 7 gera vetores normais em dimensão qualquer,
 transformando um vetor $Z$ de normais padrão em $LZ$, com $\Sigma = LL^{\top}$.
 Verifique que, em dimensão $2$, as duas construções são exatamente a mesma:
 calcule a decomposição de Cholesky de

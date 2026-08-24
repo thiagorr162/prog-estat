@@ -1,4 +1,4 @@
-# Breve Introdução ao R
+# Breve Introdução ao R {.unnumbered}
 
 Aqui faremos uma breve introdução ao R.
 Para uma introdução mais detalhada, veja [https://curso-r.com/material/](https://curso-r.com/material/)

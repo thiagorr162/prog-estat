@@ -320,10 +320,13 @@ df <- data.frame(x = amostras)
 ggplot(df, aes(x = x)) +
   geom_histogram(aes(y = after_stat(density)), bins = 30,
                  fill = "skyblue", color = "black") +
-  stat_function(fun = f, color = "red", linewidth = 1) +
+  # A curva vermelha é a densidade alvo: o histograma deve acompanhá-la
+  stat_function(aes(color = "densidade teórica"), fun = f, linewidth = 1) +
+  scale_color_manual(values = c("densidade teórica" = "red"), name = "") +
   labs(title = "Rejeição para f(x) = 20x(1-x)^3",
        x = "Valor de X", y = "Densidade") +
-  theme_minimal()
+  theme_minimal() +
+  theme(legend.position = "top")
 ```
 
 # Python
@@ -369,10 +372,12 @@ grade = np.linspace(0, 1, 400)
 
 plt.figure(figsize=(8, 5))
 plt.hist(amostras, bins=30, density=True, color="skyblue", edgecolor="black")
-plt.plot(grade, f(grade), color="red", linewidth=2)
+# A curva vermelha é a densidade alvo: o histograma deve acompanhá-la
+plt.plot(grade, f(grade), color="red", linewidth=2, label="densidade teórica")
 plt.title("Rejeição para f(x) = 20x(1-x)^3")
 plt.xlabel("Valor de X")
 plt.ylabel("Densidade")
+plt.legend()
 plt.show()
 ```
 
@@ -479,10 +484,13 @@ df <- data.frame(x = X)
 ggplot(df, aes(x = x)) +
   geom_histogram(aes(y = after_stat(density)), bins = 40,
                  fill = "lightcoral", color = "black") +
-  stat_function(fun = dnorm, color = "red", linewidth = 1) +
+  # A curva vermelha é a densidade da N(0,1), o alvo deste exemplo
+  stat_function(aes(color = "densidade teórica"), fun = dnorm, linewidth = 1) +
+  scale_color_manual(values = c("densidade teórica" = "red"), name = "") +
   labs(title = "Normal padrão gerada por rejeição",
        x = "Valor de X", y = "Densidade") +
-  theme_minimal()
+  theme_minimal() +
+  theme(legend.position = "top")
 ```
 
 # Python
@@ -532,10 +540,13 @@ grade = np.linspace(-4, 4, 400)
 
 plt.figure(figsize=(8, 5))
 plt.hist(X, bins=40, density=True, color="lightcoral", edgecolor="black")
-plt.plot(grade, norm.pdf(grade), color="red", linewidth=2)
+# A curva vermelha é a densidade da N(0,1), o alvo deste exemplo
+plt.plot(grade, norm.pdf(grade), color="red", linewidth=2,
+         label="densidade teórica")
 plt.title("Normal padrão gerada por rejeição")
 plt.xlabel("Valor de X")
 plt.ylabel("Densidade")
+plt.legend()
 plt.show()
 ```
 
