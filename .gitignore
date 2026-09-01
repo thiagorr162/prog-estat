@@ -15,3 +15,5 @@
 *.tex
 *.toc
 .Rproj.user
+
+**/*.quarto_ipynb
