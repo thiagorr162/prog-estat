@@ -435,58 +435,32 @@ resultado a um custo dez vezes maior. Note ainda que $c$ depende apenas de $p$ e
 $q$, e não do tamanho $n$ da amostra que queremos gerar — uma proposta ruim é
 ruim para sempre.
 
-## Exemplo: um dado honesto a partir de moedas
+## Exemplo: a soma de dois dados
 
-No exemplo anterior, e em todos os métodos vistos até aqui, partimos de
-$U \sim \text{Unif}(0,1)$. Suponha agora que a única fonte de aleatoriedade disponível seja uma **moeda honesta**:
-sabemos gerar bits independentes, cada um valendo $0$ ou $1$ com probabilidade
-$1/2$. Queremos simular o lançamento de um dado honesto, isto é, $p_j = 1/6$ para
-$j \in \{1, 2, \ldots, 6\}$.
-
-Aqui a inversão não está disponível como a usamos no Capítulo 3: não temos uma
-uniforme contínua para comparar com a f.d.a. do alvo. A rejeição, por outro lado,
-resolve o problema com naturalidade. Lendo **três bits** como um número em
-binário, obtemos $Y$ uniforme em $\{1, 2, \ldots, 8\}$, ou seja, $q_j = 1/8$ para
-$j = 1, \ldots, 8$. Essa proposta cobre o suporte do alvo, e
+Considere a v.a. $X$ igual à soma dos resultados de dois dados honestos e
+independentes, com suporte em $\{2, 3, \ldots, 12\}$. É fácil derivar a função de
+probabilidade alvo contando os pares $(i, k) \in \{1, \ldots, 6\}^2$ com
+$i + k = j$:
 
 $$
-c = \max_j \frac{p_j}{q_j} = \frac{1/6}{1/8} = \frac{4}{3}.
+p_j = \frac{6 - |j - 7|}{36}, \qquad j = 2, 3, \ldots, 12.
 $$
 
-Como $p_7 = p_8 = 0$, a probabilidade de aceitação do passo 3 vale
+Vamos gerar amostras de $X$ pelo método da rejeição, usando como proposta $Y$
+uniforme em $\{2, 3, \ldots, 12\}$, ou seja, $q_j = 1/11$ para todo $j$. A razão
+$p_j / q_j = 11\, p_j$ é máxima em $j = 7$, onde $p_7 = 6/36$, logo
 
 $$
-\frac{p_j}{c\, q_j} =
-\begin{cases}
-1, & j \in \{1, 2, \ldots, 6\}, \\
-0, & j \in \{7, 8\}.
-\end{cases}
+c = \max_j \frac{p_j}{q_j} = 11 \times \frac{6}{36} = \frac{11}{6} \approx 1{,}83.
 $$
 
-Ela só assume os valores $0$ e $1$, de modo que o sorteio de $U$ do passo 2 se
-torna dispensável e o algoritmo se reduz a: *leia 3 bits; se o resultado for 7 ou
-8, descarte-o e comece de novo*. É a mesma estrutura degenerada que aparecerá no
-Exercício 3, com uma distribuição condicional.
+Note que a proposta uniforme trata todos os valores de $2$ a $12$ como igualmente
+prováveis, enquanto o alvo é bem mais concentrado perto de $7$; é por isso que
+$c$ aqui é maior do que no Exemplo anterior, e a taxa de aceitação, $1/c \approx
+55\%$, é menor.
 
-Pela proposição, aceitamos $1/c = 3/4$ das propostas e gastamos, em média,
-$c = 4/3$ propostas — isto é, $3 \times 4/3 = 4$ bits — por lançamento do dado. Vale
-comparar esse custo com o mínimo teórico dado pela entropia da distribuição,
-$\log_2 6 \approx 2{,}59$ bits: o esquema é simples e razoavelmente econômico,
-ainda que não seja ótimo.
-
-::: {.callout-warning title="Atenção: reaproveitar as rejeições estraga a distribuição"}
-É tentador evitar o desperdício mapeando os valores descartados de volta ao
-suporte, por exemplo $7 \mapsto 1$ e $8 \mapsto 2$. Isso produz um dado viciado:
-os valores $1$ e $2$ sairiam com probabilidade $2/8$ cada, e os demais com $1/8$.
-
-Esse é exatamente o viés de `rand() % 6` — e é por isso que os geradores de
-inteiros uniformes de bibliotecas reais (`random.randrange` em Python,
-`Random.nextInt` em Java, `rand.Int31n` em Go) implementam, por dentro, um laço de
-rejeição como o desta seção.
-:::
-
-O código a seguir implementa o amostrador usando apenas bits, e confere a taxa de
-aceitação e o custo em bits previstos pela teoria.
+O código a seguir implementa o algoritmo e compara a taxa de aceitação e as
+frequências observadas com os valores teóricos.
 
 ::: {.panel-tabset group="language"}
 
@@ -495,38 +469,49 @@ aceitação e o custo em bits previstos pela teoria.
 ```{r}
 set.seed(42)
 
-# Nossa única fonte de aleatoriedade: um bit justo (cara ou coroa)
-gera_bit <- function() sample(0:1, 1)
+# --- Parâmetros do problema ---
 
-# Alvo: uniforme em {1, ..., 6}. Proposta: uniforme em {1, ..., 8}, obtida
-# lendo 3 bits como um número em binário
-p_j <- 1 / 6
-q_j <- 1 / 8
-cte <- p_j / q_j   # c = 4/3
+valores_j <- 2:12
+p_j <- (6 - abs(valores_j - 7)) / 36   # alvo: soma de dois dados
+q_j <- rep(1 / 11, length(valores_j))  # proposta: uniforme em {2, ..., 12}
+cte <- max(p_j / q_j)                  # c = 11/6
+
+# --- Método da rejeição ---
 
 n_amostras <- 5000
-amostras <- integer(n_amostras)
+amostras <- c()
 n_propostas <- 0
 
-for (i in seq_len(n_amostras)) {
-  repeat {
-    # Passo 1: três bits formam Y uniforme em {1, ..., 8}
-    y <- 1 + 4 * gera_bit() + 2 * gera_bit() + gera_bit()
-    n_propostas <- n_propostas + 1
+while (length(amostras) < n_amostras) {
+  # Passo 1: gerar Y da proposta (uniforme discreta em {2, ..., 12})
+  y <- sample(valores_j, 1)
+  n_propostas <- n_propostas + 1
 
-    # Passos 2 e 3: a probabilidade de aceitação p_y / (c q_y) vale 1 para
-    # y <= 6 e 0 para y = 7 ou 8, então o sorteio de U é dispensável
-    if (y <= 6) break
+  # Passo 2: gerar U ~ Unif(0,1)
+  u <- runif(1)
+
+  # Passo 3: aceitar y com probabilidade p_y / (c * q_y).
+  # y - 1 é o índice de y no vetor p_j, que começa em j = 2
+  razao <- p_j[y - 1] / (cte * q_j[y - 1])
+
+  if (u <= razao) {
+    amostras <- c(amostras, y)
   }
-  amostras[i] <- y
 }
 
-cat("Taxa de aceitação observada:", round(n_amostras / n_propostas, 3), "\n")
-cat("Taxa de aceitação teórica (1/c):", round(1 / cte, 3), "\n")
-cat("Bits gastos por lançamento:", round(3 * n_propostas / n_amostras, 3), "\n\n")
+# --- Resultados ---
 
-cat("Frequências relativas (teórico: 1/6 =", round(1 / 6, 3), "):\n")
-print(round(table(amostras) / n_amostras, 3))
+cat("Taxa de aceitação observada:", round(n_amostras / n_propostas, 3), "\n")
+cat("Taxa de aceitação teórica (1/c):", round(1 / cte, 3), "\n\n")
+
+tabela_freq <- table(factor(amostras, levels = valores_j))
+comparacao <- data.frame(
+  j = valores_j,
+  freq_relativa = as.numeric(tabela_freq) / n_amostras,
+  p_j = p_j
+)
+cat("Frequências dos", n_amostras, "valores gerados:\n")
+print(comparacao, row.names = FALSE)
 ```
 
 # Python
@@ -537,41 +522,47 @@ import pandas as pd
 
 np.random.seed(42)
 
+# --- Parâmetros do problema ---
 
-# Nossa única fonte de aleatoriedade: um bit justo (cara ou coroa)
-def gera_bit():
-    return np.random.randint(0, 2)
+valores_j = np.arange(2, 13)
+p_j = (6 - np.abs(valores_j - 7)) / 36   # alvo: soma de dois dados
+q_j = np.full_like(p_j, 1 / 11)          # proposta: uniforme em {2, ..., 12}
+cte = max(p_j / q_j)                     # c = 11/6
 
-
-# Alvo: uniforme em {1, ..., 6}. Proposta: uniforme em {1, ..., 8}, obtida
-# lendo 3 bits como um número em binário
-p_j = 1 / 6
-q_j = 1 / 8
-cte = p_j / q_j   # c = 4/3
+# --- Método da rejeição ---
 
 n_amostras = 5000
 amostras = []
 n_propostas = 0
 
-for _ in range(n_amostras):
-    while True:
-        # Passo 1: três bits formam Y uniforme em {1, ..., 8}
-        y = 1 + 4 * gera_bit() + 2 * gera_bit() + gera_bit()
-        n_propostas += 1
+while len(amostras) < n_amostras:
+    # Passo 1: gerar Y da proposta (uniforme discreta em {2, ..., 12})
+    y = np.random.choice(valores_j)
+    n_propostas += 1
 
-        # Passos 2 e 3: a probabilidade de aceitação p_y / (c q_y) vale 1 para
-        # y <= 6 e 0 para y = 7 ou 8, então o sorteio de U é dispensável
-        if y <= 6:
-            break
-    amostras.append(y)
+    # Passo 2: gerar U ~ Unif(0,1)
+    u = np.random.uniform(0, 1)
+
+    # Passo 3: aceitar y com probabilidade p_y / (c * q_y).
+    # y - 2 é o índice de y no vetor p_j, que começa em j = 2
+    razao = p_j[y - 2] / (cte * q_j[y - 2])
+
+    if u <= razao:
+        amostras.append(y)
+
+# --- Resultados ---
 
 print("Taxa de aceitação observada:", round(n_amostras / n_propostas, 3))
-print("Taxa de aceitação teórica (1/c):", round(1 / cte, 3))
-print("Bits gastos por lançamento:", round(3 * n_propostas / n_amostras, 3), "\n")
+print("Taxa de aceitação teórica (1/c):", round(1 / cte, 3), "\n")
 
-freq = pd.Series(amostras).value_counts().sort_index() / n_amostras
-print("Frequências relativas (teórico: 1/6 =", round(1 / 6, 3), "):")
-print(freq.round(3).to_string())
+tabela_freq = pd.Series(amostras).value_counts().reindex(valores_j, fill_value=0)
+comparacao = pd.DataFrame({
+    "j": valores_j,
+    "freq_relativa": tabela_freq.values / n_amostras,
+    "p_j": p_j
+})
+print("Frequências dos", n_amostras, "valores gerados:")
+print(comparacao.to_string(index=False))
 ```
 
 :::
